@@ -80,6 +80,7 @@ class Student_push extends Student{
 
 		log_msg("Degree push",$is_degree_push);
 		log_msg("Max GPV Push",$max_push );
+		log_msg("GPA",$my_GPA);
 		log_msg("Next GPA",$next_GPA);
 
 		//Finding total credits available from the courses done

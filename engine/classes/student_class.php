@@ -31,6 +31,7 @@ function getGradeGpv($grade){
       "NR"=>0.00,"MC"=>0.00,"NA"=>0.00,
 		"NC"=>0.00,"0"=>0.00
 	);
+  
 
 	if(!empty($gradeGpv[strtoupper(trim($grade))])){
 		return $gradeGpv[strtoupper(trim($grade))];
@@ -674,11 +675,8 @@ public function getTranscript(){
 		if(isset($this->courses[$course_id])){
 			$course=$this->courses[$course_id];
 			$marks=$course[$exam_hid];
-			/*return [mark,push]*/
 			return array($marks['final_mark'],$marks['push']);
 		}else{
-			/*if no record found return [-1,0] for marks array*/
-			//return array(-1,0);	
 			return null;	
 		}
 	}
@@ -717,12 +715,17 @@ public function getTranscript(){
 	 */
 	public function getRepeatMax($course_id){
 		//global $gradeExp;//from common
-
+      /*
 		$gradeExp = array(
 			"AB"=>0.00,"NC"=>0.00,
 			"NR"=>0.00,"MC"=>0.00,
 			"NA"=>0.00,"F"=>0.00,
 			"0"=>0.00
+		);
+       */
+
+		$gradeExp = array(
+			"NC"=>0.00,"CM"=>0.00
 		);
 
 		if(!isset($this->courses[$course_id])){
@@ -731,11 +734,11 @@ public function getTranscript(){
 		}
 		$course=$this->courses[$course_id];
 		$mark=0;
-		$eid=0;
+		$eid=null;
 		//If the student have repeated the subject find the maximum he earned
 		if(sizeof($course) >1){
 			foreach ($course as $exam_hid => $marks){
-				if(key_exists(strtoupper($marks['final_mark']), $gradeExp) && $mark == 0){
+				if(key_exists(strtoupper($marks['final_mark']), $gradeExp)  && $mark == 0){
 					$eid=$exam_hid;
 				}elseif($marks['final_mark']>$mark){
 					$mark=$marks['final_mark'];

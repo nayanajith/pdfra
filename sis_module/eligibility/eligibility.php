@@ -22,52 +22,43 @@ function gen_eligibility_list($eligibility_arr){
 	$_SESSION[PAGE]['filter']=isset($_SESSION[PAGE]['filter'])?$_SESSION[PAGE]['filter']:'ALL';
 
 	include MOD_CLASSES."/".$eligibility_arr[$_SESSION[PAGE]['eligibility']];
+   $RULE=$RULE;
+   $KEYS=$KEYS;
+
 	$arr=exec_query("SELECT index_no FROM ".$GLOBALS['P_TABLES']['student']." WHERE batch_id='".$_SESSION[PAGE]['batch_id']."'",Q_RET_ARRAY,null,'index_no');
-	$report='';
+	$report="<h3>$RULE</h3>";
 	switch($_SESSION[PAGE]['filter']){
 	case 'ALL':
-		$report.= "<tr><th>Index No</th><th>Eligible</th><th>Key</th><th>Details</th></tr>";
+		$report.= "<tr><th>Index No</th><th>Eligible</th><th>".style_text($KEYS[1])."</th><th>".style_text($KEYS[2])."</th></tr>";
 		foreach(array_keys($arr) as $index_no){
 			$report.= "<tr><td>".$index_no."</td>";
 			$eligibility=new Eligibility($index_no);
 			$info		=$eligibility->get_eligibility();
 
-			$detail	=isset($info['credits'])?'Credits:'.$info['credits']:'';
-			$detail	=isset($info['info'])?implode($info['info'],','):'';
-			$key		=isset($info['cgpa'])?$info['cgpa']:'';
-
 			$state	=$info['state']?'YES':'NO';
 
-			$report.= '<td>'.$state.'</td><td>'.$key.'</td><td>'.$detail.'</td></tr>';
+			$report.= '<td>'.$state.'</td><td>'.$info[$KEYS[1]].'</td><td>'.$info[$KEYS[2]].'</td></tr>';
 		}
 	break;
 	case 'ELIGIBLE':
-		$report.= "<tr><th>Index No</th><th>Key</th><th>Details</th></tr>";
+		$report.= "<tr><th>Index No</th><th>".style_text($KEYS[1])."</th><th>".style_text($KEYS[2])."</th></tr>";
 		foreach(array_keys($arr) as $index_no){
 			$eligibility=new Eligibility($index_no);
 			$info=$eligibility->get_eligibility();
 
-			$detail=isset($info['credits'])?'Credits:'.$info['credits']:'';
-			$detail=isset($info['info'])?implode($info['info'],','):'';
-			$key		=isset($info['cgpa'])?$info['cgpa']:'';
-
 			if($info['state']){
-				$report.= '<tr><td>'.$index_no.'</td><td>'.$key.'</td><td>'.$detail.'</td></tr>';
+				$report.= '<tr><td>'.$index_no.'</td><td>'.$info[$KEYS[1]].'</td><td>'.$info[$KEYS[2]].'</td></tr>';
 			}
 		}
 	break;
 	case 'NOT_ELIGIBLE':
-		$report.= "<tr><th>Index No</th><th>Key</th><th>Details</th></tr>";
+		$report.= "<tr><th>Index No</th><th>".style_text($KEYS[1])."</th><th>".style_text($KEYS[2])."</th></tr>";
 		foreach(array_keys($arr) as $index_no){
 			$eligibility=new Eligibility($index_no);
 			$info=$eligibility->get_eligibility();
 
-			$detail=isset($info['credits'])?'Credits:'.$info['credits']:'';
-			$detail=isset($info['info'])?implode($info['info'],','):'';
-			$key		=isset($info['cgpa'])?$info['cgpa']:'';
-
 			if(!$info['state']){
-				$report.= '<tr><td>'.$index_no.'</td><td>'.$key.'</td><td>'.$detail.'</td></tr>';
+				$report.= '<tr><td>'.$index_no.'</td><td>'.$info[$KEYS[1]].'</td><td>'.$info[$KEYS[2]].'</td></tr>';
 			}
 		}
 

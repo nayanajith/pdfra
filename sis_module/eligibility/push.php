@@ -103,7 +103,7 @@ function try_to_push(){
 		<tr><td>DEGREE/CLASS</td><td>".str_replace(';','</td><td>',$push_arr['class_push'])."</td></tr>
 		</table>";
 
-		echo "<h3>Total score card of the student</h3>";
+		echo "<h3>Complete score card of the student</h3>";
 		echo "<table><tr>";
 		for($i=1;$i<=4;$i++){
 			$year_marks=$student_push->getYearMarks($i);
@@ -114,16 +114,35 @@ function try_to_push(){
 			echo "<td valign='top'>";
 			echo "Year-".$i;
 			echo "<table border='1' style='border-collapse:collapse'>";
-			echo "<tr><th>course_id</th><th>credit</th><th>grade</th><th>mark</th><th>exam</th></tr>";
+			echo "<tr><th>course_id</th><th>credit</th><th>grade</th><th>mark</th><th>exam</th><th>GPV</th></tr>";
 			foreach($year_marks as $course){
 				//Array ( [course_id] => SCS2001 [coursename] => Operating Systems [credit] => 4 [grade] => A- [mark] => 76 [exam] => 2009-01-01
+            $style="";
+            if($student_push->isRepeatCourse($course['course_id'])){
+               $style="style='font-weight:bold'";
+            }
 				unset($course['coursename']);
-				echo "<tr><td>".implode(array_values($course),'</td><td>')."</td></tr>";
+            $course['gpv']=$course['credit']*getGradeGpv($course['grade']);
+				echo "<tr ><td $style>".implode(array_values($course),'</td><td>')."</td></tr>";
 			}
+			echo "<tr><td>SUMMERY</td><td>".$student_push->getYearCredits($i)."</td><td>GPV-D</td><td>".$student_push->getYearDGPV($i)."</td><td>GPV-C</td><td>".$student_push->getYearCGPV($i)."</td></tr>";
 			echo "</table>";
 			echo "</td>";
 		}
 		echo "</tr></table>";
+	$gradeGpv = array(
+      "A+"=>4.25,"A"=>4.00,"A-"=>3.75,
+      "B+"=>3.25,"B"=>3.00,"B-"=>2.75,
+      "C+"=>2.25,"C"=>2.00,"C-"=>1.75,
+      "D+"=>1.25,"D"=>1.00,"D-"=>0.75,
+      "E"=>0.00,"F"=>0.00
+	);
+      echo "<table border='1' cellpadding='2' style='border-collapse:collapse'><tr><td><b>GPV</b></td>";
+      foreach($gradeGpv as $grade => $gpv){
+         echo "<td>$grade : $gpv</td>"; 
+      }
+      echo "</tr></table>";
+
 	}else{
 
 		//Bypass the index numbers which is checked before and fails to push
@@ -197,7 +216,7 @@ if(isset($_REQUEST['action'])){
 	}
 }else{
 		//Print html when requested
-		echo "<div ><div dojoType='dijit.form.Form' id='push_to_frm' name='push_to_frm' jsId='push_to_frm' >";
+		echo "<div align='center'><div dojoType='dijit.form.Form' id='push_to_frm' name='push_to_frm' jsId='push_to_frm' >";
 			gen_push_list();
 		echo "</div></div>";
 

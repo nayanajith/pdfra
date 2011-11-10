@@ -1,7 +1,7 @@
 <?php
-/*
-Student should get at least acquire C passes for subjects worth of 10 credits to eligible to fallow year-2
-*/
+
+$RULE= "The sum of the credits which have 'C' or greater in YEAR-2 should be grater than or equal to 10 to eligible YEAR-3";
+$KEYS=array('state','cgpa','detail');
 
 include(MOD_CLASSES."/student_eligibility_interface.php");
 class Eligibility implements eligibility_interface{
@@ -145,7 +145,7 @@ class Eligibility implements eligibility_interface{
 
 		return array(
 			'state'	=>$state,
-			'info'	=>$state_info,
+			'detail'	=>implode($state_info,','),
 			'cgpa'	=>round($cgpa,2)
 		);
 	}

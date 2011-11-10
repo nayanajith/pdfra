@@ -1,0 +1,33 @@
+#Ignore indexing while allowing symlink following
+Options -Indexes MultiViews FollowSymLinks
+
+#Disable access from un authorized ips
+#Order deny,allow
+#Deny from all
+#Allow from 127.0.0.0/255.0.0.0 ::1/128
+
+#Disable access from un authorized ips
+Order allow,deny
+Allow from all
+#Deny from all
+
+#Further ignore index
+IndexIgnore *
+
+#Disable all php file access
+<FilesMatch "\.(php|log|pdf)$">  
+	Order Deny,Allow
+	Deny from All
+</FilesMatch>
+
+#Allow only *index.php|html files and (eg: web_index.php and app_index.php )
+<FilesMatch "\index.(php|html)$">  
+	Order Allow,Deny
+	Allow from All
+</FilesMatch>
+
+#Allow only common style and common js function
+<FilesMatch "common_css.php|common_js.php">  
+	Order Allow,Deny
+	Allow from All
+</FilesMatch>

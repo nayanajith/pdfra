@@ -43,7 +43,7 @@ class Formgenerator {
 
 	protected $types=array(
 		"TINYINT"	=>"dijit.form.NumberTextBox",
-		"SMALLINT"	=>"dijit.form.NumberTextBox",
+		"SMALLINT"	=>"dijit.form.NumberSpinner",
 		"MEDIUMINT"	=>"dijit.form.NumberTextBox",
 		"INT"			=>"dijit.form.NumberTextBox",
 		"INTEGER"	=>"dijit.form.NumberTextBox",
@@ -361,8 +361,10 @@ class Formgenerator {
 		protected $form_controls=array(
 			'dijit.form.FilteringSelect'	=>"<select %s>%s</select>",
 			'dijit.form.ComboBox'			=>"<select %s>%s</select>",
+			'dijit.form.Select'			   =>"<select %s>%s</select>",
          'dijit.form.SimpleTextarea'	=>"<textarea %s>%s</textarea>",
 			"dijit.form.NumberTextBox"		=>"<input %s/>",
+			"dijit.form.NumberSpinner"		=>"<input %s/>",
 			"dijit.form.ValidationTextBox"=>"<input %s/>",
 			"dijit.form.DateTextBox"		=>"<input %s constraints=\"{datePattern:'yyyy-MM-dd'}\" promptMessage='yyyy-MM-dd' invalidMessage='Invalid date. Please use yyyy-MM-dd format.' />",
 			"dijit.form.TimeTextBox"		=>"<input %s constraints=\"{'timePattern':'hh:mm:ss'}\" promptMessage='hh:mm:ss' invalidMessage='Invalid time. Please use hh:mm:ss format.' />",
@@ -602,15 +604,15 @@ submit the given form
 
 			/*Handl custom form input method or generic one*/
 			if(isset($field_array['custom']) && $field_array['custom'] == 'true' ){
-				$entry_div		="<div id='td_$field' jsId='td_$field' style='padding:10px;'>";
-				$entry_label	="<label for='$field' >".$field_array['label']."$required</label>";
-				$entry			.=$entry_div.$inner;
+				$entry		   ="<div id='td_$field' jsId='td_$field' style='padding:10px;'>";
+				$entry         .="<label for='$field' >".$field_array['label']."$required</label>";
+				$entry			.=$inner;
 				$entry			=sprintf($entry,$fill);
 				$entry			.="<div id='td_in_$field'></div></div>\n";
 			}else{
 				d_r($field_array['dojoType']);
 				$form_control	=$this->form_controls[$field_array['dojoType']];
-				$options			="id='$field' name='$field' ";
+				$options			=" jsId='$field' id='$field' name='$field' ";
          
 				/*all paremeters will be inserted to the options string*/
 				foreach($field_array as $key => $value){

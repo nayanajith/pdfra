@@ -37,6 +37,17 @@ if(isset($_REQUEST['data']) && $_REQUEST['data']=='csv'){
 	return;
 }
 
+//id table mapper array
+$table_of_id=array(
+	'course_id'=>$GLOBALS['P_TABLES']['course']
+);
+
+//Map filter for the given id
+$filter_map=array(
+);
+
+
+
 if(isset($_REQUEST['form'])){
 	switch($_REQUEST['form']){
       case 'main':
@@ -51,6 +62,18 @@ if(isset($_REQUEST['form'])){
 				 case 'delete':
 					return $formgen->delete_record();
 				 break;
+				case 'combo':
+					$filter_str=null;
+					if(isset($filter_map[$_REQUEST['id']])){
+						$filter_str=$filter_map[$_REQUEST['id']];
+					}
+					$formgen->xhr_filtering_select_data($table_of_id[$_REQUEST['id']],$_REQUEST['id'],$filter_str);
+				break;
+				case 'param':
+					$_SESSION[PAGE][$_REQUEST['param']]=$_REQUEST[$_REQUEST['param']];
+					return_status_json('OK',"Set ".$_REQUEST['param']."=".$_REQUEST[$_REQUEST['param']]);
+				break;
+
 
 				}	
 			}else{
@@ -121,11 +144,9 @@ $formgen->filter_selector();
 //generate help tips 
 include $help_file;
 $formgen->set_help_tips($help_array);
-/*
 echo "<script language='javascript'>";
 echo $formgen->param_setter();
 echo "</script>";
-*/
 }
 
 ?>

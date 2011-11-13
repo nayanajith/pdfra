@@ -9,10 +9,10 @@ $help_array=array(
 'lecture_credits'=>'Lecture credits',
 'practical_credits'=>'Practical credits',
 'maximum_students'=>'Maximum students',
-'compulsory'=>'Compulsory',
 'alt_course_id'=>'Alt course id',
 'offered_by'=>'Offered by',
-'GPA_con'=>'Gpa con',
-'deleted'=>'Deleted',
-'note'=>'Note');
+'compulsory'=>'Compulsory',
+'non_grade'=>'No grade will be assigned for these courses instead CM or NC will assign',
+'non_mark'=>'Non mark courses have two states CM -&gt; complete and NC -&gt; not complete'
+);
  ?>

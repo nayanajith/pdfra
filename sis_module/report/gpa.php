@@ -48,7 +48,7 @@ if(isset($_REQUEST['form'])){
 		break;
 	}
 }else{
-	echo "<div><div id='gpa_frm' jsId='gpa_frm' dojoType='dijit.form.Form' >";
+	echo "<div align='center'><h3>GPA of the students in batch ".$_SESSION[PAGE]['batch_id']."</h3><div id='gpa_frm' jsId='gpa_frm' dojoType='dijit.form.Form' >";
 	if(isset($_SESSION[PAGE]['index_no'])){
 		transcript();
 	}	

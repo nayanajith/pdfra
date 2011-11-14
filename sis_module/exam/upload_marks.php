@@ -18,10 +18,13 @@ $columns=array(
 );
 
 function gen_mark_tr($index_no,$serial_no,$marks_arr,$state){
-	$style='';
-	$ab='';
-	$onchange=" onChange='re_calculate(\"".$serial_no."\")' ";
-	$dojoType=" dojoType='dijit.form.NumberTextBox'";
+	$style         ='';
+	$ab            ='';
+	$onchange      =" onChange='re_calculate(\"".$serial_no."\")' ";
+	$dojoType      =" dojoType='dijit.form.NumberTextBox'";
+	$dojoCheckBox  =" dojoType='dijit.form.CheckBox'";
+	$dojoCheckBox  ="";
+	$dojoType      ="";
 	switch($state){
 		case 'BLANK':
 			$marks_arr=array('paper_mark'=>'','assignment_mark'=>'','final_mark'=>'','push'=>'0','can_release'=>'1');
@@ -50,7 +53,7 @@ function gen_mark_tr($index_no,$serial_no,$marks_arr,$state){
 	<td class='cell_td' id='6:".$serial_no."' >$ab</td>
 	<td><input type='text' $dojoType $onchange class='cell' $style name='7:".$serial_no."' id='7:".$serial_no."' value='".$marks_arr['push']."'></td>
 	<td class='cell_td' id='8:".$serial_no."'></td>
-	<td class='cell_td'><input type='checkBox' dojoType='dijit.form.CheckBox' $onchange class='cell'  $style name='9:".$serial_no."' id='9:".$serial_no."' value='1' $checked></td>";
+	<td class='cell_td'><input type='checkBox' $dojoCheckBox $onchange class='cell'  $style name='9:".$serial_no."' id='9:".$serial_no."' value='1' $checked></td>";
 
 }
 

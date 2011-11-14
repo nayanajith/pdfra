@@ -46,7 +46,7 @@ $migrate_queries=array(
 	"gpa"			=>"REPLACE INTO ".$program_."_gpa(index_no,degree_class,GPV1,credits1,GPA1,GPV2,credits2,GPA2,GPV3,credits3,GPA3,GPV4,credits4,GPA4,GPV,GPA,credits) SELECT IndexNo,Tag,GPV1,credits1,GPA1,GPV2,credits2,GPA2,GPV3,credits3,GPA3,GPV4,credits4,GPA4,GPVT,GPAT,CreditsT FROM ".$source.".".$pc."gpv",
 
 	//Migrate course information
-	"course"		=>"REPLACE INTO ".$program_."_course(course_id,student_year,semester,course_name,prerequisite,lecture_credits,practical_credits,maximum_students,compulsory,alt_course_id,offered_by,non_gpa) SELECT CourseId,SYear,Semester,CourseName,Prerequisite,Credits_L,Credits_P,MaxStudents,Compulsory,AltCourseId,OfferedBy,GPACon FROM ".$source.".courses where courseid like '".$cc."%' or courseid like 'ENH%'"
+	"course"		=>"REPLACE INTO ".$program_."_course(course_id,student_year,semester,course_name,prerequisite,lecture_credits,practical_credits,maximum_students,compulsory,alt_course_id,offered_by,non_grade) SELECT CourseId,SYear,Semester,CourseName,Prerequisite,Credits_L,Credits_P,MaxStudents,Compulsory,AltCourseId,OfferedBy,GPACon FROM ".$source.".courses where courseid like '".$cc."%' or courseid like 'ENH%'"
 );
 
 
@@ -55,14 +55,34 @@ if(isset($_REQUEST['action'])){ /*haldle requests*/
       case 'migrate_db':
 			$create=true;
 			$error="";
-			foreach($migrate_queries as $key => $query){
-				$GLOBALS['CONNECTION'] = mysql_connect("localhost", "root", $_REQUEST['root_pwd']);
-				if($GLOBALS['CONNECTION'] && mysql_select_DB($dest, $GLOBALS['CONNECTION'])){
+			$GLOBALS['CONNECTION'] = mysql_connect("localhost", "root", $_REQUEST['root_pwd']);
+			if($GLOBALS['CONNECTION'] && mysql_select_DB($dest, $GLOBALS['CONNECTION'])){
+			   foreach($migrate_queries as $key => $query){
 					if(!exec_query($query,Q_RET_NONE,$db=null,$array_key=null,$deleted=null,$no_connect=true)){
 						$create=false;
 						$error.=get_sql_error();
 					}	
 				}
+            //find the rubric and add to the rubric table
+            $query="SELECT exam_hid,course_id,paper_mark,assignment_mark,final_mark FROM ".$program."_marks WHERE paper_mark <> 0 AND assignment_mark <> 0 GROUP BY exam_hid,course_id";
+            $exam_course=exec_query($query,Q_RET_ARRAY,$db=null,$array_key=null,$deleted=null,$no_connect=true);
+            foreach($exam_course as $key => $row){
+               $exam_hid=$row['exam_hid'];
+               $a_r=@round(100*($row['final_mark']-$row['paper_mark'])/($row['assignment_mark']-$row['paper_mark']),0);
+               $x=$a_r;
+               if($a_r%10 > 5){
+                  $a_r=$a_r-($a_r%10)+10;
+               }else{
+                  $a_r=$a_r-($a_r%10);
+               }
+               $p_r=100-$a_r;
+               log_msg($row['final_mark']."($x)",$row['final_mark']-round(($row['assignment_mark']*$a_r+$row['paper_mark']*$p_r)/100,0));
+               $query="REPLACE INTO ".$program_."_rubric(exam_hid,course_id,paper,assignment)VALUES('$exam_hid','".$row['course_id']."','$p_r','$a_r')";
+               if(!exec_query($query,Q_RET_NONE,$db=null,$array_key=null,$deleted=null,$no_connect=true)){
+						$error.=get_sql_error();
+					}	
+            }
+		   	closedb();
 			}
 			if(!$create){
 				return_status_json('ERROR',$error);

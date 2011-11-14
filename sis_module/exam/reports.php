@@ -1,12 +1,12 @@
 <?php
 include A_CLASSES."/xhr_combobox_class.php";
+include A_CLASSES."/student_class.php";
 $xhr_combobox=new XHR_Combobox();
 
 
 //Columns of the mark uploading table
 $report_types=array(
 	'LMS'=>array(
-      'final_mark'
 	),
 	'FULL'=>array(
 		'can_release',
@@ -55,7 +55,7 @@ function gen_report(){
 </style>	
 	";
 	//Registered students for a given course in given exam
-	$reg_arr=exec_query("SELECT index_no,attendance FROM ".$GLOBALS['P_TABLES']['course_reg']." WHERE  course_id='".$_SESSION[PAGE]['course_id']."' AND exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND attendance=true",Q_RET_ARRAY,null,'index_no');
+	$reg_arr=exec_query("SELECT index_no,state FROM ".$GLOBALS['P_TABLES']['marks']." WHERE  course_id='".$_SESSION[PAGE]['course_id']."' AND exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND state='PR'",Q_RET_ARRAY,null,'index_no');
 
 	if(!isset($reg_arr)){
 		$report.="No students registered for ".$_SESSION[PAGE]['course_id'];
@@ -89,7 +89,7 @@ function gen_report(){
 		foreach($columns as $column){
 			$report.="<td>".$marks_arr[$index_no][$column]."</td>";
 		}
-		$report.='<td>'.getGradeC($marks_arr[$index_no]['final_mark']+$marks_arr[$index_no]['push']).'</td>';
+		$report.='<td>'.getGradeC($marks_arr[$index_no]['final_mark']+$marks_arr[$index_no]['push'],$_SESSION[PAGE]['course_id']).'</td>';
 		$report.="</tr>\n";
 	}
 	$report.="</table>";

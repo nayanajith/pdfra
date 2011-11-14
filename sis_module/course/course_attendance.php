@@ -13,7 +13,7 @@ function gen_attendance_sheet($put_attendance=null){
 	$count_all=get_num_rows();
 
 	//To get the absent count to guess whether this is first time
-	$count_arr=exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['marks']." WHERE attendance=false AND exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND course_id='".$_SESSION[PAGE]['course_id']."'",Q_RET_MYSQL_RES);
+	$count_arr=exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['marks']." WHERE state='AB' AND exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND course_id='".$_SESSION[PAGE]['course_id']."'",Q_RET_MYSQL_RES);
 	$count_absent=get_num_rows();
 
 	echo "<table style='border:1px solid #C9D7F1;border-collapse:collapse;' border='1'>";
@@ -198,7 +198,7 @@ if(isset($_REQUEST['form'])){
 
 	//function gen_xhr_combobox($id,$label,$value,$width,$page_size,$source_array=null,$target=null);
 	//$xhr_combobox->gen_xhr_combobox('student_year',"Student Year",$xhr_combobox->get_val('student_year'),30,20,null,null);
-	$xhr_combobox->gen_xhr_combobox('batch_id',"Batch",$xhr_combobox->get_val('batch_id'),80,20,null,null);
+//	$xhr_combobox->gen_xhr_combobox('batch_id',"Batch",$xhr_combobox->get_val('batch_id'),80,20,null,null);
 	$xhr_combobox->gen_xhr_combobox('exam_hid',"Exam",$xhr_combobox->get_val('exam_hid'),110,20,null,null);
 	$xhr_combobox->gen_xhr_combobox('course_id',"Course",$xhr_combobox->get_val('course_id'),80,20,array('batch_id','course_id'),'attendance_frm');
 	$xhr_combobox->param_setter();

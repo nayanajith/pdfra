@@ -196,7 +196,7 @@ class XHR_Combobox{
 			}
 
 			if (action=='delete' || dijit.byId('$form').validate()) {
-				dojo.xhrGet({
+				dojo.xhrPost({
 					url			: '".gen_url()."&form=main&action='+action, 
 					handleAs		: 'json',
 					form			: '$form', 

@@ -197,7 +197,9 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
 
 	/*If result is false then return false*/
 	if(!is_resource($result)){
-		closedb();
+	   if($no_connect != true ){
+		   closedb();
+      }
 		/*Not a resource but success query*/
 		if($result){
 			return true;	
@@ -231,7 +233,9 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
 			}
 
 			return $res_array;
-			closedb();
+	      if($no_connect != true ){
+		   	closedb();
+         }
 		break;
 	}
 }

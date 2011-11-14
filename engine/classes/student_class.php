@@ -111,7 +111,7 @@ function isNonGrade($courseid){
 	if(is_null($course_arr)){
 		$course_arr  = exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAY,null,'course_id');
 	}
-	if($course_arr[$courseid]['non_gpa']==true){
+	if($course_arr[$courseid]['non_grade']==true){
 		return true;
 	}else{
 		return false;

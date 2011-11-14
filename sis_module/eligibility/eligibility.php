@@ -26,7 +26,7 @@ function gen_eligibility_list($eligibility_arr){
    $KEYS=$KEYS;
 
 	$arr=exec_query("SELECT index_no FROM ".$GLOBALS['P_TABLES']['student']." WHERE batch_id='".$_SESSION[PAGE]['batch_id']."'",Q_RET_ARRAY,null,'index_no');
-	$report="<h3>$RULE</h3>";
+   $report="";
 	switch($_SESSION[PAGE]['filter']){
 	case 'ALL':
 		$report.= "<tr><th>Index No</th><th>Eligible</th><th>".style_text($KEYS[1])."</th><th>".style_text($KEYS[2])."</th></tr>";
@@ -66,6 +66,7 @@ function gen_eligibility_list($eligibility_arr){
 	}
 
 	if(isset($_REQUEST['action']) && $_REQUEST['action']=='print'){
+	   echo "<h3>$RULE</h3>";
 		echo "<table border='1' style='border-collapse:collapse'>";
 		echo $report;
 		echo "</table>";
@@ -82,6 +83,7 @@ function gen_eligibility_list($eligibility_arr){
 		header("Expires: 0");
 		echo $report;
 	}else{
+	   echo "<h3>$RULE</h3>";
 		echo "<table border='1' style='border-collapse:collapse'>";
 		echo $report;
 		echo "</table>";

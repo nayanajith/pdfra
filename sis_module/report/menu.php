@@ -21,7 +21,6 @@ $toolbar	=array(
 		'Generate'		=>array('action'=>'submit_form("generate")')
 	),
 	"gpa"			=>array(
-		'Generate'		=>array('action'=>'submit_form("generate")')
 	)
 
 );

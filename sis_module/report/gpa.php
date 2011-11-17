@@ -48,9 +48,13 @@ if(isset($_REQUEST['form'])){
 		break;
 	}
 }else{
-	echo "<div align='center'><h3>GPA of the students in batch ".$_SESSION[PAGE]['batch_id']."</h3><div id='gpa_frm' jsId='gpa_frm' dojoType='dijit.form.Form' >";
-	if(isset($_SESSION[PAGE]['index_no'])){
-		transcript();
+   echo "<div align='center'>";
+   if(isset($_SESSION[PAGE]['batch_id'])){
+      echo "<h3>GPA of the students in batch ".$_SESSION[PAGE]['batch_id']."</h3>";
+   }
+   echo "<div id='gpa_frm' jsId='gpa_frm' dojoType='dijit.form.Form' >";
+	if(isset($_SESSION[PAGE]['batch_id'])){
+      gen_gpa();
 	}	
 	echo "</div></div>";
 
@@ -70,7 +74,7 @@ function gen_gpa(){
 	include A_CLASSES."/student_class.php";
 	$arr=exec_query("SELECT index_no FROM ".$GLOBALS['P_TABLES']['student']." WHERE index_no LIKE '".$_SESSION[PAGE]['batch_id']."%'",Q_RET_ARRAY,null,'index_no');
 	echo "<table style='border-collapse:collapse' border='1'>";
-	$header=array("Index No","Credit Y1","Credit Y2","Credit Y3","Credit Y4","GPV Y1","GPV Y2","GPV Y3","GPV Y4","GPV T(C)","GPV T(D)","GPA(C)","GPA(D)");
+	$header=array("Index No","Credit Y1","GPV Y1","GPA Y1","Credit Y2","GPV Y2","GPA Y2","Credit Y3","GPV Y3","GPA Y3","Credit Y4","GPV Y4","GPA Y4","GPV T(C)","GPV T(D)","GPA(C)","GPA(D)");
 	echo "<tr>";
 	echo "<th>".implode($header,"</th><th>")."</th>";
 	echo "</tr>";
@@ -80,13 +84,17 @@ function gen_gpa(){
 		$row=array(
 			$index_no,
 			$student->getYearCredits(1),
-			$student->getYearCredits(2),
-			$student->getYearCredits(3),
-			$student->getYearCredits(4),
 			round($student->getYearCGPV(1),2),
+			round($student->getYearCGPA(1),2),
+			$student->getYearCredits(2),
 			round($student->getYearCGPV(2),2),
+			round($student->getYearCGPA(2),2),
+			$student->getYearCredits(3),
 			round($student->getYearCGPV(3),2),
+			round($student->getYearCGPA(3),2),
+			$student->getYearCredits(4),
 			round($student->getYearCGPV(4),2),
+			round($student->getYearCGPA(4),2),
 			round($student->getCGPV(),2),
 			round($student->getDGPV(),2),
 			round($student->getCGPA(),2),

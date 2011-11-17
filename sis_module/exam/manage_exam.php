@@ -54,7 +54,7 @@ if(isset($_REQUEST['form'])){
 					return $formgen->modify_record();
 				 break;
 				 case 'delete':
-					return $formgen->delete_record();
+					return $formgen->delete_record(true);
 				 break;
 
 				}	
@@ -96,9 +96,10 @@ if(isset($_REQUEST['form'])){
 			}
 		break;
 		case 'grid':
-			$json_url=$formgen->gen_json($grid_array_long,$filter_string,false);
-			echo $formgen->gen_data_grid($grid_array_long,$json_url,$key1);
-			filter_selector();
+			//$json_url=$formgen->gen_json($grid_array_long,$filter_string,false);
+			//echo $formgen->gen_data_grid($grid_array_long,$json_url,$key1);
+			echo $formgen->gen_data_grid($grid_array_long,null,$key1);
+			$formgen->filter_selector();
 
 		break;
 		case 'select_filter':
@@ -118,8 +119,9 @@ echo "<table width=100%><tr><td >";
 		</script>
 	";
 echo "</td><td width=40% style='vertical-align:top;valign:top'>";
-	$json_url=$formgen->gen_json($grid_array,$filter_string,false,null);
-	echo $formgen->gen_data_grid($grid_array,$json_url,$key1);
+//$json_url=$formgen->gen_json($grid_array,$filter_string,false,null);
+//echo $formgen->gen_data_grid($grid_array,$json_url,$key1);
+echo $formgen->gen_data_grid($grid_array,null,$key1);
 echo "</td></tr></table>";
 $formgen->filter_selector();
 }

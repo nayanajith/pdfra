@@ -362,6 +362,7 @@ class Formgenerator {
 			'dijit.form.FilteringSelect'	=>"<select %s>%s</select>",
 			'dijit.form.ComboBox'			=>"<select %s>%s</select>",
 			'dijit.form.Select'			   =>"<select %s>%s</select>",
+			'dijit.form.MultiSelect'		=>"<select %s>%s</select>",
          'dijit.form.SimpleTextarea'	=>"<textarea %s>%s</textarea>",
 			"dijit.form.NumberTextBox"		=>"<input %s/>",
 			"dijit.form.NumberSpinner"		=>"<input %s/>",

@@ -13,6 +13,7 @@ $help_array=array(
 'offered_by'=>'Offered by',
 'compulsory'=>'Compulsory',
 'non_grade'=>'No grade will be assigned for these courses instead CM or NC will assign',
-'non_mark'=>'Non mark courses have two states CM -&gt; complete and NC -&gt; not complete'
+'non_mark'=>'Non mark courses have two states CM -&gt; complete and NC -&gt; not complete',
+'pass_grade'=>"Pass grade will be 'CM' for <b>non_grade</b> courses and 'C' for others by default",
 );
  ?>

@@ -26,11 +26,17 @@ if(isset($_REQUEST['data']) && $_REQUEST['data']=='csv'){
 	log_msg('filter',$filter_str);
    include $modif_file;
 	$columns=array_keys($fields);
-	$comma="";
 
+   foreach($fields as $key => $arr){
+      if(isset($arr['custom']) && $arr['custom'] == 'true'){
+         unset($columns[array_search($key,$columns)]);   
+      }
+   }
 
-	$fields=implode(",",$columns);
-	$query="SELECT $fields FROM ".$table.$filter_str;
+	$query_fields=implode(",",$columns);
+	$query="SELECT $query_fields FROM ".$table.$filter_str;
+
+   log_msg('kkkkk',$query);
 	
 	$csv_file= $table.".csv";
 	db_to_csv_nr($query,$csv_file);

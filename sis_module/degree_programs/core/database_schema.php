@@ -20,6 +20,7 @@ $program_table_schemas['course']="CREATE TABLE `%scourse` (
   `compulsory` 		char(1) 		DEFAULT NULL,
   `non_grade` 			boolean 		DEFAULT NULL,
   `non_credit` 		boolean 		DEFAULT NULL,
+  `pass_grade`       varchar(2)  DEFAULT NULL,
   `deleted`          boolean     DEFAULT false,
   `note` 				varchar(300) DEFAULT NULL,
 	PRIMARY KEY (`course_id`)

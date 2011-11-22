@@ -89,20 +89,20 @@ class Eligibility implements eligibility_interface{
 		$state=true;
 		$state_info=array();
 		if(strtoupper(PROGRAM) == 'BCSC'){
-			if($this->student->getRepeatMax("ENH1001")==0 || strtoupper($this->student->getGrade("ENH1001",$this->student->getRepeatMax("ENH1001")))!='CM'){
+			if(strtoupper($this->student->getGrade($this->student->getRepeatMax("ENH1001")))!='CM'){
 				$state=false;
 				$state_info[]=$this->states[9];
 			}
-			if(getGradeGpv($this->student->getGrade("SCS3026",$this->student->getRepeatMax("SCS3026")))<2.0){
+			if(getGradeGpv($this->student->getGrade($this->student->getRepeatMax("SCS3026")))<2.0){
 				$state=false;
 				$state_info[]=$this->states[10];
 			}
 		}else{
-			$ict1007=strtoupper($this->student->getGrade("ICT1007",$this->student->getRepeatMax("ICT1007")));
-			$ict1008=strtoupper($this->student->getGrade("ICT1008",$this->student->getRepeatMax("ICT1008")));
-			$ict1016=strtoupper($this->student->getGrade("ICT1016",$this->student->getRepeatMax("ICT1016")));
+			$ict1007=strtoupper($this->student->getGrade($this->student->getRepeatMax("ICT1007")));
+			$ict1008=strtoupper($this->student->getGrade($this->student->getRepeatMax("ICT1008")));
+			$ict1016=strtoupper($this->student->getGrade($this->student->getRepeatMax("ICT1016")));
 			if(
-			getGradeGpv($this->student->getGrade("ICT3015",$this->student->getRepeatMax("ICT3015")))<2.0 &&
+			getGradeGpv($this->student->getGrade($this->student->getRepeatMax("ICT3015")))<2.0 &&
 			($ict1007=='AB'|| $ict1007=='MC'||$ict1008=='AB'||$ict1008=='MC'||$ict1016=='AB'||$ict1016=='MC')){
 				$state=false;
 				$state_info[]=$this->states[12];

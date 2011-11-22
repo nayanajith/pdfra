@@ -94,16 +94,16 @@ class Eligibility implements eligibility_interface{
 		$state		=true;
 		$state_info	=array();
 		if(strtoupper(PROGRAM) == 'BCSC'){
-			if($this->student->getRepeatMax("ENH1001")==0 || strtoupper($this->student->getGrade("ENH1001",$this->student->getRepeatMax("ENH1001")))!='CM'){
+			if(strtoupper($this->student->getGrade($this->student->getRepeatMax("ENH1001")))!='CM'){
 				$state=false;
 				$state_info[]=$this->states[9];
 			}
-			if(getGradeGpv($this->student->getGrade("SCS3026",$this->student->getRepeatMax("SCS3026")))<2.0){
+			if(getGradeGpv($this->student->getGrade($this->student->getRepeatMax("SCS3026")))<2.0){
 				$state=false;
 				$state_info[]=$this->states[10];
 			}
 		}else{
-			if(getGradeGpv($this->student->getGrade("ICT3015",$this->student->getRepeatMax("ICT3015")))<2.0){
+			if(getGradeGpv($this->student->getGrade($this->student->getRepeatMax("ICT3015")))<2.0){
 				$state=false;
 				$state_info[]=$this->states[11];
 			}

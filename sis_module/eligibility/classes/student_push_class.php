@@ -138,7 +138,7 @@ class Student_push extends Student{
 			//Selecting 3rd year subjects if this is class push and not noneGrade and not nonCredit and not previousely pushed
 			//Selecting all year subjects if this is degree push and not noneGrade and not nonCredit and not previousely pushed
 
-			if(( $is_degree_push || courseYear($course_id)==3 )&& strtoupper($this->getGrade($course_id, $exam_id))!= 'AB' && !isNonGrade($course_id) && !isNonCredit($course_id) && $my_previouse_push==0){
+			if(( $is_degree_push || courseYear($course_id)==3 )&& strtoupper($this->getGrade(array('course_id'=>$course_id, 'exam_hid'=>$exam_id))!= 'AB' && !isNonGrade($course_id) && !isNonCredit($course_id) && $my_previouse_push==0){
 				$minGradeMark=array(
 					'D-'=>20,'D'=>30,'D+'=>40,
 					'C-'=>45,'C'=>50,'C+'=>55,

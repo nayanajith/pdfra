@@ -662,7 +662,8 @@ public function getTranscript(){
 			return null;
 		}
 		$marks=$this->courses[$course_id][$exam_hid];
-		return getGradeC($marks['final_mark']+$marks['push'],$course_id);
+      $total_mark=is_numeric($marks['final_mark'])?$marks['final_mark']+$marks['push']:$marks['final_mark'];
+		return getGradeC($total_mark,$course_id);
 	}
 
 

@@ -67,7 +67,7 @@ foreach($course_id_arr as $course_id){
 	if($td == 0){
 		$course_id_checkboxes.="<tr>";
 	}
-	$course_id_checkboxes.="<td><label for='".$course_id."_'>&nbsp;".$course_id."</lebel><input type='checkbox' dojoType='dijit.form.CheckBox' value='$course_id' id='".$course_id."_'></td>";
+	$course_id_checkboxes.="<td><input type='checkbox' dojoType='dijit.form.CheckBox' value='$course_id' id='".$course_id."_'><label for='".$course_id."_'>".$course_id."&nbsp;</lebel></td>";
 	$td++;
 	if($td==$cols || !next($course_id_arr)){
 		$course_id_checkboxes.="</tr>";

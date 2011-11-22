@@ -176,6 +176,24 @@ function getCourseName($course_id){
 }
 
 /*
+ *Return alternate course IDS as an array 
+ * */
+function getAltCourses($course_id){
+	global $course_arr;
+	if(is_null($course_arr)){
+		$course_arr  = exec_query("SELECT DISTINCT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAY,null,'course_id');
+	}
+   if(!is_null($course_arr[$course_id]['alt_course_id'])){
+      $alt_courses=explode(',',$course_arr[$course_id]['alt_course_id']); 
+      array_unshift($alt_courses,$course_id);
+      return $alt_courses; 
+   }else{
+      return array($course_id);
+   }
+}
+
+
+/*
  * Return array of exam ids for a given batch
  */
  /*
@@ -588,7 +606,7 @@ public function getTranscript(){
 		$gpv=0;
 		foreach($this->courses as $course_id => $course){
 			if(courseYear($course_id)==$year && !isNonGrade($course_id) && !isNonCredit($course_id)){
-				$gpv+=getGradeGpv($this->getDGrade($course_id,$this->getRepeatMax($course_id)))*getCredits($course_id);
+				$gpv+=getGradeGpv($this->getDGrade($this->getRepeatMax($course_id)))*getCredits($course_id);
 			}
 		}
 		return $gpv;
@@ -602,9 +620,9 @@ public function getTranscript(){
 		foreach($this->courses as $course_id => $course){
 			if(courseYear($course_id)==$year && !isNonGrade($course_id) && !isNonCredit($course_id)){
 				if($this->isRepeatCourse($course_id)){
-					log_msg("repeat", $this->getIndex()."|".$course_id."|".$this->getGrade($course_id,$this->getRepeatMax($course_id)));
+					log_msg("repeat", $this->getIndex()."|".$course_id."|".$this->getGrade($this->getRepeatMax($course_id)));
 				}
-				$gpv+=getGradeGpv($this->getGrade($course_id,$this->getRepeatMax($course_id)))*getCredits($course_id);
+				$gpv+=getGradeGpv($this->getGrade($this->getRepeatMax($course_id)))*getCredits($course_id);
 			}
 		}
 		return $gpv;
@@ -635,7 +653,10 @@ public function getTranscript(){
 	/*
 	 * Return Grade of a given subject
 	 */
-	public function getDGrade($course_id,$exam_hid){
+	public function getDGrade($course_exam_arr){
+      $course_id  =$course_exam_arr['course_id'];
+      $exam_hid   =$course_exam_arr['exam_hid'];
+
 		if(!isset($this->courses[$course_id]) || !isset($this->courses[$course_id][$exam_hid]) || $this->courses[$course_id][$exam_hid]['state']!='PR'){
 			//Return when requesting for unavailable courses
 			return null;
@@ -649,10 +670,12 @@ public function getTranscript(){
 	 * Chech whether the course id repeating course and
 	 * return suitable Degraded Grade for repeted subjects
 	 */
-	public function getGrade($course_id,$exam_hid){
+	public function getGrade($course_exam_arr){
+      $course_id  =$course_exam_arr['course_id'];
+      $exam_hid   =$course_exam_arr['exam_hid'];
 		//Grades to be degraded
 		$dgrades=array('A+','A','A-','B+','B','B-','C+');
-		$grade=$this->getDGrade($course_id, $exam_hid);
+		$grade=$this->getDGrade($course_exam_arr);
       if(!is_null($grade)){
 			if( $this->isRepeatCourse($course_id)==true){
 				if(in_array($grade, $dgrades)){
@@ -711,7 +734,7 @@ public function getTranscript(){
 	}
 
 	/*
-	 * Return Max Repeat mark for a given couurse
+	 * Return Max Repeat mark for a given course
 	 */
 	public function getRepeatMax($course_id){
 		//global $gradeExp;//from common
@@ -723,32 +746,44 @@ public function getTranscript(){
 			"0"=>0.00
 		);
        */
+      if(!isset($this->courses[$course_id])){
+			//Return when requesting for unavailable courses
+			return null;
+		}
 
+      //Finding all the alternative courses
+      $alt_course_ids=getAltCourses($course_id);
+
+      //Exceptional marks 
 		$gradeExp = array(
 			"NC"=>0.00,"CM"=>0.00
 		);
 
-		if(!isset($this->courses[$course_id])){
-			//Return when requesting for unavailable courses
-			return null;
-		}
-		$course=$this->courses[$course_id];
-		$mark=0;
-		$eid=null;
-		//If the student have repeated the subject find the maximum he earned
-		if(sizeof($course) >1){
-			foreach ($course as $exam_hid => $marks){
-				if(key_exists(strtoupper($marks['final_mark']), $gradeExp)  && $mark == 0){
-					$eid=$exam_hid;
-				}elseif($marks['final_mark']>$mark){
-					$mark=$marks['final_mark'];
-					$eid=$exam_hid;
+		
+      //Iterate all the alternative courses
+      foreach($alt_course_ids as $alt_course_id){
+         //If the course does not exists in students course array continue loop
+         if(!isset($this->courses[$alt_course_id]))continue;
+
+         $course_id  =$alt_course_id;
+			$course     =$this->courses[$course_id];
+			$mark       =0;
+			$eid        =null;
+			//If the student have repeated the subject find the maximum he earned
+			if(sizeof($course) >1){
+				foreach($course as $exam_hid => $marks){
+					if(key_exists(strtoupper($marks['final_mark']), $gradeExp)  && $mark == 0){
+						$eid=$exam_hid;
+					}elseif($marks['final_mark']>$mark){
+						$mark=$marks['final_mark'];
+						$eid=$exam_hid;
+					}
 				}
+			}else{
+				$eid=key($course);
 			}
-		}else{
-			$eid=key($course);
-		}
-		return $eid;
+      }
+		return array('course_id'=>$course_id,'exam_hid'=>$eid);
 	}
 
 	/*

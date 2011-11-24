@@ -620,7 +620,7 @@ public function getTranscript(){
 		foreach($this->courses as $course_id => $course){
 			if(courseYear($course_id)==$year && !isNonGrade($course_id) && !isNonCredit($course_id)){
 				if($this->isRepeatCourse($course_id)){
-					log_msg("repeat", $this->getIndex()."|".$course_id."|".$this->getGrade($this->getRepeatMax($course_id)));
+					//log_msg("repeat", $this->getIndex()."|".$course_id."|".$this->getGrade($this->getRepeatMax($course_id)));
 				}
 				$gpv+=getGradeGpv($this->getGrade($this->getRepeatMax($course_id)))*getCredits($course_id);
 			}
@@ -698,6 +698,7 @@ public function getTranscript(){
 	public function getMark($course_id,$exam_hid){
 		if(isset($this->courses[$course_id])){
 			$course=$this->courses[$course_id];
+         if(!isset($course[$exam_hid])){ log_msg('lllllllll',$course_id."--".$exam_hid);return null; }
 			$marks=$course[$exam_hid];
 			return array($marks['final_mark'],$marks['push']);
 		}else{

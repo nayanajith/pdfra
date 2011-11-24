@@ -124,8 +124,15 @@ class Student_push extends Student{
 		 * come grade incriments to be selected afterword
 		 */
 		foreach($this->courses as $course_id => $course){
+
+         //Non-grade courses can not be pushed
+         if(isNonGrade($course_id)){
+            continue; 
+         }
+
 			//Students actual marks for the particular course
-			$exam_id=$this->getRepeatMax($course_id);
+			$course_exam_arr=$this->getRepeatMax($course_id);
+         $exam_id        = $course_exam_arr['exam_hid'];  
 			$my_mark=$this->getMark($course_id,$exam_id);
 
 			//Reduce previous push from max push
@@ -138,7 +145,7 @@ class Student_push extends Student{
 			//Selecting 3rd year subjects if this is class push and not noneGrade and not nonCredit and not previousely pushed
 			//Selecting all year subjects if this is degree push and not noneGrade and not nonCredit and not previousely pushed
 
-			if(( $is_degree_push || courseYear($course_id)==3 )&& strtoupper($this->getGrade(array('course_id'=>$course_id, 'exam_hid'=>$exam_id))!= 'AB' && !isNonGrade($course_id) && !isNonCredit($course_id) && $my_previouse_push==0){
+			if(( $is_degree_push || courseYear($course_id)==3 )&& strtoupper($this->getGrade(array('course_id'=>$course_id, 'exam_hid'=>$exam_id)))!= 'AB' && !isNonGrade($course_id) && !isNonCredit($course_id) && $my_previouse_push==0){
 				$minGradeMark=array(
 					'D-'=>20,'D'=>30,'D+'=>40,
 					'C-'=>45,'C'=>50,'C+'=>55,
@@ -155,7 +162,6 @@ class Student_push extends Student{
 						break;
 					}
 				}
-				log_msg( $course_id,$next_mark);
 
 				if($next_mark!=0){ //Ignore courses which can not be pushed with max_push
 					$mark_push=$next_mark-$my_mark[0]; // Possible push of marks for particular course
@@ -185,7 +191,6 @@ class Student_push extends Student{
 					break;
 				}
 			}
-			log_msg('cycles',$cycles);
 		}
 
 		//Soltion candidate array.. This will filled after calculating marks for each combinations and filtering

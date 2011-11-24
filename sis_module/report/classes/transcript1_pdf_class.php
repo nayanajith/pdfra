@@ -144,7 +144,7 @@ class Transcript{
 	 * @param page_format		: A4,A5,B4
 	 * @param page_orientation	: P,L 
 	 */
-	public function __construct($index_no,$with_marks){
+	public function __construct($index_no,$with_marks,$note){
 		/*Pdf generator page setup*/
 		$PDF_PAGE_ORIENTATION='L';//(L,P)
 		$PDF_PAGE_FORMAT		='A4';
@@ -157,7 +157,7 @@ class Transcript{
 		$this->pdf = new MYPDF($PDF_PAGE_ORIENTATION, $PDF_UNIT, $PDF_PAGE_FORMAT, $UNICODE, $ENCODING, $DISKCACHE);
 		$this->pdf->set_header_info();
 		$this->pdf->transcript_config();
-		$this->generate_transcript($index_no,$with_marks);
+		$this->generate_transcript($index_no,$with_marks,$note);
 
 	}
 
@@ -166,10 +166,15 @@ class Transcript{
 	}
 
 
-	public function generate_transcript($index_no,$with_marks){
+	public function generate_transcript($index_no,$with_marks,$note){
+
+      //Note to display in transcript
+		$note="<tr><td>NOTE</td><td>: $note</td></tr>";
+
 		include A_CLASSES."/student_class.php";
 		$student=new Student($index_no);
 		$trancpt_detail=$student->getTranscript();
+
    
 		//generate studetns socoring on each course in each year
 		$year_title			="<tr><td colspan='5'align='center'>YEAR %s</td></tr>";
@@ -301,6 +306,7 @@ EOS;
 				<tr><td>DATE OF AWARD</td><td>: $d_o_award</td></tr>
 				<tr><td>GRADE POINT AVARAGE</td><td>: $GPA</td></tr>
 				<tr><td>CLASS OBTAINED</td><td>: $class</td></tr>
+            $note
 			</table>
 		</td>
 		<td>&nbsp;</td>

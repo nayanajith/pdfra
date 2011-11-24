@@ -27,9 +27,6 @@ if(isset($_REQUEST['form'])){
 			case 'pdf':
 				transcript_pdf();
 			break;
-			case 'push':
-				push();
-			break;
 			case 'cert':
 				gen_certificate();
 			break;
@@ -70,10 +67,10 @@ if(isset($_REQUEST['form'])){
 	//$xhr_combobox->gen_xhr_combobox('student_year',"Student Year",$xhr_combobox->get_val('student_year'),30,20,null,null);
 	$xhr_combobox->gen_xhr_combobox('index_no',"Index No",$xhr_combobox->get_val('index_no'),80,20,array('index_no'),'attendance_frm');
 	//Different report types to be select
-	$item_array=array('WITH_MARkS','WITHOUT_MARkS');
-	$xhr_combobox->gen_xhr_static_combo('transcpt_marks','Marks',$xhr_combobox->get_val('transcpt_marks'),110,$item_array,array('index_no','transcpt_marks'),'attendance_frm');
+	$item_array=array('WITH_MARKS','WITHOUT_MARKS');
+	$xhr_combobox->gen_xhr_static_combo('transcpt_marks','Marks',$xhr_combobox->get_val('transcpt_marks'),120,$item_array,array('index_no','transcpt_marks'),'attendance_frm');
 
-	$item_array=array('SUBJECT_TO_APPROVED_BY_SENNATE','PENDING');
+	$item_array=array('SUBJECT_TO_APPROVED_BY_THE_SENNATE','PENDING');
 	$xhr_combobox->gen_xhr_static_combo('transcpt_note','Note',$xhr_combobox->get_val('transcpt_note'),210,$item_array,array('index_no','transcpt_marks'),'attendance_frm');
 
 	$xhr_combobox->param_setter();
@@ -130,11 +127,17 @@ function transcript_pdf(){
 	include(MOD_CLASSES."/transcript1_pdf_class.php");
 	//include(MOD_CLASSES."/transcript2_pdf_class.php");
 	//Generate the transcript
-	$with_marks=false;
+	$with_marks =false;
+   $note       ="";
 	if(isset($_SESSION[PAGE]['transcpt_marks']) && $_SESSION[PAGE]['transcpt_marks'] == 'WITH_MARKS'){
 		$with_marks=true;
 	}
-	$transcript=new Transcript($_SESSION[PAGE]['index_no'],$with_marks);
+
+	if(isset($_SESSION[PAGE]['transcpt_note'])){
+		$note=$_SESSION[PAGE]['transcpt_note'];
+	}
+
+	$transcript=new Transcript($_SESSION[PAGE]['index_no'],$with_marks,style_text($note));
 
 	//Acquire pdf document
 	$pdf=$transcript->getPdf();

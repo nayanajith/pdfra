@@ -37,7 +37,7 @@ if(isset($_REQUEST['data']) && isset($_REQUEST['exam_hid'])){
 //Print exam summery
 $colomns=array('exam_date','exam_hid','semester','student_year','exam_time','venue');
 $exams_arr=exec_query("SELECT ".implode($colomns,',')." FROM ".$GLOBALS['P_TABLES']['exam']." ORDER BY exam_hid DESC",Q_RET_ARRAY);
-echo "<h4 style='background-color:#C9D7F1;padding:2px;text-align:center' class='bgCenter'>Examination summery</h4>";
+echo "<h4 class='coolh'>Examination summery</h4>";
 echo "<table class='report_table'>";
 echo "<tr>";
 

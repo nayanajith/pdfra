@@ -380,7 +380,7 @@ Set session parameters using xhr requests
    public function param_setter(){
   		return "
    	function set_param(key,value) {
-			dojo.xhrGet({
+			dojo.xhrPost({
 	         url 		: '".gen_url()."&form=main&action=param&data=json&param='+key+'&'+key+'='+value,
   	         handleAs :'json',
   	         load 		: function(response, ioArgs) {	     
@@ -413,7 +413,7 @@ request html from the backend
 			}
 
 			//If index number is blank return 
-			dojo.xhrGet({
+			dojo.xhrPost({
 		   	url 		: '".gen_url()."&form=main&data=json&action=html'+url,
 		      handleAs :'text',
 		      load 		: function(response, ioArgs) {	     
@@ -455,7 +455,7 @@ submit the given form
 			}
 
 			if (action=='delete' || dijit.byId('$form').validate()) {
-				dojo.xhrGet({
+				dojo.xhrPost({
 					url			: '".gen_url()."&form=main&action='+action, 
 					handleAs		: 'json',
 					form			: '$form', 
@@ -511,7 +511,7 @@ submit the given form
 			}
 
 			if (action=='delete' || dijit.byId('$form').validate()) {
-				dojo.xhrGet({
+				dojo.xhrPost({
 					url			: '".gen_url()."&form=main&action='+action, 
 					handleAs		: 'json',
 					form			: '$form', 
@@ -1447,7 +1447,7 @@ submit the given form
 		}
 
 		/*
-		 Generate the realtime form filler with dojo.xhrGet
+		 Generate the realtime form filler with dojo.xhrPost
 		 @key				: key value to be filtered from the database
 		 @table			: the table which should generate
 		 @js_function	: rename javascript function to be used in the onChange of the select
@@ -1469,7 +1469,7 @@ submit the given form
 		<script type='text/javascript'>
 		function $js_function(".$key.") {
 			if(!(".$key." == '' || ".$key." == 'new')){
-			dojo.xhrGet({
+			dojo.xhrPost({
 		   	url 		: '".gen_url()."&data=json&id='+".$key."+'$form',
 		      handleAs :'json',
 		      load 		: function(response, ioArgs) {	     

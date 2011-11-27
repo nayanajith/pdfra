@@ -14,9 +14,19 @@ $menu_inactiveText	="black";
 $light_bg_color	   ="whitesmoke";
 $border_color        ="silver";
 
+/*Backgrounds for body and other controls*/
+/*
+$backgrounds[$GLOBALS['THEME']][0] -> top bg
+$backgrounds[$GLOBALS['THEME']][1] -> bottom bg
+*/
+$backgrounds=array(
+	'claro'	=>array(IMG.'/bodyBg.gif',IMG.'/bodyBgBot.gif'),
+	'nihilo'	=>array('',''),
+	'soria'	=>array(IMG.'/bodyBg.gif',IMG.'/bodyBgBot.gif'),
+	'tundra'	=>array('','')
+);
 
 ?>
-
 /*-------------------------Common styles------------------------------*/
 *{
 	font-size:12px;
@@ -34,11 +44,24 @@ body, th, td {
    font: normal 13px Verdana,Arial,'Bitstream Vera Sans',Helvetica,sans-serif;
 }
 
+th{
+   font-weight:bold;
+}
+
 h1, h2, h3, h4 {
    font-family: Arial,Verdana,'Bitstream Vera Sans',Helvetica,sans-serif;
    font-weight: bold;
    letter-spacing: -0.018em;
    page-break-after: avoid;
+}
+
+.coolh{
+   background-color:#C9D7F1;
+   padding:2px;
+   text-align:center;
+	background-image:url(<?php echo $backgrounds[$GLOBALS['THEME']][1]; ?>);
+	background-repeat:repeat-x;
+	background-position:center center;
 }
 
 h1{ 
@@ -429,6 +452,30 @@ img {
    padding-left:5px;
    padding-right:5px;
 }
+/*---------------------------------help cage----------------------------------*/
+.help{
+   background-color:#F5F6CE;
+}
+
+.help div{
+   text-align:left;
+   padding:10px;
+}
+
+.help h4{
+   background-color:#C9D7F1;
+   padding:2px;
+   text-align:center;
+	background-image:url(<?php echo $backgrounds[$GLOBALS['THEME']][1]; ?>);
+	background-repeat:repeat-x;
+	background-position:center center;
+}
+
+.help a{
+   color:brown;
+   text-decoration:overline;
+}
+
 /*------------------------shadow and round corners----------------------------*/
 .round10,#search,.dataAction,.mid ul li{
 <?php 
@@ -450,7 +497,7 @@ img {
 ?> 
 }
 
-.round,.items div,.browser,#browser_box,#container,#data{
+.round,.items div,.browser,#browser_box,#container,#data {
 <?php 
  if(is_opera()||is_chrome()){
  	echo "
@@ -465,6 +512,22 @@ img {
   -moz-border-radius-bottomright:5px;
   -moz-border-radius-topleft:5px;
   -moz-border-radius-topright:5px;
+  ";
+ }
+?> 
+}
+
+.round10bot{
+<?php 
+ if(is_opera()||is_chrome()){
+ 	echo "
+	border-bottom-left-radius: 10px 10px;
+   border-bottom-right-radius: 10px 10px;
+   ";
+ }else{
+ 	echo "
+  -moz-border-radius-bottomleft:10px;
+  -moz-border-radius-bottomright:10px;
   ";
  }
 ?> 
@@ -642,22 +705,6 @@ if (isset($_SESSION['username'])) {
 	border-right:<?php echo $baloon_border; ?>;
 }
 
-
-<?php 
-/*Backgrounds for body and other controls*/
-/*
-$backgrounds[$GLOBALS['THEME']][0] -> top bg
-$backgrounds[$GLOBALS['THEME']][1] -> bottom bg
-*/
-$backgrounds=array(
-	'claro'	=>array(IMG.'/bodyBg.gif',IMG.'/bodyBgBot.gif'),
-	'nihilo'	=>array('',''),
-	'soria'	=>array(IMG.'/bodyBg.gif',IMG.'/bodyBgBot.gif'),
-	'tundra'	=>array('','')
-);
-
-
-?>
 
 body {
 	font: 12px Myriad,Helvetica,Tahoma,Arial,clean,sans-serif;

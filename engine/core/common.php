@@ -248,7 +248,7 @@ function log_msg($id,$msg,$color=null){
 		ob_start('ob_gzhandler');
 		print_r($msg);
 		$msg = ob_get_contents();
-		ob_end_clean();
+		@ob_end_clean();
 	}
 
 	fwrite($file_handler, "[$date_time] $id :$msg\n");

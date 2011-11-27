@@ -26,6 +26,7 @@ $program_tables=array(
 	'state'					=>'%sstate',
 	'batch'					=>'%sbatch',
 	'mcq_marking_logic'	=>'%smcq_marking_logic',
+	'grades'	            =>'%sgrades',
 	'staff'					=>'%sstaff'
 );     
 

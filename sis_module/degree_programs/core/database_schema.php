@@ -26,24 +26,6 @@ $program_table_schemas['course']="CREATE TABLE `%scourse` (
 	PRIMARY KEY (`course_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
-/*
-PR->Present
-AB->ABsent
-MC->Medical
-EO->Exam offence
-*/
-
-$program_table_schemas['course_reg']="CREATE TABLE `%scourse_reg` (
-	`index_no` 			varchar(8) NOT NULL,
-  `course_id` 			varchar(10)	NOT NULL,
-	`exam_hid` 			varchar(20) 		NOT NULL,
-  `state` 				ENUM('PR','AB','MC','EO') 		DEFAULT 'PR',
-  `deleted`          boolean     DEFAULT FALSE,
-  `note` 				varchar(300) DEFAULT NULL,
-	PRIMARY KEY (`course_id`,`index_no`,`exam_hid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
-
-
 
 $program_table_schemas['exam']="CREATE TABLE `%sexam` ( 
 	`exam_id` 			int 			NOT NULL AUTO_INCREMENT,
@@ -138,6 +120,13 @@ $program_table_schemas['log']="CREATE TABLE `%slog` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
+/*
+PR->Present
+AB->ABsent
+MC->Medical
+EO->Exam offence
+*/
+
 $program_table_schemas['marks']="CREATE TABLE `%smarks` (
   `exam_hid` 			varchar(20) 		NOT NULL,
   `course_id` 			char(10) 	NOT NULL,
@@ -146,7 +135,7 @@ $program_table_schemas['marks']="CREATE TABLE `%smarks` (
   `assignment_mark` 	int(3) 		unsigned DEFAULT null,
   `final_mark` 		varchar(3) 	DEFAULT null,
   `push` 				int(3) 		unsigned DEFAULT null,
-	`state`				enum('PR','AB','EO') default 'PR',
+	`state`				enum('PR','AB','MC','EO') default 'PR',
   `can_release` 		boolean 		DEFAULT true,
   `deleted`          boolean     DEFAULT false,
   `note` 				varchar(300) 	DEFAULT NULL,
@@ -347,6 +336,16 @@ $program_table_schemas['mcq_marks']="CREATE TABLE %smcq_marks(
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 
+$program_table_schemas['grades']="CREATE TABLE `%sgrades` (
+  `mark` int(3) NOT NULL DEFAULT '0',
+  `grade` char(2) DEFAULT NULL,
+  `gpv` decimal(3,2) DEFAULT NULL,
+  PRIMARY KEY (`marks`)
+);";
+
+//Initial data for the grade table
+$program_table_schemas['grades']="INSERT INTO `%sgrades` VALUES (0,'E','0.00'),(1,'E','0.00'),(2,'E','0.00'),(3,'E','0.00'),(4,'E','0.00'),(5,'E','0.00'),(6,'E','0.00'),(7,'E','0.00'),(8,'E','0.00'),(9,'E','0.00'),(10,'E','0.00'),(11,'E','0.00'),(12,'E','0.00'),(13,'E','0.00'),(14,'E','0.00'),(15,'E','0.00'),(16,'E','0.00'),(17,'E','0.00'),(18,'E','0.00'),(19,'E','0.00'),(20,'D-','0.75'),(21,'D-','0.75'),(22,'D-','0.75'),(23,'D-','0.75'),(24,'D-','0.75'),(25,'D-','0.75'),(26,'D-','0.75'),(27,'D-','0.75'),(28,'D-','0.75'),(29,'D-','0.75'),(30,'D','1.00'),(31,'D','1.00'),(32,'D','1.00'),(33,'D','1.00'),(34,'D','1.00'),(35,'D','1.00'),(36,'D','1.00'),(37,'D','1.00'),(38,'D','1.00'),(39,'D','1.00'),(40,'D+','1.25'),(41,'D+','1.25'),(42,'D+','1.25'),(43,'D+','1.25'),(44,'D+','1.25'),(45,'C-','1.75'),(46,'C-','1.75'),(47,'C-','1.75'),(48,'C-','1.75'),(49,'C-','1.75'),(50,'C','2.00'),(51,'C','2.00'),(52,'C','2.00'),(53,'C','2.00'),(54,'C','2.00'),(55,'C+','2.25'),(56,'C+','2.25'),(57,'C+','2.25'),(58,'C+','2.25'),(59,'C+','2.25'),(60,'B-','2.75'),(61,'B-','2.75'),(62,'B-','2.75'),(63,'B-','2.75'),(64,'B-','2.75'),(65,'B','3.00'),(66,'B','3.00'),(67,'B','3.00'),(68,'B','3.00'),(69,'B','3.00'),(70,'B+','3.25'),(71,'B+','3.25'),(72,'B+','3.25'),(73,'B+','3.25'),(74,'B+','3.25'),(75,'A-','3.75'),(76,'A-','3.75'),(77,'A-','3.75'),(78,'A-','3.75'),(79,'A-','3.75'),(80,'A','4.00'),(81,'A','4.00'),(82,'A','4.00'),(83,'A','4.00'),(84,'A','4.00'),(85,'A','4.00'),(86,'A','4.00'),(87,'A','4.00'),(88,'A','4.00'),(89,'A','4.00'),(90,'A+','4.25'),(91,'A+','4.25'),(92,'A+','4.25'),(93,'A+','4.25'),(94,'A+','4.25'),(95,'A+','4.25'),(96,'A+','4.25'),(97,'A+','4.25'),(98,'A+','4.25'),(99,'A+','4.25'),(100,'A+','4.25');";
+
 
 /*
 System Database tables
@@ -366,6 +365,8 @@ $system_table_schemas['program']="CREATE TABLE `program` (
 	`note` 				varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
+
 
 /*
 add_table_prefix($system_table_schemas,MODULE);

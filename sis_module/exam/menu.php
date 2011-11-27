@@ -41,6 +41,7 @@ $toolbar	=array(
 		'Print'	=>array('icon'=>'Print','action'=>'submit_form("print")')
 	),
 	"reports"=>array(
+		'Help'	=>array('icon'=>'Help','action'=>'help_dialog()'),
 		'CSV'	=>array('icon'=>'Database','action'=>'submit_form("modify")'),
 		'Print'	=>array('icon'=>'Print','action'=>'submit_form("print")'),
 		'PDF'	=>array('icon'=>'NewPage','action'=>'submit_form("pdf")')

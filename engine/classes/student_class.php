@@ -592,7 +592,7 @@ public function getTranscript(){
 	public function getYearCredits($year){
 		$creditss=0;
 		foreach($this->courses as $course_id => $course){
-			if(courseYear($course_id)==$year){
+			if(courseYear($course_id)==$year && !isNonCredit($course_id)){
 				$creditss+=getCredits($course_id);
 			}
 		}

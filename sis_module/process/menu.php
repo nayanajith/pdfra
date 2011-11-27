@@ -2,14 +2,16 @@
 
 $menu_array  = array(
 	"gpa"    		=>"GPA",
-	"generate_comments"=>"Generate Comments"
+	"push"         =>"Push students"
 );
 
 $toolbar	=array(
-	"gpa"			=>array(
+   "gpa"			=>array(
+		'Generate'		=>array('action'=>'submit_form("gen")'),
 	),
-	"gpa"			=>array(
-		'Generate'		=>array('action'=>'submit_form("generate")')
+	"push"  =>array(
+		'CSV'	=>array('icon'=>'Database','action'=>'submit_form("csv")'),
+		'Print'	=>array('icon'=>'Print','action'=>'submit_form("print")')
 	)
 );
 

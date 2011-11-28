@@ -9,12 +9,12 @@ class XHR_Combobox{
    /*
    Return json for the filtering select at the frontend
   	*/
-   function json_data($table,$key,$filter=null,$order_by=null){
+   function json_data($table,$key,$filter=null,$order_by=null,$id=null){
 		include A_CLASSES.'/qread_store_class.php';
 		$filter=$filter==null?"":" AND $filter";
 	
 		header('Content-Type', 'application/json');
-		$query_read_store = new Query_read_store($table,$key,$filter,$order_by);
+		$query_read_store = new Query_read_store($table,$key,$filter,$order_by,$id);
    	echo $query_read_store->gen_json_data();
    }
 
@@ -243,13 +243,13 @@ class XHR_Combobox{
    	$this->static_store($id,$item_array);
 		$this->add_to_toolbar($this->label($id,$label));
 		if(is_array($source_array)){
-  	  		$this->add_to_toolbar($this->combo_box($id,5,$value,$width,true,$source_array,$target));
+  	  		$this->add_to_toolbar($this->combo_box($id,20,$value,$width,true,$source_array,$target));
 			if(!$this->html_req_done){
 				$this->html_requester($source_array,$target);
 				$this->html_req_done=true;
 			}
 		}else{
-  	  		$this->add_to_toolbar($this->combo_box($id,$page_size,$value,$width,false,null,null));
+  	  		$this->add_to_toolbar($this->combo_box($id,20,$value,$width,false,null,null));
 		}
 	}
 

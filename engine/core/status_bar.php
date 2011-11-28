@@ -9,8 +9,11 @@ d_r('dijit.ProgressBar');
 		<td style='padding-left:5px;width:5%;'>
 			Status:
 		</td>
-		<td style='border-right:1px solid silver;padding-left:5px;width:50%;'>
+		<td style='border-right:1px solid silver;padding-left:5px;width:48%;'>
 			<div id='status_bar'>status</div>
+		</td>
+		<td style='border-right:1px solid silver;padding-left:5px;width:2%;'>
+      <div id='process'><img src='<?php echo IMG."/process-stopped.gif"; ?>' ></div>
 		</td>
 		<td style='padding-left:5px;width:5%;text-align:center'>
 			Progress:

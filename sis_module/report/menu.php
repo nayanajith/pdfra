@@ -27,7 +27,8 @@ $toolbar	=array(
 		'Print'				=>array('icon'=>'Print','action'=>'submit_form("print")')
 	),
 	"mark_book"		=>array(
-		'Print'				=>array('icon'=>'Print','action'=>'select_report("print")')
+		'PDF'		=>array('icon'=>'NewPage','action'=>'submit_form("pdf")'),
+		'Print'	=>array('icon'=>'Print','action'=>'select_report("print")')
 	),
 	"degree_cert"		=>array(
 		'Generate'		=>array('action'=>'submit_form("generate")')

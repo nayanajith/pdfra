@@ -58,11 +58,18 @@ d_r('dijit.Dialog');
 		<?php } ?>
 	}
 
-	/*Update progress bar*/
+	/*Update progress bar and processing image (rotating arrows)*/
 	function update_progress_bar(progress){
+	
 		<?php if($GLOBALS['LAYOUT']!='pub' ){ ?>
 		jsProgress.update({maximum: 100, progress: progress });
 		<?php } ?>
+	   var process = document.getElementById('process') ;
+      if(progress == 100 || progress == 0){
+         process.innerHTML="<img src='<?php echo IMG."/process-stopped.gif"; ?>' >";
+      }else{
+         process.innerHTML="<img src='<?php echo IMG."/process.gif"; ?>' >";
+      }
 	}
 
 </script>

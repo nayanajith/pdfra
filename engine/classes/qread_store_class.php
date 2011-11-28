@@ -14,11 +14,12 @@ class Query_read_store{
 	/*
 	Constructor of the query read store
 	*/
-	public function __construct($table,$key,$filter='',$order_by=null) {
+	public function __construct($table,$key,$filter='',$order_by=null,$id=null) {
 		$this->key			=$key;	
 		$this->table		=$table;
 		$this->pre_filter	=$filter;
 		$this->order_by	=$order_by;
+		$this->id			=$id;	
 		
 	}
 		
@@ -34,9 +35,11 @@ class Query_read_store{
 		if (array_key_exists($this->key, $_REQUEST)) {
 			$this->filter = $_REQUEST[$this->key];
 			$this->filter = str_replace("*", "%", $this->filter);
-			$this->filter="WHERE $this->key LIKE '".$this->filter."' ".$this->pre_filter;
-		}
-   
+		   $this->filter="WHERE $this->key LIKE '".$this->filter."' ".$this->pre_filter;
+		}else{
+		   $this->filter="WHERE $this->key LIKE '%' ".$this->pre_filter;
+      }
+
 		//Fetch the starting index of the query
 		if (array_key_exists("start", $_REQUEST)) {
 			$this->start = $_REQUEST['start'];
@@ -55,7 +58,8 @@ class Query_read_store{
 		if(is_null($this->order_by)){
 			$this->order_by="ORDER BY $this->key";
 		}
-	return "SELECT DISTINCT $this->key FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
+
+	return "SELECT DISTINCT $this->key $this->id FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
 	}
 
 
@@ -70,7 +74,11 @@ class Query_read_store{
 		//Return as JSON formatted data
 		//log_msg('log_json',json_encode(array('items'=>$res)));
 		//header('Content-Type', 'application/json');
-		return json_encode(array("identifier"=>$this->key,"label"=>$this->key,"items"=>$res));
+		if(is_null($this->id)){
+		   return json_encode(array("identifier"=>$this->key,"label"=>$this->key,"items"=>$res));
+      }else{
+		   return json_encode(array("identifier"=>$this->id,"label"=>$this->id,"items"=>$res));
+      }
 	}
 }
 

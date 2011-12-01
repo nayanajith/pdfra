@@ -34,156 +34,156 @@ items: [
 function gen_tree(){
 global $modules;
 /*-----------------generate json-------------------*/
-	$json = "{
+   $json = "{
 identifier:'id',
 label: 'name',
 items: [
 ";
-	$comma1="";
-	foreach ($modules as $mod_key => $mod) {
-		$module_visible=true;
+   $comma1="";
+   foreach ($modules as $mod_key => $mod) {
+      $module_visible=true;
 
-		/*Module discriptor may be an array*/
-		if(is_array($mod)){
-			$module_visible=$mod['VISIBLE'];
-			$mod=$mod['MODULE'];
-		}
+      /*Module discriptor may be an array*/
+      if(is_array($mod)){
+         $module_visible=$mod['VISIBLE'];
+         $mod=$mod['MODULE'];
+      }
 
 
-		/*Skip not permitted modules*/
-		if(!is_module_permitted($mod_key) && $module_visible){
-			continue;	
-		}
+      /*Skip not permitted modules*/
+      if(!is_module_permitted($mod_key) && $module_visible){
+         continue;   
+      }
 
-		$menu_array=array("null"=>"null");
-		$json					.=$comma1."\n{id:'$mod_key',name:'$mod',type:'module'";
-		$module_menu_file	=A_MODULES."/".$mod_key."/menu.php";
-		if(file_exists($module_menu_file)){
-			include($module_menu_file);
-			$children		=",children:[";
-			$page_string	="";
-			$comma2			="";
-			foreach($menu_array as $page_key => $page){
-				if(is_array($page)){
- 					if(isset($page['VISIBLE']) && $page['VISIBLE']=='false'){
-						continue;
-					}else{
-						$page=$page['PAGE'];
-					}
-				}
-				/*Skip not permitted pages*/
-				if(!is_page_permitted($mod_key,$page_key)){
-					continue;	
-				}
+      $menu_array=array("null"=>"null");
+      $json               .=$comma1."\n{id:'$mod_key',name:'$mod',type:'module'";
+      $module_menu_file   =A_MODULES."/".$mod_key."/menu.php";
+      if(file_exists($module_menu_file)){
+         include($module_menu_file);
+         $children      =",children:[";
+         $page_string   ="";
+         $comma2         ="";
+         foreach($menu_array as $page_key => $page){
+            if(is_array($page)){
+                if(isset($page['VISIBLE']) && $page['VISIBLE']=='false'){
+                  continue;
+               }else{
+                  $page=$page['PAGE'];
+               }
+            }
+            /*Skip not permitted pages*/
+            if(!is_page_permitted($mod_key,$page_key)){
+               continue;   
+            }
 
-				$children		.=$comma2."{_reference:'".$mod_key."_".$page_key."'}";
-				$page_string	.=$comma2."\n{id:'".$mod_key."_".$page_key."',name:'$page',url:'module=$mod_key&page=$page_key',type:'page'}";
-				$comma2			=",";
-			}
-			$comma1			=",";
-			$children		.="]},";
-			//$page_string	.="}\n";
-			$json				.=$children.$page_string;
-		}
-	}
-	$json .="]\n}\n";
+            $children      .=$comma2."{_reference:'".$mod_key."_".$page_key."'}";
+            $page_string   .=$comma2."\n{id:'".$mod_key."_".$page_key."',name:'$page',url:'module=$mod_key&page=$page_key',type:'page'}";
+            $comma2         =",";
+         }
+         $comma1         =",";
+         $children      .="]},";
+         //$page_string   .="}\n";
+         $json            .=$children.$page_string;
+      }
+   }
+   $json .="]\n}\n";
 /*-----------------generate json-------------------*/
-	/*
-	$json_file=A_ROOT."/module_tree.json";
-	$file_handler = fopen($json_file, 'w');
-	fwrite($file_handler,$json);
-	fclose($file_handler);
-	*/
-	header('Content-Type', 'text/json');
-	header("Content-Disposition: attachment; filename=\"module_tree.json\"");
-	echo $json;
+   /*
+   $json_file=A_ROOT."/module_tree.json";
+   $file_handler = fopen($json_file, 'w');
+   fwrite($file_handler,$json);
+   fclose($file_handler);
+   */
+   header('Content-Type', 'text/json');
+   header("Content-Disposition: attachment; filename=\"module_tree.json\"");
+   echo $json;
 }
 
 function gen_module_array(){
-	global $modules;
-	$tabs=array();
-	foreach ($modules as $mod_key => $mod) {
-		$module_visible=true;
+   global $modules;
+   $tabs=array();
+   foreach ($modules as $mod_key => $mod) {
+      $module_visible=true;
 
-		/*Module discriptor may be an array*/
-		if(is_array($mod)){
-			$module_visible=$mod['VISIBLE'];
-			$mod=$mod['MODULE'];
-		}
+      /*Module discriptor may be an array*/
+      if(is_array($mod)){
+         $module_visible=$mod['VISIBLE'];
+         $mod=$mod['MODULE'];
+      }
 
-		/*Skip not permitted modules*/
-		if(!is_module_permitted($mod_key) && $module_visible){
-			continue;	
-		}
+      /*Skip not permitted modules*/
+      if(!is_module_permitted($mod_key) && $module_visible){
+         continue;   
+      }
 
-		$module_menu_file	=A_MODULES."/".$mod_key."/menu.php";
-		if(file_exists($module_menu_file)){
-			include($module_menu_file);
-			foreach($menu_array as $page_key => $page){
+      $module_menu_file   =A_MODULES."/".$mod_key."/menu.php";
+      if(file_exists($module_menu_file)){
+         include($module_menu_file);
+         foreach($menu_array as $page_key => $page){
 
-				/*pages can be arrays to express the visibility*/
-				if(is_array($page)){
-					$page=$page['PAGE'];
-				}
+            /*pages can be arrays to express the visibility*/
+            if(is_array($page)){
+               $page=$page['PAGE'];
+            }
 
-				/*Skip not permitted pages*/
-				if(!is_page_permitted($mod_key,$page_key)){
-					continue;	
-				}
+            /*Skip not permitted pages*/
+            if(!is_page_permitted($mod_key,$page_key)){
+               continue;   
+            }
 
-				$tabs[$mod_key][$page_key]=$page;
-			}
-		}
-	}
-	return $tabs;
+            $tabs[$mod_key][$page_key]=$page;
+         }
+      }
+   }
+   return $tabs;
 }
 
 function gen_visible_module_array(){
-	global $modules;
-	$tabs=array();
-	foreach ($modules as $mod_key => $mod) {
-		$module_visible=true;
+   global $modules;
+   $tabs=array();
+   foreach ($modules as $mod_key => $mod) {
+      $module_visible=true;
 
-		/*Module discriptor may be an array*/
-		if(is_array($mod)){
-			$module_visible=$mod['VISIBLE'];
-			$mod=$mod['MODULE'];
-		}
+      /*Module discriptor may be an array*/
+      if(is_array($mod)){
+         $module_visible=$mod['VISIBLE'];
+         $mod=$mod['MODULE'];
+      }
 
-		/*Skip not permitted modules*/
-		if(!is_module_permitted($mod_key) && $module_visible){
-			continue;	
-		}
+      /*Skip not permitted modules*/
+      if(!is_module_permitted($mod_key) && $module_visible){
+         continue;   
+      }
 
-		$module_menu_file	=A_MODULES."/".$mod_key."/menu.php";
-		if(file_exists($module_menu_file)){
-			include($module_menu_file);
-			foreach($menu_array as $page_key => $page){
+      $module_menu_file   =A_MODULES."/".$mod_key."/menu.php";
+      if(file_exists($module_menu_file)){
+         include($module_menu_file);
+         foreach($menu_array as $page_key => $page){
 
-				/*pages can be arrays to express the visibility*/
-				if(is_array($page)){
- 					if(isset($page['VISIBLE']) && $page['VISIBLE']=='false'){
-						continue;
-					}
-				}
+            /*pages can be arrays to express the visibility*/
+            if(is_array($page)){
+                if(isset($page['VISIBLE']) && $page['VISIBLE']=='false'){
+                  continue;
+               }
+            }
 
-				if(!is_page_permitted($mod_key,$page_key)){
-					continue;	
-				}else{
-					$tabs[$mod_key][$page_key]=$page;
-				}
-			}
-		}
-	}
-	return $tabs;
+            if(!is_page_permitted($mod_key,$page_key)){
+               continue;   
+            }else{
+               $tabs[$mod_key][$page_key]=$page;
+            }
+         }
+      }
+   }
+   return $tabs;
 }
 
 
 /*Generat JSON for module tree*/
 if($data==true){
-	if(isset($_REQUEST['mod_tree'])){
-		gen_tree();
-	}
+   if(isset($_REQUEST['mod_tree'])){
+      gen_tree();
+   }
 }
 
 ?>

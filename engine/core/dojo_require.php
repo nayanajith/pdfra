@@ -6,13 +6,12 @@ It is possible to parse after loading using dojo.parser.parse();
 check in (index.php or loading.php)
 */
 
-	djConfig = {
-		isDebug:false, 
-		//locale:getLocale(),
-		parseOnLoad:true 
-	}; 
+   djConfig = {
+      isDebug:false, 
+      //locale:getLocale(),
+      parseOnLoad:true 
+   }; 
 </script>
-
 <!--script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"  type="text/javascript"></script-->
 <script src="<?php echo JS; ?>/dojo/dojo.js" type="text/javascript"></script>
 <script src="<?php echo JS; ?>/dojo/ucscis.js" type="text/javascript"></script>
@@ -25,12 +24,12 @@ check in (index.php or loading.php)
 /*call this function in page where you want to parse dojo javascript*/
 /*$dojo_required was generated in core/dojo_require.php*/
 function parse_dojo(){
-	global $dojo_required;
-	$dojo_required[]='dojo.parser';
-	$req="";
-	foreach($dojo_required as $module){
-		$req.="dojo.require('$module');\n";
-	}
+   global $dojo_required;
+   $dojo_required[]='dojo.parser';
+   $req="";
+   foreach($dojo_required as $module){
+      $req.="dojo.require('$module');\n";
+   }
 
 $html = <<<EOD
 <script>
@@ -38,25 +37,25 @@ $html = <<<EOD
 /*set djConfig=parseOnload:false and this will parse after loading*/
 $req
 dojo.addOnLoad(function() {
-	var start = +new Date();
+   var start = +new Date();
 
-	/*Parse dojo for total page and keep the loading message until parsing*/
-	//dojo.parser.parse();
+   /*Parse dojo for total page and keep the loading message until parsing*/
+   //dojo.parser.parse();
 
-	/*Printing loading time to the firebug console*/
-	console.info("Total parse time: " + (+new Date() - start) + "ms");
+   /*Printing loading time to the firebug console*/
+   console.info("Total parse time: " + (+new Date() - start) + "ms");
 
-	/*print done and fade out the loading message and hide*/
-	dojo.byId('loaderInner').innerHTML += " done.";
-	setTimeout(function hideLoader(){
-		dojo.fadeOut({ 
-			node: 'loader', 
-			duration:200,
-			onEnd: function(n){
-				n.style.display = "none";
-			}
-		}).play();
-	}, 250);
+   /*print done and fade out the loading message and hide*/
+   dojo.byId('loaderInner').innerHTML += " done.";
+   setTimeout(function hideLoader(){
+      dojo.fadeOut({ 
+         node: 'loader', 
+         duration:200,
+         onEnd: function(n){
+            n.style.display = "none";
+         }
+      }).play();
+   }, 250);
 });
 
 </script>

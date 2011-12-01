@@ -1,28 +1,28 @@
 <?php
-$mod_arr		= $modules;
-$page_arr	= $menu_array;
-$page			='';
+$mod_arr      = $modules;
+$page_arr   = $menu_array;
+$page         ='';
 
 log_msg('module',MODULE);
 if(isset($_SESSION['BREADCRUMB'][MODULE])){
-	$key=array_search(PAGE,$_SESSION['BREADCRUMB'][MODULE]);
-	if($key >= 0){
-		$_SESSION['BREADCRUMB'][MODULE]=array_slice($_SESSION['BREADCRUMB'][MODULE],0,$key);
-	}else{
-		$_SESSION['BREADCRUMB'][MODULE][]=PAGE;
-	}
+   $key=array_search(PAGE,$_SESSION['BREADCRUMB'][MODULE]);
+   if($key >= 0){
+      $_SESSION['BREADCRUMB'][MODULE]=array_slice($_SESSION['BREADCRUMB'][MODULE],0,$key);
+   }else{
+      $_SESSION['BREADCRUMB'][MODULE][]=PAGE;
+   }
 }else{
-	$_SESSION['BREADCRUMB'][MODULE]=array();
+   $_SESSION['BREADCRUMB'][MODULE]=array();
 }
 
 log_msg('bc',$_SESSION['BREADCRUMB']);
 
 if(isset($page_arr[PAGE])){
-	$page=$page_arr[PAGE];
+   $page=$page_arr[PAGE];
 }
 
 if(is_array($page)){
-	$page=$page['PAGE'];
+   $page=$page['PAGE'];
 }
 
 ?>

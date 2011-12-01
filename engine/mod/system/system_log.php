@@ -37,15 +37,15 @@ echo "</pre></div>";
 
 <script type="text/javascript">
 function get_lines(){
-	var lines=document.getElementById('toolbar.numLines').value;
-	url='<?php echo gen_url();?>&lines='+lines;
-	open(url,'_self');
+   var lines=document.getElementById('toolbar.numLines').value;
+   url='<?php echo gen_url();?>&lines='+lines;
+   open(url,'_self');
 }
 
 function print_data(){
-	var mywin=window.open('','blank');
-	mywin.innerHTML=document.getElementById('dd').innerHTML;
-	mywin.print();
+   var mywin=window.open('','blank');
+   mywin.innerHTML=document.getElementById('dd').innerHTML;
+   mywin.print();
 }
 
 </script>

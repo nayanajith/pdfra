@@ -2,7 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet"
-	href="<?php echo CSS; ?>/common_css.php" type="text/css" />
+   href="<?php echo CSS; ?>/common_css.php" type="text/css" />
 </head>
 <body>
 <?php
@@ -58,8 +58,8 @@ opendb();
 mysql_select_DB("bit",$GLOBALS['CONNECTION']) or die(mysql_error());
 $result1= mysql_query("SELECT marks,grade,gpv FROM grades");
 while($row = mysql_fetch_array($result1)){
-	$grade_gpv[$row['grade']]=$row['gpv'];
-	$mark_gpv[$row['marks']]=$row['gpv'];
+   $grade_gpv[$row['grade']]=$row['gpv'];
+   $mark_gpv[$row['marks']]=$row['gpv'];
 }
 $grade_gpv['-AB-']=0;
 $mark_gpv['-AB-']=0;
@@ -72,8 +72,8 @@ $mark_gpv['-AB-']=0;
  echo "</pre>";
  */
 
-$grades	=array('E2104','E2204','E2304','E2404','E1104','E1204','E1304','E1404');
-$marks	=array('M2104','M2204','M2304','M2404','M1104','M1204','M1304','M1404');
+$grades   =array('E2104','E2204','E2304','E2404','E1104','E1204','E1304','E1404');
+$marks   =array('M2104','M2204','M2304','M2404','M1104','M1204','M1304','M1404');
 
 $result2 = mysql_query("
    SELECT Index_No,".implode(",",$grades)." FROM bit_all 
@@ -89,66 +89,66 @@ $result2 = mysql_query("
 mysql_query("DELETE FROM bit_gpa") or die(mysql_error());
 
 while($row = mysql_fetch_array($result2)){
-	$grade_gpvt=0;
-	$c_mine=0;
+   $grade_gpvt=0;
+   $c_mine=0;
 
-	foreach($grades as $grade){
-		$g=strtoupper(trim($row[$grade]," \n"));
-		$grade_gpvt+=($grade_gpv[$g]*4);
+   foreach($grades as $grade){
+      $g=strtoupper(trim($row[$grade]," \n"));
+      $grade_gpvt+=($grade_gpv[$g]*4);
 
-		if($row[$grade] == 'C-'){
-			$c_mine++;
-		}
-	}
-	$gpa=$grade_gpvt/(4*sizeof($grades));
+      if($row[$grade] == 'C-'){
+         $c_mine++;
+      }
+   }
+   $gpa=$grade_gpvt/(4*sizeof($grades));
 
-	mysql_query("INSERT INTO bit_gpa values('".$row['Index_No']."','$gpa','$c_mine')") or die(mysql_error());
-	//mysql_query("REPLACE INTO bit_gpa values('".$row['Index_No']."','$gpa','$c_mine')") or die(mysql_error());
-	//mysql_query("update bit_gpa set gpa='$gpa' where Index_No=".$row['Index_No']) or die(mysql_error());
+   mysql_query("INSERT INTO bit_gpa values('".$row['Index_No']."','$gpa','$c_mine')") or die(mysql_error());
+   //mysql_query("REPLACE INTO bit_gpa values('".$row['Index_No']."','$gpa','$c_mine')") or die(mysql_error());
+   //mysql_query("update bit_gpa set gpa='$gpa' where Index_No=".$row['Index_No']) or die(mysql_error());
 }
 
 $status=array(
-	"",
-	"<span style='background:blue;'>DIT</span>",
-	"<span style='background:orange;font-weight:bold'>DIT_PUSH</span>",
-	"<span style='background:red'>3Y_PUSH</span>",
-	"<span style='background:green;'>3Y</span>"
+   "",
+   "<span style='background:blue;'>DIT</span>",
+   "<span style='background:orange;font-weight:bold'>DIT_PUSH</span>",
+   "<span style='background:red'>3Y_PUSH</span>",
+   "<span style='background:green;'>3Y</span>"
 );
 
 function eligiblity($row){
-	global $marks;
-	$count_fail=0;
-	$c_minus	=0;
-	$c_minus_sem_1=0;
+   global $marks;
+   $count_fail=0;
+   $c_minus   =0;
+   $c_minus_sem_1=0;
 
-	foreach($marks as $mark){
-		if($row[$mark] < 50){
-			$count_fail++;
-		}
-		if(trim($row[str_replace("M", "E", $mark)]," ") === 'C-'){
-			$c_minus++;
-			if(strpos($mark,"E1")!==FALSE){
-				$c_minus_sem_1++;
-			}
-		}
-	}
+   foreach($marks as $mark){
+      if($row[$mark] < 50){
+         $count_fail++;
+      }
+      if(trim($row[str_replace("M", "E", $mark)]," ") === 'C-'){
+         $c_minus++;
+         if(strpos($mark,"E1")!==FALSE){
+            $c_minus_sem_1++;
+         }
+      }
+   }
 
-	if($count_fail==0){
-		return 1;
-	}elseif($count_fail==1 && $c_minus==1 &&  $row['gpa'] >= 1.5){
-		return 2;
-	}elseif($count_fail==3 && $c_minus==1 ){
-		return 3;
-	}elseif($count_fail<=2 && $row['gpa'] >= 1.5){
-		return 4;
-	}else{
-		return 0;
-	}
+   if($count_fail==0){
+      return 1;
+   }elseif($count_fail==1 && $c_minus==1 &&  $row['gpa'] >= 1.5){
+      return 2;
+   }elseif($count_fail==3 && $c_minus==1 ){
+      return 3;
+   }elseif($count_fail<=2 && $row['gpa'] >= 1.5){
+      return 4;
+   }else{
+      return 0;
+   }
 }
 $order_by="ORDER BY g.Index_No";
 
 if(isset($_GET['order_by'])&& $_GET['order_by']=='gpa'){
-	$order_by="ORDER BY g.gpa DESC";
+   $order_by="ORDER BY g.gpa DESC";
 }
 
 
@@ -162,53 +162,53 @@ echo "<table border=1 style='border-collapse:collapse'>";
 echo "<thead><tr><th><a href='?order_by=Index_No'>Index No</a></th>";
 
 foreach ($grades as $grade) {
-	echo "<th>".str_replace("E", "IT", $grade)."</th>";
+   echo "<th>".str_replace("E", "IT", $grade)."</th>";
 }
 echo "<th><a href='?order_by=gpa'>GPA</a></th><th>STATE</th><th>Add1</th><th>PUSH</th>";
 echo "</tr></thead>";
 
 while($row = mysql_fetch_array($result3)){
-	$ele=eligiblity($row);
+   $ele=eligiblity($row);
 
-	if (!($ele==2 || $ele==3)) {
-		continue;
-	}
+   if (!($ele==2 || $ele==3)) {
+      continue;
+   }
 
-	$avail=0;
-	$push=0;
-	$sem_1=false;
-	echo "<tr><td>".$row['Index_No']."</td>";
-	foreach($grades as $grade){
-		if(trim($row[$grade]," ")==='C-'){
-			$avail=10-$row['Add1'];
-			$push=50-$row[str_replace("E", "M", $grade)];
+   $avail=0;
+   $push=0;
+   $sem_1=false;
+   echo "<tr><td>".$row['Index_No']."</td>";
+   foreach($grades as $grade){
+      if(trim($row[$grade]," ")==='C-'){
+         $avail=10-$row['Add1'];
+         $push=50-$row[str_replace("E", "M", $grade)];
 
-			if(strpos($grade,"E1")!==FALSE){
-				$sem_1=true;
-			}else{
-				$sem_1=false;
-			}
-			
-			echo "<td align=right style='background:#5b92c8;font-weight:bold' title='".$row[str_replace("E", "M", $grade)]."'>".$row[$grade]."</td>";
-		}elseif($row[str_replace("E", "M", $grade)]<50){
-			echo "<td align=right style='background:#C9D7F1;font-style:italic;' title='".$row[str_replace("E", "M", $grade)]."'>".$row[$grade]."</td>";
-		}else{
-			echo "<td title='".$row[str_replace("E", "M", $grade)]."'>".$row[$grade]."</td>";
-		}
-	}
-	echo "<td>".$row['gpa']."</td>";
-	echo "<td>".$status[$ele]."</td>";
-	echo "<td>".$row['Add1']."</td>";
+         if(strpos($grade,"E1")!==FALSE){
+            $sem_1=true;
+         }else{
+            $sem_1=false;
+         }
+         
+         echo "<td align=right style='background:#5b92c8;font-weight:bold' title='".$row[str_replace("E", "M", $grade)]."'>".$row[$grade]."</td>";
+      }elseif($row[str_replace("E", "M", $grade)]<50){
+         echo "<td align=right style='background:#C9D7F1;font-style:italic;' title='".$row[str_replace("E", "M", $grade)]."'>".$row[$grade]."</td>";
+      }else{
+         echo "<td title='".$row[str_replace("E", "M", $grade)]."'>".$row[$grade]."</td>";
+      }
+   }
+   echo "<td>".$row['gpa']."</td>";
+   echo "<td>".$status[$ele]."</td>";
+   echo "<td>".$row['Add1']."</td>";
 
-	if ($ele==2 || $ele==3){
-		if($avail >= $push){
-			echo "<td title='".($row['gpa']+(1/32))."'>".$push."</td>";
-		}else{
-			echo "<td>cannot $push</td>";
-		}
-	}else{
-		echo "<td></td>";
-	}
+   if ($ele==2 || $ele==3){
+      if($avail >= $push){
+         echo "<td title='".($row['gpa']+(1/32))."'>".$push."</td>";
+      }else{
+         echo "<td>cannot $push</td>";
+      }
+   }else{
+      echo "<td></td>";
+   }
 }
 
 echo " </tr>\n";

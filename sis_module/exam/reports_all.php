@@ -80,13 +80,13 @@ function count_rows($table,$condition){
    WHERE    $condition 
    ";
 
-	$result  = mysql_query($query, $GLOBALS['CONNECTION']);
+   $result  = mysql_query($query, $GLOBALS['CONNECTION']);
    $row     = mysql_fetch_array($result);
    return $row['COUNT(indexno)'];
 }
 
 function count_rowsq($query){
-	$result  = mysql_query($query, $GLOBALS['CONNECTION']);
+   $result  = mysql_query($query, $GLOBALS['CONNECTION']);
    $row     = mysql_fetch_array($result);
    return $row['COUNT(indexno)'];
 }
@@ -95,7 +95,7 @@ function find_repeat($examid,$indexno,$courseid){
    //1011,0931,1031
    //09002323
    $query="select indexno from csmarks where examid='$examid' and courseid='$courseid' ORDER BY ABS(indexno) DESC LIMIT 1,1 ;";
-	$result  = mysql_query($query, $GLOBALS['CONNECTION']);
+   $result  = mysql_query($query, $GLOBALS['CONNECTION']);
    $row     = mysql_fetch_array($result);
 
    $index   =$row[0];
@@ -158,16 +158,16 @@ function print_table($table,$cols_th,$condition,$orderby,$title,$co){
       ORDER BY $orderby
       ";
 
-	   $result  = mysql_query($query, $GLOBALS['CONNECTION']);
+      $result  = mysql_query($query, $GLOBALS['CONNECTION']);
       echo "<table border=1 class=clean>\n<tr><th colspan=".sizeof($cols).">$title ($count)</th></tr>\n";
       echo "<tr><th>".implode('</th><th>',$th)."</th></tr>\n";
- 	   while($row = @ mysql_fetch_array($result)){
+       while($row = @ mysql_fetch_array($result)){
          echo "<tr>\n";
          foreach($cols as $col){
             echo "<td class=color".find_repeat($examid,$row['indexno']).">".$row[$col]."</td>\n"; 
          }
          echo "</tr>\n";
-	   }
+      }
       echo "</table>\n";
    }
    return $count;
@@ -198,16 +198,16 @@ function print_tableq($cols_th,$query,$orderby,$title,$co){
    }else{
       $count= count_rows($query);
 
-	   $result  = mysql_query($query, $GLOBALS['CONNECTION']);
+      $result  = mysql_query($query, $GLOBALS['CONNECTION']);
       echo "<table border=1 class=clean>\n<tr><th colspan=".sizeof($cols).">$title ($count)</th></tr>\n";
       echo "<tr><th>".implode('</th><th>',$th)."</th></tr>\n";
- 	   while($row = @ mysql_fetch_array($result)){
+       while($row = @ mysql_fetch_array($result)){
          echo "<tr>\n";
          foreach($cols as $col){
             echo "<td class=color".find_repeat($examid,$row['indexno']).">".$row[$col]."</td>\n"; 
          }
          echo "</tr>\n";
-	   }
+      }
       echo "</table>\n";
    }
    return $count;

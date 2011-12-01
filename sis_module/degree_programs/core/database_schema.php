@@ -3,120 +3,120 @@
 Program database tables set of tables for each program
 */
 include(A_CORE."/database_schema.php");
-$program_table_schemas	=array();
-$system_table_schemas	=array();
+$program_table_schemas   =array();
+$system_table_schemas   =array();
 
 $program_table_schemas['course']="CREATE TABLE `%scourse` (
-  `course_id` 			varchar(10)	NOT NULL,
-  `student_year` 		char(2) 		DEFAULT NULL,
-  `semester` 			char(2) 		DEFAULT NULL,
-  `course_name` 		varchar(60) DEFAULT NULL,
-  `prerequisite` 		varchar(50) DEFAULT NULL,
-  `lecture_credits` 	smallint(6) unsigned DEFAULT NULL,
+  `course_id`          varchar(10)   NOT NULL,
+  `student_year`       char(2)       DEFAULT NULL,
+  `semester`          char(2)       DEFAULT NULL,
+  `course_name`       varchar(60) DEFAULT NULL,
+  `prerequisite`       varchar(50) DEFAULT NULL,
+  `lecture_credits`    smallint(6) unsigned DEFAULT NULL,
   `practical_credits`smallint(6) unsigned DEFAULT '0',
   `maximum_students` smallint(6) unsigned DEFAULT '0',
-  `alt_course_id` 	varchar(10) DEFAULT NULL,
-  `offered_by` 		varchar(10) DEFAULT NULL,
-  `compulsory` 		char(1) 		DEFAULT NULL,
-  `non_grade` 			boolean 		DEFAULT NULL,
-  `non_credit` 		boolean 		DEFAULT NULL,
+  `alt_course_id`    varchar(10) DEFAULT NULL,
+  `offered_by`       varchar(10) DEFAULT NULL,
+  `compulsory`       char(1)       DEFAULT NULL,
+  `non_grade`          boolean       DEFAULT NULL,
+  `non_credit`       boolean       DEFAULT NULL,
   `pass_grade`       varchar(2)  DEFAULT NULL,
   `deleted`          boolean     DEFAULT false,
-  `note` 				varchar(300) DEFAULT NULL,
-	PRIMARY KEY (`course_id`)
+  `note`             varchar(300) DEFAULT NULL,
+   PRIMARY KEY (`course_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 
 $program_table_schemas['exam']="CREATE TABLE `%sexam` ( 
-	`exam_id` 			int 			NOT NULL AUTO_INCREMENT,
-	`exam_hid` 			varchar(20) NOT NULL,
-	`exam_old_id` 		varchar(6),
-  `semester` 			int 			,
-  `student_year` 		int 			,
-  `academic_year` 	varchar(10)	,
-  `exam_date` 			date 			,
-  `exam_time` 			time ,
-  `venue` 				varchar(25) ,
+   `exam_id`          int          NOT NULL AUTO_INCREMENT,
+   `exam_hid`          varchar(20) NOT NULL,
+   `exam_old_id`       varchar(6),
+  `semester`          int          ,
+  `student_year`       int          ,
+  `academic_year`    varchar(10)   ,
+  `exam_date`          date          ,
+  `exam_time`          time ,
+  `venue`             varchar(25) ,
   `deleted`          boolean     DEFAULT false,
-	`note` 				varchar(300) 	,
-	UNIQUE KEY (`exam_hid`),
-	PRIMARY KEY (`exam_id`)
+   `note`             varchar(300)    ,
+   UNIQUE KEY (`exam_hid`),
+   PRIMARY KEY (`exam_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 $program_table_schemas['rubric']="CREATE TABLE `%srubric` ( 
-	`exam_hid` 				varchar(20) 		NOT NULL,
-  	`course_id` 			varchar(10)	NOT NULL,
-	`paper` 					float 	DEFAULT null,
-  	`assignment`			float 	DEFAULT null,
-	`paper_must` 			boolean     DEFAULT false,
-	`assignment_must` 	boolean     DEFAULT false,
-  	`deleted`          	boolean     DEFAULT false,
-	`note` 					varchar(300) 	,
-	PRIMARY KEY (`exam_hid`,`course_id`)
+   `exam_hid`             varchar(20)       NOT NULL,
+     `course_id`          varchar(10)   NOT NULL,
+   `paper`                float    DEFAULT null,
+     `assignment`         float    DEFAULT null,
+   `paper_must`          boolean     DEFAULT false,
+   `assignment_must`    boolean     DEFAULT false,
+     `deleted`             boolean     DEFAULT false,
+   `note`                varchar(300)    ,
+   PRIMARY KEY (`exam_hid`,`course_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 
 $program_table_schemas['paper']="CREATE TABLE `%spaper`(
-   `paper_id`  		int 			NOT NULL AUTO_INCREMENT,
-   `course_id` 		varchar(50) NOT NULL,
-   `exam_hid`   		varchar(20) NOT NULL,
-   `examiner`  		varchar(200) NULL,
-   `no_of_questions` int 			NOT NULL,
-   `sections`  		varchar(20) NOT NULL,
-   `answer_file`   	varchar(200) NULL ,
+   `paper_id`        int          NOT NULL AUTO_INCREMENT,
+   `course_id`       varchar(50) NOT NULL,
+   `exam_hid`         varchar(20) NOT NULL,
+   `examiner`        varchar(200) NULL,
+   `no_of_questions` int          NOT NULL,
+   `sections`        varchar(20) NOT NULL,
+   `answer_file`      varchar(200) NULL ,
    `marking_logic_file`   varchar(200)   NULL ,
-   `state`     		varchar(50) NOT NULL,
+   `state`           varchar(50) NOT NULL,
    `deleted`          boolean     DEFAULT false,
-	`note`   			varchar(300) NULL,
+   `note`            varchar(300) NULL,
    PRIMARY KEY (`paper_id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 $program_table_schemas['eligibility']="CREATE TABLE `%seligibility`(
-  `eligibility_name` varchar(50) 	NOT NULL ,
-  `eligibility_year` int 				NOT NULL ,
-  `GPA1` 				double  	  	  	DEFAULT	NULL,
-  `GPA2` 				double  	  	  	DEFAULT	NULL,
-  `GPA3` 				double  	  	  	DEFAULT	NULL,
-  `GPA4` 				double  	  	  	DEFAULT	NULL,
-  `GPA` 					double  	  	  	DEFAULT	NULL,
-  `credits1`			double  	  	  	DEFAULT	NULL,
-  `credits2`			double  	  	  	DEFAULT	NULL,
-  `credits3`			double  	  	  	DEFAULT	NULL,
-  `credits4`			double  	  	  	DEFAULT	NULL,
-  `credits`				double  	  	  	DEFAULT	NULL,
-  `courses_year1` 	text   	  	  	DEFAULT	NULL,
-  `courses_year2` 	text   	  	  	DEFAULT	NULL,
-  `courses_year3` 	text   	  	  	DEFAULT	NULL,
-  `courses_year4` 	text   	  	  	DEFAULT	NULL,
-  `attendance` 		text   	  	  	DEFAULT	NULL,
-  `pre_eligibility` 	varchar(1000)  DEFAULT	NULL,
-  `deleted`          boolean       	DEFAULT false,
-  `note` 				varchar(300) 	DEFAULT NULL,
+  `eligibility_name` varchar(50)    NOT NULL ,
+  `eligibility_year` int             NOT NULL ,
+  `GPA1`             double               DEFAULT   NULL,
+  `GPA2`             double               DEFAULT   NULL,
+  `GPA3`             double               DEFAULT   NULL,
+  `GPA4`             double               DEFAULT   NULL,
+  `GPA`                double               DEFAULT   NULL,
+  `credits1`         double               DEFAULT   NULL,
+  `credits2`         double               DEFAULT   NULL,
+  `credits3`         double               DEFAULT   NULL,
+  `credits4`         double               DEFAULT   NULL,
+  `credits`            double               DEFAULT   NULL,
+  `courses_year1`    text                DEFAULT   NULL,
+  `courses_year2`    text                DEFAULT   NULL,
+  `courses_year3`    text                DEFAULT   NULL,
+  `courses_year4`    text                DEFAULT   NULL,
+  `attendance`       text                DEFAULT   NULL,
+  `pre_eligibility`    varchar(1000)  DEFAULT   NULL,
+  `deleted`          boolean          DEFAULT false,
+  `note`             varchar(300)    DEFAULT NULL,
   PRIMARY KEY (`eligibility_name`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 $program_table_schemas['push']="CREATE TABLE `%spush`(
-  `paper_id`  			int 			NOT NULL AUTO_INCREMENT,
-  `index_regexp` 		char(8) 		NOT NULL DEFAULT '',
-  `push` 				double 		DEFAULT NULL,
+  `paper_id`           int          NOT NULL AUTO_INCREMENT,
+  `index_regexp`       char(8)       NOT NULL DEFAULT '',
+  `push`             double       DEFAULT NULL,
   `deleted`          boolean     DEFAULT false,
-	`note` 				varchar(300) DEFAULT NULL,
+   `note`             varchar(300) DEFAULT NULL,
   PRIMARY KEY (`paper_id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 
 $program_table_schemas['log']="CREATE TABLE `%slog` (
-  `id` 					bigint(10) unsigned NOT NULL AUTO_INCREMENT,
-  `time` 				time,
-  `timestamp` 			timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` 			bigint(10) unsigned NOT NULL DEFAULT '0',
-  `ip` 					varchar(15) NOT NULL DEFAULT '',
-  `course` 				bigint(10) unsigned NOT NULL DEFAULT '0',
-  `module` 				varchar(20) NOT NULL DEFAULT '',
-  `cmid` 				bigint(10) unsigned NOT NULL DEFAULT '0',
-  `action` 				varchar(40) NOT NULL DEFAULT '',
-  `url` 					varchar(100) NOT NULL DEFAULT '',
-  `note` 				varchar(300) DEFAULT NULL,
+  `id`                bigint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time`             time,
+  `timestamp`          timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id`          bigint(10) unsigned NOT NULL DEFAULT '0',
+  `ip`                varchar(15) NOT NULL DEFAULT '',
+  `course`             bigint(10) unsigned NOT NULL DEFAULT '0',
+  `module`             varchar(20) NOT NULL DEFAULT '',
+  `cmid`             bigint(10) unsigned NOT NULL DEFAULT '0',
+  `action`             varchar(40) NOT NULL DEFAULT '',
+  `url`                varchar(100) NOT NULL DEFAULT '',
+  `note`             varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
@@ -128,64 +128,64 @@ EO->Exam offence
 */
 
 $program_table_schemas['marks']="CREATE TABLE `%smarks` (
-  `exam_hid` 			varchar(20) 		NOT NULL,
-  `course_id` 			char(10) 	NOT NULL,
-  `index_no` 			char(8) 		NOT NULL,
-  `paper_mark` 		int(3) 		unsigned DEFAULT null,
-  `assignment_mark` 	int(3) 		unsigned DEFAULT null,
-  `final_mark` 		varchar(3) 	DEFAULT null,
-  `push` 				int(3) 		unsigned DEFAULT null,
-	`state`				enum('PR','AB','MC','EO') default 'PR',
-  `can_release` 		boolean 		DEFAULT true,
+  `exam_hid`          varchar(20)       NOT NULL,
+  `course_id`          char(10)    NOT NULL,
+  `index_no`          char(8)       NOT NULL,
+  `paper_mark`       int(3)       unsigned DEFAULT null,
+  `assignment_mark`    int(3)       unsigned DEFAULT null,
+  `final_mark`       varchar(3)    DEFAULT null,
+  `push`             int(3)       unsigned DEFAULT null,
+   `state`            enum('PR','AB','MC','EO') default 'PR',
+  `can_release`       boolean       DEFAULT true,
   `deleted`          boolean     DEFAULT false,
-  `note` 				varchar(300) 	DEFAULT NULL,
+  `note`             varchar(300)    DEFAULT NULL,
   PRIMARY KEY (`exam_hid`,`course_id`,`index_no`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 $program_table_schemas['student']="CREATE TABLE `%sstudent`(
-	`rid` 				bigint(10) 		unsigned NOT NULL AUTO_INCREMENT,
-	`index_no` 			varchar(8) 		DEFAULT NULL,
-   `registration_no` varchar(20) 	DEFAULT NULL,
-  	`batch_id` 			varchar(12) 	DEFAULT NULL COMMENT 'Batch',
-	`full_name` 		varchar(500)	DEFAULT NULL,
-	`initials` 			varchar(20) 	DEFAULT NULL,
-	`last_name` 		varchar(300)	DEFAULT NULL,
-	`permanent_address` varchar(500) DEFAULT NULL,
-	`current_address` varchar(500) 	DEFAULT NULL,
-	`phone` 				varchar(15) 	DEFAULT NULL,
-	`email` 				varchar(200) 	DEFAULT NULL,
-	`gender` 			enum('M','F') 	DEFAULT 'M',
-	`title` 				enum('MR','MS','MRS','REV') DEFAULT 'MR',
-	`designation` 		varchar(200) 	DEFAULT NULL,
-	`work_place` 		varchar(300) 	DEFAULT NULL,
-	`NID` 				varchar(15) 	DEFAULT NULL,
-	`current_year` 	varchar(1) 		DEFAULT NULL,
-	`degree_GPA` 		float(5,2) 		DEFAULT NULL,
-	`class_GPA` 		float(5,2) 		DEFAULT NULL,
-	`date_of_regist` 	date 				DEFAULT NULL,
-	`date_of_graduation` date 			DEFAULT NULL,
-	`date_of_birth` 	date 				DEFAULT NULL,
-	`province` 			varchar(100) 	DEFAULT NULL,
-	`district` 			varchar(100) 	DEFAULT NULL,
-	`nationality` 		varchar(100)	DEFAULT NULL,
-	`religion` 			varchar(100)	DEFAULT NULL,
-	`ugc_z_score` 		varchar(100)	DEFAULT NULL,
-	`z_score` 			varchar(100)	DEFAULT NULL,
-	`AL_index_no` 		varchar(100)	DEFAULT NULL,
-	`AL_subject` 		varchar(100)	DEFAULT NULL,
-	`AL_result` 		varchar(100) 	DEFAULT NULL,
-	`AL_general_english` varchar(100) DEFAULT NULL,
-	`AL_general_knowledge` varchar(100) DEFAULT NULL,
-	`AL_district` 		varchar(100) 	DEFAULT NULL,
-	`AL_district_no` 	varchar(100) 	DEFAULT NULL,
-	`photo` 				varchar(256) 	DEFAULT NULL,
-	`amount`				double 			DEFAULT NULL,
-	`date_of_paid` 	date 				DEFAULT NULL,
-	`paid_branch` 		varchar(100) 	DEFAULT NULL,
-	`registered` 		boolean 			DEFAULT NULL,
-	`deleted` 			boolean 			DEFAULT false,
-	`status` 			enum('READING','TRANSFERED','CANCELED','BANNED','GRADUATED') DEFAULT 'READING',
-	`note` 				varchar(300) 	DEFAULT NULL,
+   `rid`             bigint(10)       unsigned NOT NULL AUTO_INCREMENT,
+   `index_no`          varchar(8)       DEFAULT NULL,
+   `registration_no` varchar(20)    DEFAULT NULL,
+     `batch_id`          varchar(12)    DEFAULT NULL COMMENT 'Batch',
+   `full_name`       varchar(500)   DEFAULT NULL,
+   `initials`          varchar(20)    DEFAULT NULL,
+   `last_name`       varchar(300)   DEFAULT NULL,
+   `permanent_address` varchar(500) DEFAULT NULL,
+   `current_address` varchar(500)    DEFAULT NULL,
+   `phone`             varchar(15)    DEFAULT NULL,
+   `email`             varchar(200)    DEFAULT NULL,
+   `gender`          enum('M','F')    DEFAULT 'M',
+   `title`             enum('MR','MS','MRS','REV') DEFAULT 'MR',
+   `designation`       varchar(200)    DEFAULT NULL,
+   `work_place`       varchar(300)    DEFAULT NULL,
+   `NID`             varchar(15)    DEFAULT NULL,
+   `current_year`    varchar(1)       DEFAULT NULL,
+   `degree_GPA`       float(5,2)       DEFAULT NULL,
+   `class_GPA`       float(5,2)       DEFAULT NULL,
+   `date_of_regist`    date             DEFAULT NULL,
+   `date_of_graduation` date          DEFAULT NULL,
+   `date_of_birth`    date             DEFAULT NULL,
+   `province`          varchar(100)    DEFAULT NULL,
+   `district`          varchar(100)    DEFAULT NULL,
+   `nationality`       varchar(100)   DEFAULT NULL,
+   `religion`          varchar(100)   DEFAULT NULL,
+   `ugc_z_score`       varchar(100)   DEFAULT NULL,
+   `z_score`          varchar(100)   DEFAULT NULL,
+   `AL_index_no`       varchar(100)   DEFAULT NULL,
+   `AL_subject`       varchar(100)   DEFAULT NULL,
+   `AL_result`       varchar(100)    DEFAULT NULL,
+   `AL_general_english` varchar(100) DEFAULT NULL,
+   `AL_general_knowledge` varchar(100) DEFAULT NULL,
+   `AL_district`       varchar(100)    DEFAULT NULL,
+   `AL_district_no`    varchar(100)    DEFAULT NULL,
+   `photo`             varchar(256)    DEFAULT NULL,
+   `amount`            double          DEFAULT NULL,
+   `date_of_paid`    date             DEFAULT NULL,
+   `paid_branch`       varchar(100)    DEFAULT NULL,
+   `registered`       boolean          DEFAULT NULL,
+   `deleted`          boolean          DEFAULT false,
+   `status`          enum('READING','TRANSFERED','CANCELED','BANNED','GRADUATED') DEFAULT 'READING',
+   `note`             varchar(300)    DEFAULT NULL,
 
 UNIQUE KEY (`index_no`),
 UNIQUE KEY (`registration_no`),
@@ -193,100 +193,100 @@ PRIMARY KEY(`rid`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8";
 
 $program_table_schemas['state']="CREATE TABLE `%sstate` (
-  `index_no` 			varchar(8) 	DEFAULT NULL,
-  `current_year` 		char(1) 		DEFAULT NULL,
-  `status` 				varchar(300) DEFAULT NULL,
-  `comment_year1` 	text 			DEFAULT NULL,
-  `note_year1` 		text 			DEFAULT NULL,
-  `comment_year2` 	text 			DEFAULT NULL,
-  `note_year2` 		text 			DEFAULT NULL,
-  `comment_year3` 	text 			DEFAULT NULL,
-  `note_year3` 		text 			DEFAULT NULL,
-  `comment_year4` 	text 			DEFAULT NULL,
-  `note_year4` 		text 			DEFAULT NULL,
+  `index_no`          varchar(8)    DEFAULT NULL,
+  `current_year`       char(1)       DEFAULT NULL,
+  `status`             varchar(300) DEFAULT NULL,
+  `comment_year1`    text          DEFAULT NULL,
+  `note_year1`       text          DEFAULT NULL,
+  `comment_year2`    text          DEFAULT NULL,
+  `note_year2`       text          DEFAULT NULL,
+  `comment_year3`    text          DEFAULT NULL,
+  `note_year3`       text          DEFAULT NULL,
+  `comment_year4`    text          DEFAULT NULL,
+  `note_year4`       text          DEFAULT NULL,
   `deleted`          boolean     DEFAULT false,
-  `note` 				varchar(300) 	DEFAULT NULL
+  `note`             varchar(300)    DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 $program_table_schemas['gpa']="CREATE TABLE `%sgpa` (
-  `index_no` 			char(8) 		NOT NULL DEFAULT '',
-  `degree_class` 		char(1) 		NOT NULL DEFAULT '',
-  `GPV1` 				double 		DEFAULT NULL,
-  `credits1` 			int(3) 		NOT NULL DEFAULT '0',
-  `GPA1` 				double 		NOT NULL DEFAULT '0',
-  `GPV2` 				double 		DEFAULT NULL,
-  `credits2` 			int(3) 		NOT NULL DEFAULT '0',
-  `GPA2` 				double 		NOT NULL DEFAULT '0',
-  `GPV3` 				double 		DEFAULT NULL,
-  `credits3` 			int(3) 		NOT NULL DEFAULT '0',
-  `GPA3` 				double 		NOT NULL DEFAULT '0',
-  `GPV4` 				double 		DEFAULT NULL,
-  `credits4` 			int(3) 		NOT NULL DEFAULT '0',
-  `GPA4` 				double 		NOT NULL DEFAULT '0',
-  `GPV` 					double 		DEFAULT NULL,
-  `GPA` 					float(5,2) 	DEFAULT NULL,
-  `credits` 			int(4) 		NOT NULL DEFAULT '0',
+  `index_no`          char(8)       NOT NULL DEFAULT '',
+  `degree_class`       char(1)       NOT NULL DEFAULT '',
+  `GPV1`             double       DEFAULT NULL,
+  `credits1`          int(3)       NOT NULL DEFAULT '0',
+  `GPA1`             double       NOT NULL DEFAULT '0',
+  `GPV2`             double       DEFAULT NULL,
+  `credits2`          int(3)       NOT NULL DEFAULT '0',
+  `GPA2`             double       NOT NULL DEFAULT '0',
+  `GPV3`             double       DEFAULT NULL,
+  `credits3`          int(3)       NOT NULL DEFAULT '0',
+  `GPA3`             double       NOT NULL DEFAULT '0',
+  `GPV4`             double       DEFAULT NULL,
+  `credits4`          int(3)       NOT NULL DEFAULT '0',
+  `GPA4`             double       NOT NULL DEFAULT '0',
+  `GPV`                double       DEFAULT NULL,
+  `GPA`                float(5,2)    DEFAULT NULL,
+  `credits`          int(4)       NOT NULL DEFAULT '0',
   `deleted`          boolean     DEFAULT false,
-	`note` 				varchar(300) 	NOT NULL DEFAULT '0',
+   `note`             varchar(300)    NOT NULL DEFAULT '0',
    PRIMARY KEY (`index_no`,`degree_class`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
  
 $program_table_schemas['course_selection']="CREATE TABLE `%sscourse_selection`(
-  `index_no` 			char(8) 		NOT NULL DEFAULT '',
-  `courses_year1`		text 			DEFAULT NULL,
-  `attendance_year1`	text 			DEFAULT NULL,
-  `courses_year2`		text 			DEFAULT NULL,
-  `attendance_year2`	text 			DEFAULT NULL,
-  `courses_year3`		text 			DEFAULT NULL,
-  `attendance_year3`	text 			DEFAULT NULL,
-  `courses_year4`		text 			DEFAULT NULL,
-  `attendance_year4`	text 			DEFAULT NULL,
+  `index_no`          char(8)       NOT NULL DEFAULT '',
+  `courses_year1`      text          DEFAULT NULL,
+  `attendance_year1`   text          DEFAULT NULL,
+  `courses_year2`      text          DEFAULT NULL,
+  `attendance_year2`   text          DEFAULT NULL,
+  `courses_year3`      text          DEFAULT NULL,
+  `attendance_year3`   text          DEFAULT NULL,
+  `courses_year4`      text          DEFAULT NULL,
+  `attendance_year4`   text          DEFAULT NULL,
    PRIMARY KEY (`index_no`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 
 $program_table_schemas['batch']="CREATE TABLE `%sbatch` (
-  `batch_id` 			varchar(50) NOT NULL DEFAULT '',
-  `admission_year` 	varchar(15) DEFAULT NULL,
-  `code` 				varchar(2) DEFAULT NULL,
+  `batch_id`          varchar(50) NOT NULL DEFAULT '',
+  `admission_year`    varchar(15) DEFAULT NULL,
+  `code`             varchar(2) DEFAULT NULL,
   `date_of_addmission` date DEFAULT NULL,
   `deleted`          boolean     DEFAULT false,
-	`note` 				varchar(300) DEFAULT NULL,
+   `note`             varchar(300) DEFAULT NULL,
    PRIMARY KEY (`batch_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 $program_table_schemas['filter']="CREATE TABLE `%sfilter` (
-  `filter_name` 		varchar(50) DEFAULT NULL,
-  `table_name` 		varchar(50) DEFAULT NULL,
-  `user_id` 			INT NOT NULL,
-  `filter` 				text,
+  `filter_name`       varchar(50) DEFAULT NULL,
+  `table_name`       varchar(50) DEFAULT NULL,
+  `user_id`          INT NOT NULL,
+  `filter`             text,
   `deleted`          boolean     DEFAULT false,
-	`note` 				varchar(300) DEFAULT NULL,
+   `note`             varchar(300) DEFAULT NULL,
    PRIMARY KEY (`filter_name`,`table_name`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 $program_table_schemas['mcq_paper']="CREATE TABLE %smcq_paper(
-   `paper_id`  				int NOT NULL AUTO_INCREMENT,
-   `course_id` 				varchar(50) NOT NULL,
-   `exam_id`   				varchar(50) NOT NULL,
-   `examiner`  				varchar(200)   NULL,
-   `no_of_questions`  		int NOT NULL,
-   `sections`  				varchar(20) NOT NULL,
-   `answer_file`   			varchar(200)   NULL,
-   `mark_logic_file`   		varchar(200)   NULL,
-   `state`     				varchar(50) NOT NULL,
-   `index_delimiter` 		varchar(10) DEFAULT ';:;',
-   `question_delimiter` 	varchar(10) DEFAULT ';',
-   `answer_delimiter` 		varchar(10) DEFAULT ';',
-   `first_line_header` 		boolean DEFAULT true,
-   `blank_answer` 			varchar(10) DEFAULT 'BLANK',
-   `no_answer` 				varchar(10) DEFAULT 'NOA',
+   `paper_id`              int NOT NULL AUTO_INCREMENT,
+   `course_id`             varchar(50) NOT NULL,
+   `exam_id`               varchar(50) NOT NULL,
+   `examiner`              varchar(200)   NULL,
+   `no_of_questions`        int NOT NULL,
+   `sections`              varchar(20) NOT NULL,
+   `answer_file`            varchar(200)   NULL,
+   `mark_logic_file`         varchar(200)   NULL,
+   `state`                 varchar(50) NOT NULL,
+   `index_delimiter`       varchar(10) DEFAULT ';:;',
+   `question_delimiter`    varchar(10) DEFAULT ';',
+   `answer_delimiter`       varchar(10) DEFAULT ';',
+   `first_line_header`       boolean DEFAULT true,
+   `blank_answer`          varchar(10) DEFAULT 'BLANK',
+   `no_answer`             varchar(10) DEFAULT 'NOA',
    `logic_question_delimiter` varchar(10) DEFAULT ';',
    `logic_option_delimiter` varchar(10) DEFAULT ';',
    `logic_first_line_header` boolean DEFAULT true,
-   `note`   					 text  NULL,
+   `note`                   text  NULL,
    PRIMARY KEY (`paper_id`),
-	UNIQUE KEY (`course_id`,`exam_id`),
+   UNIQUE KEY (`course_id`,`exam_id`),
    FOREIGN KEY (`exam_id`) REFERENCES %sexam(`exam_id`),
    FOREIGN KEY (`course_id`) REFERENCES %scourse(`course_id`)
    ON UPDATE CASCADE ON DELETE SET NULL
@@ -298,7 +298,7 @@ $program_table_schemas['mcq_answers']="CREATE TABLE %smcq_answers(
    `answers`   text NULL,
    `marks`     int NULL,
    `state`     varchar(50) NOT NULL,
-   `note`   	text NULL,
+   `note`      text NULL,
    PRIMARY KEY (`index_no`,`paper_id`),
    FOREIGN KEY (`paper_id`) REFERENCES %spapr(`paper_id`)
    ON UPDATE CASCADE ON DELETE SET NULL
@@ -320,17 +320,17 @@ $program_table_schemas['mcq_marking_logic']="CREATE TABLE %smcq_marking_logic(
    `E`         int NULL,
    `BLANK`     int NULL,
    `NOA`       int NULL,
-   `note`   	text NULL,
+   `note`      text NULL,
    PRIMARY KEY (`question`,`option_id`,`paper_id`),
    FOREIGN KEY (`paper_id`) REFERENCES %spapr(`paper_id`)
    ON UPDATE CASCADE ON DELETE SET NULL
 );";
 
 $program_table_schemas['mcq_marks']="CREATE TABLE %smcq_marks(
-   `index_no`  	varchar(50) NOT NULL,
-   `paper_id`  	int NOT NULL,
-   `section`   	int NOT NULL,
-   `mark`      	int NOT NULL,
+   `index_no`     varchar(50) NOT NULL,
+   `paper_id`     int NOT NULL,
+   `section`      int NOT NULL,
+   `mark`         int NOT NULL,
    `manual_mark`  int NOT NULL DEFAULT 0,
    PRIMARY KEY (`index_no`,`paper_id`,`section`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
@@ -352,17 +352,17 @@ System Database tables
 */
          
 $system_table_schemas['program']="CREATE TABLE `program` (
-  `id` 					int(3) unsigned NOT NULL AUTO_INCREMENT,
-  `short_name` 		varchar(20) NOT NULL,
-  `full_name` 			varchar(300) NOT NULL,
-  `logo` 				varchar(300) NOT NULL,
-  `degree` 				varchar(500) NOT NULL,
-  `class` 				varchar(500) NOT NULL,
-  `grade` 				varchar(500) NOT NULL,
-  `gpv` 					varchar(500) NOT NULL,
-  `table_prefix` 		varchar(100) NOT NULL,
+  `id`                int(3) unsigned NOT NULL AUTO_INCREMENT,
+  `short_name`       varchar(20) NOT NULL,
+  `full_name`          varchar(300) NOT NULL,
+  `logo`             varchar(300) NOT NULL,
+  `degree`             varchar(500) NOT NULL,
+  `class`             varchar(500) NOT NULL,
+  `grade`             varchar(500) NOT NULL,
+  `gpv`                varchar(500) NOT NULL,
+  `table_prefix`       varchar(100) NOT NULL,
   `deleted`          boolean     DEFAULT false,
-	`note` 				varchar(300) DEFAULT NULL,
+   `note`             varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
@@ -372,20 +372,20 @@ $system_table_schemas['program']="CREATE TABLE `program` (
 add_table_prefix($system_table_schemas,MODULE);
 
 //Check and if not exists, create the database and the program table
-$GLOBALS['CONNECTION'] 	= mysql_connect($GLOBALS['DB_HOST'], $GLOBALS['DB_USER'], $GLOBALS['DB_PASS']);
-$db_selected 				= mysql_select_db($GLOBALS['DB'], $GLOBALS['CONNECTION']);
+$GLOBALS['CONNECTION']    = mysql_connect($GLOBALS['DB_HOST'], $GLOBALS['DB_USER'], $GLOBALS['DB_PASS']);
+$db_selected             = mysql_select_db($GLOBALS['DB'], $GLOBALS['CONNECTION']);
 
 if (!$db_selected) {
-	log_msg($GLOBALS['DB'],"Creating database and tables...");
-	mysql_query("CREATE DATABASE ".$GLOBALS['DB'],$GLOBALS['CONNECTION']);
-	create_system_tables();
-	$db_selected = mysql_select_db($GLOBALS['DB'], $GLOBALS['CONNECTION']);
-	if ($db_selected) {
-		log_msg($GLOBALS['DB'],"Successfully created the database!");
-	}
+   log_msg($GLOBALS['DB'],"Creating database and tables...");
+   mysql_query("CREATE DATABASE ".$GLOBALS['DB'],$GLOBALS['CONNECTION']);
+   create_system_tables();
+   $db_selected = mysql_select_db($GLOBALS['DB'], $GLOBALS['CONNECTION']);
+   if ($db_selected) {
+      log_msg($GLOBALS['DB'],"Successfully created the database!");
+   }
 }elseif(isset($_REQUEST['create_tables']) && $_REQUEST['create_tables'] == 'true'){
-	log_msg($GLOBALS['DB'],"Creating tables...");
-	create_system_tables();
+   log_msg($GLOBALS['DB'],"Creating tables...");
+   create_system_tables();
 }
  */
 ?>

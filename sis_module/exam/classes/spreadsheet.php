@@ -16,22 +16,22 @@ $_SESSION['host']=$_SERVER['REMOTE_ADDR'];
 $rows=$_GET['rows'];
 
 if ($rows <= 1){
-	$rows=10;
+   $rows=10;
 }
 
 
 $cols=array("id"=>"","INDEX_NO"=>"","PAPER"=>"","ASSIGNMENT"=>"","PUSH"=>"");
 $xml=null;
-$index_no	="";
-$paper 		="";
-$assignment	="";
-$push		="";
+$index_no   ="";
+$paper       ="";
+$assignment   ="";
+$push      ="";
 
 /*Load xml database if exists*/
 if (file_exists($xml_marks) && !isset($_GET['expand'])){
-	$xml = simplexml_load_file($xml_marks);	
-	/*Number of rows from xml*/
-	$rows=sizeof($xml->student);
+   $xml = simplexml_load_file($xml_marks);   
+   /*Number of rows from xml*/
+   $rows=sizeof($xml->student);
 }
 
 echo "<input type=hidden value='$rows' id=num_rows>";
@@ -68,52 +68,52 @@ echo "<tr style='visibility:vissible;overflow;hidden;height:0px;'>
 <th width=50px>PUSH</th>
 </tr>";
 if($rows){
-	for ($i=1; $i<$rows; $i++){
-		
-		/*Reading data from xml*/
-		if($xml && !isset($_GET['expand'])){
-			foreach($xml->student[$i-1]->attributes() as $attribute => $value) {
-				$cols[$attribute]=$value;
-			}
-		}
-		
-		echo "<tr>
-		<td id='0:$i' class='serial_no' title='0:$i'>
-		$i
-		</td>
-		<td>
-			<input size=7 type=text id='1:$i' name='1:$i' class='index_no' title='1:$i' value='".$cols['INDEX_NO']."' >
-		</td>
-		<td>
-			<input size=3: type=text id='2:$i' name='2:$i' class='paper' title='2:$i' value='".$cols['PAPER']."'  onchange='calculate_marks($i)'>
-		</td>
-		<td>
-			<input size=3 type=text id='3:$i' name='3:$i' class='assignment'  title='3:$i'  value='".$cols['ASSIGNMENT']."' onchange='calculate_marks($i)'>
-		</td>
-		<td class='final'>
-			<div id='4:$i'  title='4:$i' ></div>
-		</td>
-		<td class='grade'>
-			<div id='5:$i'  title='5:$i' ></div>
-		</td>
-		<td class='gpv'>
-			<div id='6:$i'  title='6:$i' ></div>
-		</td>
-		<td class='suggestion'>
-			<div id='7:$i' title='7:$i' ></div>
-		</td>
-		<td>
-			<input size=2 type=text id='8:$i'  title='8:$i' class='push' value='".$cols['PUSH']."' onchange='calculate_marks($i)'>
-		</td>
-	</tr>";
-	}
+   for ($i=1; $i<$rows; $i++){
+      
+      /*Reading data from xml*/
+      if($xml && !isset($_GET['expand'])){
+         foreach($xml->student[$i-1]->attributes() as $attribute => $value) {
+            $cols[$attribute]=$value;
+         }
+      }
+      
+      echo "<tr>
+      <td id='0:$i' class='serial_no' title='0:$i'>
+      $i
+      </td>
+      <td>
+         <input size=7 type=text id='1:$i' name='1:$i' class='index_no' title='1:$i' value='".$cols['INDEX_NO']."' >
+      </td>
+      <td>
+         <input size=3: type=text id='2:$i' name='2:$i' class='paper' title='2:$i' value='".$cols['PAPER']."'  onchange='calculate_marks($i)'>
+      </td>
+      <td>
+         <input size=3 type=text id='3:$i' name='3:$i' class='assignment'  title='3:$i'  value='".$cols['ASSIGNMENT']."' onchange='calculate_marks($i)'>
+      </td>
+      <td class='final'>
+         <div id='4:$i'  title='4:$i' ></div>
+      </td>
+      <td class='grade'>
+         <div id='5:$i'  title='5:$i' ></div>
+      </td>
+      <td class='gpv'>
+         <div id='6:$i'  title='6:$i' ></div>
+      </td>
+      <td class='suggestion'>
+         <div id='7:$i' title='7:$i' ></div>
+      </td>
+      <td>
+         <input size=2 type=text id='8:$i'  title='8:$i' class='push' value='".$cols['PUSH']."' onchange='calculate_marks($i)'>
+      </td>
+   </tr>";
+   }
 }else{
-	echo "<tr>
-	<td><input type=text></td>
-	<td><input type=text></td>
-	<td><input type=text></td>
-	<td><input type=text></td>
-	<td><input type=text></td>
+   echo "<tr>
+   <td><input type=text></td>
+   <td><input type=text></td>
+   <td><input type=text></td>
+   <td><input type=text></td>
+   <td><input type=text></td>
 </tr>";
 }
 echo "</table></div>";

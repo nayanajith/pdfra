@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="../css/common_css.php"
-	type="text/css" />
+   type="text/css" />
 hello
 <span class="baloon_body" >
 aljkdf alskdjf a

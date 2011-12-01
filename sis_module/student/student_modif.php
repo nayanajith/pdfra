@@ -61,12 +61,12 @@ $al_subjects=array(
 
 $district_inner="";
 foreach($districts as $key=>$value){
-	$district_inner.="<option value='$key'>$value</option>";
+   $district_inner.="<option value='$key'>$value</option>";
 }
 
 $province_inner="";
 foreach($provinces as $key=>$value){
-	$province_inner.="<option value='$key'>$value</option>";
+   $province_inner.="<option value='$key'>$value</option>";
 }
 
 
@@ -99,7 +99,7 @@ $gender_inner="
 $status_arr=array('READING','TRANSFERED','CANCELED','GRADUATED');
 $state_inner="";
 foreach($status_arr as $key ){
-	$state_inner.="<option value='$key'>$key</option>";
+   $state_inner.="<option value='$key'>$key</option>";
 };
 
 $batch_id_inner="";
@@ -107,7 +107,7 @@ $batch_id_inner="";
 $arr=exec_query("SELECT batch_id FROM ".$GLOBALS['P_TABLES']['batch'],Q_RET_ARRAY);
 
 foreach($arr as $key => $array){
-	$batch_id_inner.="<option value='".$array['batch_id']."'>".$array['batch_id']."</option>";
+   $batch_id_inner.="<option value='".$array['batch_id']."'>".$array['batch_id']."</option>";
 
 }
 
@@ -122,49 +122,49 @@ $al_subjects_checkboxes="";
 $cols=2;
 $td=0;
 foreach($al_subjects as $code=>$subject){
-	if($td == 0){
-		$al_subjects_checkboxes.="<tr>";
-	}
-	$al_subjects_checkboxes.="<td>$subject</td><td><select id='$subject' ><option>-</option><option value='A'>A</option><option value='B'>B</option><option value='C'>C</option><option value='S'>S</option></select></td>";
-	$td++;
-	if($td==$cols || !next($al_subjects)){
-		$al_subjects_checkboxes.="</tr>";
-		$td=0;
-	}
+   if($td == 0){
+      $al_subjects_checkboxes.="<tr>";
+   }
+   $al_subjects_checkboxes.="<td>$subject</td><td><select id='$subject' ><option>-</option><option value='A'>A</option><option value='B'>B</option><option value='C'>C</option><option value='S'>S</option></select></td>";
+   $td++;
+   if($td==$cols || !next($al_subjects)){
+      $al_subjects_checkboxes.="</tr>";
+      $td=0;
+   }
 }
 
 d_r("dijit.form.DropDownButton");
 $al_subject_custom='
 <div dojoType="dijit.form.DropDownButton">
-	<span>
+   <span>
       A/L  Results
    </span>
    <div dojoType="dijit.TooltipDialog" id="checkbox_div">
-		<table>
-		'.$al_subjects_checkboxes.'
-		</table>
-		<br/>
+      <table>
+      '.$al_subjects_checkboxes.'
+      </table>
+      <br/>
       <button dojoType="dijit.form.Button" type="submit">
          OK
-  			<script type="dojo/method" event="onClick" args="evt">
+           <script type="dojo/method" event="onClick" args="evt">
             var parent=document.getElementById("checkbox_div");
-				var my_array = parent.getElementsByTagName("select");
-				var retvalue = new Array();
+            var my_array = parent.getElementsByTagName("select");
+            var retvalue = new Array();
             var i;
-				var al_subs="";
-				var al_result="";
-				var comma="";
+            var al_subs="";
+            var al_result="";
+            var comma="";
             for(i = 0; i < my_array.length; i++){
-						if(my_array[i].value != "-"){
-							al_subs+=comma+my_array[i].id;
-							al_result+=comma+my_array[i].id+":"+my_array[i].value;
-							comma=",";
-						}
-				}
+                  if(my_array[i].value != "-"){
+                     al_subs+=comma+my_array[i].id;
+                     al_result+=comma+my_array[i].id+":"+my_array[i].value;
+                     comma=",";
+                  }
+            }
 
-				AL_subjects.attr("value",al_subs);
-				document.getElementById("AL_result").value=al_result;
-			</script>
+            AL_subjects.attr("value",al_subs);
+            document.getElementById("AL_result").value=al_result;
+         </script>
       </button>
    </div>
 </div>
@@ -174,256 +174,256 @@ $al_subject_custom='
 
 $fields=array(
 "index_no"=>array(
-		"length"=>"140",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"true",
-		"label"=>"Index no",
-		"value"=>""),	
+      "length"=>"140",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"true",
+      "label"=>"Index no",
+      "value"=>""),   
 "registration_no"=>array(
-		"length"=>"140",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Registration no",
-		"value"=>""),	
+      "length"=>"140",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Registration no",
+      "value"=>""),   
 "full_name"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.SimpleTextarea",
-		"required"=>"false",
-		"label"=>"Full name",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.SimpleTextarea",
+      "required"=>"false",
+      "label"=>"Full name",
+      "value"=>""),   
 "initials"=>array(
-		"length"=>"140",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Initials",
-		"value"=>""),	
+      "length"=>"140",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Initials",
+      "value"=>""),   
 "last_name"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.SimpleTextarea",
-		"required"=>"false",
-		"label"=>"Last name",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.SimpleTextarea",
+      "required"=>"false",
+      "label"=>"Last name",
+      "value"=>""),   
 "permanent_address"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.SimpleTextarea",
-		"required"=>"false",
-		"label"=>"Permanent address",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.SimpleTextarea",
+      "required"=>"false",
+      "label"=>"Permanent address",
+      "value"=>""),   
 "current_address"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.SimpleTextarea",
-		"required"=>"false",
-		"label"=>"Current address",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.SimpleTextarea",
+      "required"=>"false",
+      "label"=>"Current address",
+      "value"=>""),   
 "phone"=>array(
-		"length"=>"105",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Phone",
-		"value"=>""),	
+      "length"=>"105",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Phone",
+      "value"=>""),   
 "gender"=>array(
-		"length"=>"50",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"false",
-		"inner"=>$gender_inner,
-		"label"=>"Gender",
-		"value"=>""),	
+      "length"=>"50",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"false",
+      "inner"=>$gender_inner,
+      "label"=>"Gender",
+      "value"=>""),   
 "title"=>array(
-		"length"=>"56",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"false",
-		"inner"=>$title_inner,
-		"label"=>"Title",
-		"value"=>""),	
+      "length"=>"56",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"false",
+      "inner"=>$title_inner,
+      "label"=>"Title",
+      "value"=>""),   
 "NID"=>array(
-		"length"=>"150",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"regExp"=>"\b[0-9]{9}[vV]{1}\b",
-		"prompMessage"	=>"Validate NIC Number",
-		"invalidMessage"=>"Please enter a valid NIC Number",
-		"required"=>"false",
-		"label"=>"NIC Number",
-		"value"=>""),	
+      "length"=>"150",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "regExp"=>"\b[0-9]{9}[vV]{1}\b",
+      "prompMessage"   =>"Validate NIC Number",
+      "invalidMessage"=>"Please enter a valid NIC Number",
+      "required"=>"false",
+      "label"=>"NIC Number",
+      "value"=>""),   
 "current_year"=>array(
-		"length"=>"70",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Current year",
-		"value"=>""),	
+      "length"=>"70",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Current year",
+      "value"=>""),   
 "degree_GPA"=>array(
-		"length"=>"35",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Degree gpa",
-		"value"=>""),	
+      "length"=>"35",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Degree gpa",
+      "value"=>""),   
 "class_GPA"=>array(
-		"length"=>"35",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Class gpa",
-		"value"=>""),	
+      "length"=>"35",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Class gpa",
+      "value"=>""),   
 "date_of_regist"=>array(
-		"length"=>"100",
-		"dojoType"=>"dijit.form.DateTextBox",
-		"required"=>"false",
-		"label"=>"Date of regist",
-		"value"=>""),	
+      "length"=>"100",
+      "dojoType"=>"dijit.form.DateTextBox",
+      "required"=>"false",
+      "label"=>"Date of regist",
+      "value"=>""),   
 "date_of_graduation"=>array(
-		"length"=>"100",
-		"dojoType"=>"dijit.form.DateTextBox",
-		"required"=>"false",
-		"label"=>"Date of graduation",
-		"value"=>""),	
+      "length"=>"100",
+      "dojoType"=>"dijit.form.DateTextBox",
+      "required"=>"false",
+      "label"=>"Date of graduation",
+      "value"=>""),   
 "date_of_birth"=>array(
-		"length"=>"100",
-		"dojoType"=>"dijit.form.DateTextBox",
-		"required"=>"false",
-		"label"=>"Date of birth",
-		"value"=>""),	
+      "length"=>"100",
+      "dojoType"=>"dijit.form.DateTextBox",
+      "required"=>"false",
+      "label"=>"Date of birth",
+      "value"=>""),   
 "province"=>array(
-		"length"=>"150",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"false",
-		"label"=>"Province",
-		"inner"=>$province_inner,
-		"value"=>""),	
+      "length"=>"150",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"false",
+      "label"=>"Province",
+      "inner"=>$province_inner,
+      "value"=>""),   
 "district"=>array(
-		"length"=>"150",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"false",
-		"label"=>"District",
-		"inner"=>$district_inner,
-		"value"=>""),	
+      "length"=>"150",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"false",
+      "label"=>"District",
+      "inner"=>$district_inner,
+      "value"=>""),   
 "nationality"=>array(
-		"length"=>"150",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"false",
-		"label"=>"Nationality",
-		"inner"=>$nationality_inner,
-		"value"=>""),	
+      "length"=>"150",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"false",
+      "label"=>"Nationality",
+      "inner"=>$nationality_inner,
+      "value"=>""),   
 "religion"=>array(
-		"length"=>"150",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"false",
-		"label"=>"Religion",
-		"inner"=>$religion_inner,
-		"value"=>""),	
+      "length"=>"150",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"false",
+      "label"=>"Religion",
+      "inner"=>$religion_inner,
+      "value"=>""),   
 "ugc_z_score"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Ugc z score",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Ugc z score",
+      "value"=>""),   
 "z_score"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Z score",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Z score",
+      "value"=>""),   
 "AL_index_no"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Al index no",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Al index no",
+      "value"=>""),   
 "AL_subject"=>array(
-		"custom"=>"true",
-		"inner"=>$al_subject_custom,
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Al subject",
-		"value"=>""),	
+      "custom"=>"true",
+      "inner"=>$al_subject_custom,
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Al subject",
+      "value"=>""),   
 "AL_result"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"readOnly"=>"true",
-		"label"=>"",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "readOnly"=>"true",
+      "label"=>"",
+      "value"=>""),   
 "AL_general_english"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Al general english",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Al general english",
+      "value"=>""),   
 "AL_general_knowledge"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Al general knowledge",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Al general knowledge",
+      "value"=>""),   
 "AL_district"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"false",
-		"label"=>"Al district",
-		"inner"=>$district_inner,
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"false",
+      "label"=>"Al district",
+      "inner"=>$district_inner,
+      "value"=>""),   
 "AL_district_no"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Al district no",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Al district no",
+      "value"=>""),   
 "photo"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.SimpleTextarea",
-		"required"=>"false",
-		"label"=>"Photo",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.SimpleTextarea",
+      "required"=>"false",
+      "label"=>"Photo",
+      "value"=>""),   
 "amount"=>array(
-		"length"=>"100",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Amount",
-		"value"=>""),	
+      "length"=>"100",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Amount",
+      "value"=>""),   
 "date_of_paid"=>array(
-		"length"=>"100",
-		"dojoType"=>"dijit.form.DateTextBox",
-		"required"=>"false",
-		"label"=>"Date of paid",
-		"value"=>""),	
+      "length"=>"100",
+      "dojoType"=>"dijit.form.DateTextBox",
+      "required"=>"false",
+      "label"=>"Date of paid",
+      "value"=>""),   
 "paid_branch"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.ValidationTextBox",
-		"required"=>"false",
-		"label"=>"Paid branch",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.ValidationTextBox",
+      "required"=>"false",
+      "label"=>"Paid branch",
+      "value"=>""),   
 "registered"=>array(
-		"dojoType"=>"dijit.form.CheckBox",
-		"required"=>"false",
-		"label"=>"Registered",
-		"label_pos"=>"right",
-		"inner"=>$registered_inner,
-		"value"=>"1"),	
+      "dojoType"=>"dijit.form.CheckBox",
+      "required"=>"false",
+      "label"=>"Registered",
+      "label_pos"=>"right",
+      "inner"=>$registered_inner,
+      "value"=>"1"),   
 /*
 "deleted"=>array(
-		"length"=>"70",
-		"dojoType"=>"dijit.form.NumberTextBox",
-		"required"=>"false",
-		"label"=>"Deleted",
-		"value"=>""),	
+      "length"=>"70",
+      "dojoType"=>"dijit.form.NumberTextBox",
+      "required"=>"false",
+      "label"=>"Deleted",
+      "value"=>""),   
 */
 "status"=>array(
-		"length"=>"90",
-		"dojoType"=>"dijit.form.ComboBox",
-		"inner"=>$state_inner,
-		"required"=>"false",
-		"label"=>"Status",
-		"value"=>""),	
+      "length"=>"90",
+      "dojoType"=>"dijit.form.ComboBox",
+      "inner"=>$state_inner,
+      "required"=>"false",
+      "label"=>"Status",
+      "value"=>""),   
 "note"=>array(
-		"length"=>"350",
-		"dojoType"=>"dijit.form.SimpleTextarea",
-		"required"=>"false",
-		"label"=>"Note",
-		"value"=>""),	
+      "length"=>"350",
+      "dojoType"=>"dijit.form.SimpleTextarea",
+      "required"=>"false",
+      "label"=>"Note",
+      "value"=>""),   
 "batch_id"=>array(
-		"length"=>"84",
-		"dojoType"=>"dijit.form.ComboBox",
-		"required"=>"true",
-		"inner"=>$batch_id_inner,
-		"label"=>"Batch",
-		"value"=>"")	
+      "length"=>"84",
+      "dojoType"=>"dijit.form.ComboBox",
+      "required"=>"true",
+      "inner"=>$batch_id_inner,
+      "label"=>"Batch",
+      "value"=>"")   
 );
 ?>

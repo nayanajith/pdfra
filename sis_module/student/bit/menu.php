@@ -1,6 +1,6 @@
 <?php
 
 $menu_array  = array(
-	"GPA"   =>"gpa"
+   "GPA"   =>"gpa"
 );
 ?>

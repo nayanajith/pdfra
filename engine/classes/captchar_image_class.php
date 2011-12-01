@@ -25,16 +25,16 @@
  
 class Captcha_images_class {
  
-   var $font 			= '/usr/share/fonts/truetype/freefont/FreeMono.ttf';
-	var $width			= '160';
-	var $height			= '50';
-	var $characters	= '6';
+   var $font          = '/usr/share/fonts/truetype/freefont/FreeMono.ttf';
+   var $width         = '160';
+   var $height         = '50';
+   var $characters   = '6';
 
-	function __construct($width='120',$height='40',$characters='6'){
-		$this->width		=$width;
-		$this->height		=$height;
-		$this->characters	=$characters;
-	}
+   function __construct($width='120',$height='40',$characters='6'){
+      $this->width      =$width;
+      $this->height      =$height;
+      $this->characters   =$characters;
+   }
  
    function gen_code($characters) {
       /* list all possible characters, similar looking characters and vowels have been removed */
@@ -49,20 +49,20 @@ class Captcha_images_class {
    }
  
    function gen_captcha(){
-		$width		=$this->width;
-		$height		=$this->height;
-		$characters	=$this->characters;
+      $width      =$this->width;
+      $height      =$this->height;
+      $characters   =$this->characters;
 
-      $code 		= $this->gen_code($characters);
+      $code       = $this->gen_code($characters);
 
       /* font size will be 75% of the image height */
-      $font_size 	= $height * 0.75;
-      $image 		= imagecreate($width, $height) or die('Cannot initialize new GD image stream');
+      $font_size    = $height * 0.75;
+      $image       = imagecreate($width, $height) or die('Cannot initialize new GD image stream');
 
       /* set the colours */
       $background_color = imagecolorallocate($image, 255, 255, 255);
-      $text_color 		= imagecolorallocate($image, 20, 40, 100);
-      $noise_color 		= imagecolorallocate($image, 100, 120, 180);
+      $text_color       = imagecolorallocate($image, 20, 40, 100);
+      $noise_color       = imagecolorallocate($image, 100, 120, 180);
 
       /* generate random dots in background */
       for( $i=0; $i<($width*$height)/3; $i++ ) {
@@ -76,8 +76,8 @@ class Captcha_images_class {
 
       /* create textbox and add text */
       $textbox = imagettfbbox($font_size, 0, $this->font, $code) or die('Error in imagettfbbox function');
-      $x 		= ($width - $textbox[4])/2;
-      $y 		= ($height - $textbox[5])/2;
+      $x       = ($width - $textbox[4])/2;
+      $y       = ($height - $textbox[5])/2;
       imagettftext($image, $font_size, 0, $x, $y, $text_color, $this->font , $code) or die('Error in imagettftext function');
 
       /* output captcha image to browser */

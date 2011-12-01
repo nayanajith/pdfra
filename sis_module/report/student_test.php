@@ -48,11 +48,11 @@ include A_CLASSES."/student_class.php";
 $query="SELECT DISTINCT indexno FROM csstudent WHERE batch='2004/2005'";
 $result  = mysql_query($query, $GLOBALS['CONNECTION']);
 while ($row = mysql_fetch_array($result)) {
-	$student = new Student("cs",$row['indexno'],null);
-	echo $row['indexno']."<br/>";
-	echo "<pre>";
-	echo print_r($student->push());
-	echo "</pre>";
+   $student = new Student("cs",$row['indexno'],null);
+   echo $row['indexno']."<br/>";
+   echo "<pre>";
+   echo print_r($student->push());
+   echo "</pre>";
 }
 */
 
@@ -60,7 +60,7 @@ while ($row = mysql_fetch_array($result)) {
  foreach ($check as $indexno){
  echo $indexno;
  $student = new Student("cs",$indexno,null);
- //	echo $row['indexno']."->".$student->getDGPA()."<br/>";
+ //   echo $row['indexno']."->".$student->getDGPA()."<br/>";
  echo "<pre>";
  //echo $student->printYearMarks(3);
  echo print_r($student->push());

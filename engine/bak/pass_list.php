@@ -4,22 +4,22 @@ include_once("student.php");
 openDB();
 
 if(empty($_GET['batch']) || empty($_GET['scheme'])){
-	echo "Please Provide BATCHID";
-	return;
+   echo "Please Provide BATCHID";
+   return;
 }
 
-$batch		=$_GET['batch'];
-$fouthyear	=null;
-$repeat		=null;
-$all			=true;
+$batch      =$_GET['batch'];
+$fouthyear   =null;
+$repeat      =null;
+$all         =true;
 
 if(!empty($_GET['all'])){
-	$all=true;
+   $all=true;
 }else{
-	$all=false;
+   $all=false;
 }
 
-$all			=false;
+$all         =false;
 
 $cs_repeat=array(
 "A0427",
@@ -120,100 +120,100 @@ $it_fourthyear=array(
 
 $scheme=$_GET['scheme'];
 switch($_GET['scheme']){
-	case 'cs':
-		$table='csstudent';
-		$fourthyear=$cs_fourthyear;
-		$repeat=$cs_repeat;
-		break;
-	case 'it':
-		$table='itstudent';
-		$fourthyear=$it_fourthyear;
-		$repeat=$it_repeat;
-		break;
+   case 'cs':
+      $table='csstudent';
+      $fourthyear=$cs_fourthyear;
+      $repeat=$cs_repeat;
+      break;
+   case 'it':
+      $table='itstudent';
+      $fourthyear=$it_fourthyear;
+      $repeat=$it_repeat;
+      break;
 }
 
 
 $classes=array("P"=>2,"2L"=>3,"2U"=>3.25,"1"=>3.5);
 
-$first	=array();
-$secondU	=array();
-$secondL	=array();
-$pass		=array();
-$fail		=array();
+$first   =array();
+$secondU   =array();
+$secondL   =array();
+$pass      =array();
+$fail      =array();
 
-$query	="SELECT DISTINCT indexno FROM $table WHERE batch='$batch' ORDER BY indexno";
+$query   ="SELECT DISTINCT indexno FROM $table WHERE batch='$batch' ORDER BY indexno";
 $result  = mysql_query($query, $GLOBALS['CONNECTION']);
 
 while ($row = mysql_fetch_array($result)) {
-	$indexno=$row['indexno'];
-	$info="<td>";
-	if(array_search($indexno, $fourthyear) ){
-		$info="<td class=fourth>";
-		if(!$all){
-			continue;
-		}
-	}
-	$student = new Student($scheme,$indexno,null);
+   $indexno=$row['indexno'];
+   $info="<td>";
+   if(array_search($indexno, $fourthyear) ){
+      $info="<td class=fourth>";
+      if(!$all){
+         continue;
+      }
+   }
+   $student = new Student($scheme,$indexno,null);
 
-	if($student->degEligi()!=1){
-		continue;
-	}
+   if($student->degEligi()!=1){
+      continue;
+   }
 
-	//	$info="<td>".$indexno."</td><td>".$student->getTitle()."&nbsp;".$student->getName(true).$student->getCGPA().$student->printState($student->getState())."</td></tr>";
-	$info.=$indexno."</td><td>".$student->getTitle()."&nbsp;".$student->getName(true)."|".$student->getCGPA()."|".$student->getDGPA()."</td></tr>";
-	switch($student->getClass(false)){
-		case 1:
-			$first[$indexno]=$info;
-			break;
-		case '2U':
-			$secondU[$indexno]=$info;
-			break;
-		case '2L':
-			$secondL[$indexno]=$info;
-			break;
-		case 'P':
-			$pass[$indexno]=$info;
-			break;
-		case -1:
-			$fail[$indexno]=$info;
-			break;
-	}
+   //   $info="<td>".$indexno."</td><td>".$student->getTitle()."&nbsp;".$student->getName(true).$student->getCGPA().$student->printState($student->getState())."</td></tr>";
+   $info.=$indexno."</td><td>".$student->getTitle()."&nbsp;".$student->getName(true)."|".$student->getCGPA()."|".$student->getDGPA()."</td></tr>";
+   switch($student->getClass(false)){
+      case 1:
+         $first[$indexno]=$info;
+         break;
+      case '2U':
+         $secondU[$indexno]=$info;
+         break;
+      case '2L':
+         $secondL[$indexno]=$info;
+         break;
+      case 'P':
+         $pass[$indexno]=$info;
+         break;
+      case -1:
+         $fail[$indexno]=$info;
+         break;
+   }
 }
 
 
 
 foreach ($repeat as  $indexno) {
 
-	$info="<td>";
-	if(array_search($indexno, $fourthyear) ){
-		$info="<td class=fourth>";
-		if(!$all){
-			continue;
-		}
-	}
-	$student = new Student($scheme,$indexno,null);
-	if($student->degEligi()!=1){
-		continue;
-	}
+   $info="<td>";
+   if(array_search($indexno, $fourthyear) ){
+      $info="<td class=fourth>";
+      if(!$all){
+         continue;
+      }
+   }
+   $student = new Student($scheme,$indexno,null);
+   if($student->degEligi()!=1){
+      continue;
+   }
 
-	$info.=$indexno."</td><td>".$student->getTitle()."&nbsp;".$student->getName(true)."</td></tr>";
-	switch($student->getClass(false)){
-		case 1:
-			$first[$indexno]=$info;
-			break;
-		case '2U':
-			$secondU[$indexno]=$info;
-			break;
-		case '2L':
-			$secondL[$indexno]=$info;
-			break;
-		case 'P':
-			$pass[$indexno]=$info;
-			break;
-		case -1:
-			$fail[$indexno]=$info;
-			break;
-	}
+   $info.=$indexno."</td><td>".$student->getTitle()."&nbsp;".$student->getName(true)."</td></tr>";
+   switch($student->getClass(false)){
+      case 1:
+         $first[$indexno]=$info;
+         break;
+      case '2U':
+         $secondU[$indexno]=$info;
+         break;
+      case '2L':
+         $secondL[$indexno]=$info;
+         break;
+      case 'P':
+         $pass[$indexno]=$info;
+         break;
+      case -1:
+         $fail[$indexno]=$info;
+         break;
+   }
 }
 
 
@@ -227,58 +227,58 @@ asort($fail);
 ?>
 <style>
 td {
-	padding: 7px;
+   padding: 7px;
 }
 
 h1 {
-	font-size: 18px;
+   font-size: 18px;
 }
 
 h2 {
-	font-size: 16px;
+   font-size: 16px;
 }
 
 h3 {
-	font-size: 14px;
-	text-transform: uppercase;
-	text-align: center;
-	text-decoration: underline;
+   font-size: 14px;
+   text-transform: uppercase;
+   text-align: center;
+   text-decoration: underline;
 }
 
 body {
-	background: silver;
+   background: silver;
 }
 
 * {
-	font-size: 12px;
+   font-size: 12px;
 }
 
 .a4 {
-	background: white;
-	padding: 20mm;
-	width: 170mm;
-	/*width: 210mm;*/ /*height:297mm;*/
-	margin-left: auto;
-	margin-right: auto;
-	/*border:1px solid black;*/
+   background: white;
+   padding: 20mm;
+   width: 170mm;
+   /*width: 210mm;*/ /*height:297mm;*/
+   margin-left: auto;
+   margin-right: auto;
+   /*border:1px solid black;*/
 }
 
 #ucsc_logo {
-	width: 22mm;
+   width: 22mm;
 }
 
 #uoc_logo {
-	width: 18mm;
+   width: 18mm;
 }
 
 .fourth {
-	border: 1px solid black;
+   border: 1px solid black;
 }
 </style>
 <body>
 <div class='a4'>
 <center><img src='images/UCSC-Logo.gif' id=ucsc_logo /> <img
-	src='images/UOC-Logo.jpg' id=uoc_logo />
+   src='images/UOC-Logo.jpg' id=uoc_logo />
 <h2>UNIVERSITY OF COLOMBO</h2>
 <h2>UNIVERSITY OF COLOMBO SCHOOL OF COMPUTING</h2>
 <h3>Bachelor of Information & Communication Technology -AY 2006/2007</h3>
@@ -290,39 +290,39 @@ echo "<h3>First Class</h3>\n";
 echo "<table>".$th;
 $i=1;
 foreach ($first as $key => $value) {
-	echo "<tr><td>".($i++)."</td>".$value."\n";
+   echo "<tr><td>".($i++)."</td>".$value."\n";
 }
 echo "</table>";
 echo "<h3>Second Class (Upper DIVISION)</h3>";
 echo "<table >".$th;
 $i=1;
 foreach ($secondU as $key => $value) {
-	echo "<tr><td>".($i++)."</td>".$value."\n";
+   echo "<tr><td>".($i++)."</td>".$value."\n";
 }
 echo "</table>";
 echo "<h3>Second CLASS (Lower DIVISION)</h3>";
 echo "<table >".$th;
 $i=1;
 foreach ($secondL as $key => $value) {
-	echo "<tr><td>".($i++)."</td>".$value."\n";
+   echo "<tr><td>".($i++)."</td>".$value."\n";
 }
 echo "</table>";
 echo "<h3>Pass</h3>";
 echo "<table >".$th;
 $i=1;
 foreach ($pass as $key => $value) {
-	echo "<tr><td>".($i++)."</td>".$value."\n";
+   echo "<tr><td>".($i++)."</td>".$value."\n";
 }
 echo "</table>";
 
 if($all){
-	echo "<h3>Fail</h3>";
-	echo "<table >".$th;
-	$i=1;
-	foreach ($fail as $key => $value) {
-		echo "<tr><td>".($i++)."</td>".$value."\n";
-	}
-	echo "</table>";
+   echo "<h3>Fail</h3>";
+   echo "<table >".$th;
+   $i=1;
+   foreach ($fail as $key => $value) {
+      echo "<tr><td>".($i++)."</td>".$value."\n";
+   }
+   echo "</table>";
 }
 
 echo "<div style='height:20mm'></div>";
@@ -340,20 +340,20 @@ echo "<tr><td>Second Class (Upper Division)</th><td>".$secondU_count."</td></tr>
 echo "<tr><td>Second Class (Lower Division)</th><td>".$secondL_count."</td></tr>";
 echo "<tr><td>Pass</th><td>".$pass_count."</td></tr>";
 if($all){
-	echo "<tr><td>Pass</th><td>".$fail_count."</td></tr>";
-	echo "<tr><th>TOTAL</th><th>".($first_count+$secondU_count+$secondL_count+$pass_count)."</th></tr>";
+   echo "<tr><td>Pass</th><td>".$fail_count."</td></tr>";
+   echo "<tr><th>TOTAL</th><th>".($first_count+$secondU_count+$secondL_count+$pass_count)."</th></tr>";
 }else{
-	echo "<tr><th>TOTAL</th><th>".($first_count+$secondU_count+$secondL_count+$pass_count)."</th></tr>";
+   echo "<tr><th>TOTAL</th><th>".($first_count+$secondU_count+$secondL_count+$pass_count)."</th></tr>";
 }
 echo "</table><br/><br/>";
 ?>
 <table width=100% cellpadding=0 cellspacing=0>
-	<tr>
-		<td>Examination Branch<br />
-		Univerisiy of Colombo SChool of Computing<br />
-		<br />
-		<?php echo date('jS \of F Y'); ?></td>
-		<td style='text-align: top'><b>Vice Chancellor</b></td>
+   <tr>
+      <td>Examination Branch<br />
+      Univerisiy of Colombo SChool of Computing<br />
+      <br />
+      <?php echo date('jS \of F Y'); ?></td>
+      <td style='text-align: top'><b>Vice Chancellor</b></td>
 
 </table>
 

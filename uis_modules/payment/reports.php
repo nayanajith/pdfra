@@ -243,7 +243,7 @@ if(isset($_REQUEST['form'])){
 
 	//dojo javascript onload function ends
 	echo "});";
-	$xhr_combobox->param_setter();
+	$xhr_combobox->param_setter();$xhr_combobox->html_requester();
 	$xhr_combobox->html_requester(array('program_code','pay_for_code'),'payment_report_frm');
 	$xhr_combobox->form_submitter('payment_report_frm');
 	echo "</script>";

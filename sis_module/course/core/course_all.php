@@ -15,7 +15,7 @@ echo "
 ";
 
 
-$query  = "SELECT DISTINCT courseid FROM $table WHERE examid='$examid' ORDER BY courseid";	
+$query  = "SELECT DISTINCT courseid FROM $table WHERE examid='$examid' ORDER BY courseid";   
 $courses=item_array($query);
 
 echo "<table class=clean border=1 style='border-collapse:collapse;' cellpadding=5>";

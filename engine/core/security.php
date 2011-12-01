@@ -10,20 +10,20 @@ if(!isset($_SESSION['username'])){return;}
 class Secure
 {
 
-	function secureSuperGlobalGET(&$value, $key)
-	{
-		$value = htmlspecialchars(stripslashes($value));
-		$value = str_ireplace("script", "blocked", $value);
+   function secureSuperGlobalGET(&$value, $key)
+   {
+      $value = htmlspecialchars(stripslashes($value));
+      $value = str_ireplace("script", "blocked", $value);
 
-		if($GLOBALS['DB_TYPE']=='mysql'){
-			$value = mysql_escape_string($value);
-		}
-	}
+      if($GLOBALS['DB_TYPE']=='mysql'){
+         $value = mysql_escape_string($value);
+      }
+   }
 
-	function secureGlobals()
-	{
-		array_walk($_REQUEST, array($this,'secureSuperGlobalGET'));
-	}
+   function secureGlobals()
+   {
+      array_walk($_REQUEST, array($this,'secureSuperGlobalGET'));
+   }
 
 }
 ?>

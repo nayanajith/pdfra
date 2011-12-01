@@ -4,34 +4,34 @@ $formgen = new Formgenerator('program','short_name');
 
 
 if(isset($_REQUEST['add'])&&$_REQUEST['add']==true){
-	if($formgen->add_record()){
-		include A_CORE."/database_schema.php";	
-		create_program_tables($_REQUEST['table_prefix']);
-	}
-	return;
+   if($formgen->add_record()){
+      include A_CORE."/database_schema.php";   
+      create_program_tables($_REQUEST['table_prefix']);
+   }
+   return;
 }
 
 if(isset($_REQUEST['modify'])&&$_REQUEST['modify']==true){
-	$formgen->modify_record();
-	return;
+   $formgen->modify_record();
+   return;
 }
 
 
 
 if(isset($_REQUEST['delete'])&&$_REQUEST['delete']==true){
-	if($formgen->delete_record()){
-		include A_CORE."/database_schema.php";	
-		drop_program_tables($_REQUEST['table_prefix']);
-	}
-	return;
+   if($formgen->delete_record()){
+      include A_CORE."/database_schema.php";   
+      drop_program_tables($_REQUEST['table_prefix']);
+   }
+   return;
 }
 
 if($data==true){
-	if(isset($_REQUEST['q'])){
-		$formgen->xhr_form_filler_data($_REQUEST['q']);
-	}else{
-		$formgen->xhr_filtering_select_data('fill_form');
-	}
+   if(isset($_REQUEST['q'])){
+      $formgen->xhr_form_filler_data($_REQUEST['q']);
+   }else{
+      $formgen->xhr_filtering_select_data('fill_form');
+   }
 }else{
 ?>
 <script type="text/javascript">
@@ -58,9 +58,9 @@ dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojo.data.ItemFileReadStore");
 </script>
 <?php
-	echo $formgen->gen_xhr_form_filler('fill_form');
-	echo $formgen->gen_xhr_filtering_select('fill_form');
-	echo $formgen->gen_form();
+   echo $formgen->gen_xhr_form_filler('fill_form');
+   echo $formgen->gen_xhr_filtering_select('fill_form');
+   echo $formgen->gen_form();
 }
 
 ?>

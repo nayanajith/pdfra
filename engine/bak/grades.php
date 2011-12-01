@@ -68,7 +68,7 @@ function count_rows($table,$condition){
    WHERE    $condition 
    ";
 
-	$result  = mysql_query($query, $GLOBALS['CONNECTION']);
+   $result  = mysql_query($query, $GLOBALS['CONNECTION']);
    $row     = mysql_fetch_array($result);
    return $row['COUNT(indexno)'];
 }
@@ -119,16 +119,16 @@ function print_table($table,$cols_th,$condition,$orderby,$title,$co){
       ORDER BY $orderby
       ";
 
-	   $result  = mysql_query($query, $GLOBALS['CONNECTION']);
+      $result  = mysql_query($query, $GLOBALS['CONNECTION']);
       echo "<table border=1 class=clean>\n<tr><th colspan=".sizeof($cols).">$title ($count)</th></tr>\n";
       echo "<tr><th>".implode('</th><th>',$th)."</th></tr>\n";
- 	   while($row = @ mysql_fetch_array($result)){
+       while($row = @ mysql_fetch_array($result)){
          echo "<tr>\n";
          foreach($cols as $col){
             echo "<td class=color".find_repeat($examid,$row['indexno']).">".$row[$col]."</td>\n"; 
          }
          echo "</tr>\n";
-	   }
+      }
       echo "</table>\n";
    }
    return $count;

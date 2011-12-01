@@ -1,20 +1,20 @@
 <h3>News</h3>
 <style>
 .news_title{
-	font-size:150%;
-	color:blue;
-	font-weight:bold;
+   font-size:150%;
+   color:blue;
+   font-weight:bold;
 }
 .news_body{
-	border-top:1px solid silver;
-	padding:10px;
+   border-top:1px solid silver;
+   padding:10px;
 }
 .news_time{
-	border-bottom:1px solid silver;
-	font-style:italic;
-	font-size:80%;
-	color:silver;
-	color:blue;
+   border-bottom:1px solid silver;
+   font-style:italic;
+   font-size:80%;
+   color:silver;
+   color:blue;
 }
 </style>
 

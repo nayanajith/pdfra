@@ -3,19 +3,19 @@ include A_CLASSES."/data_entry_class.php";
 $formgen = new Formgenerator('student','index_no');
 
 if(isset($_REQUEST['add_modify'])&&$_REQUEST['add_modify']==true){
-	return $formgen->add_modify_record();
+   return $formgen->add_modify_record();
 }
 
 if(isset($_REQUEST['delete'])&&$_REQUEST['delete']==true){
-	return $formgen->delete_record();
+   return $formgen->delete_record();
 }
 
 if($data==true){
-	if(isset($_REQUEST['q'])){
-		$formgen->xhr_form_filler_data($_REQUEST['q']);
-	}else{
-		$formgen->xhr_filtering_select_data('fill_form');
-	}
+   if(isset($_REQUEST['q'])){
+      $formgen->xhr_form_filler_data($_REQUEST['q']);
+   }else{
+      $formgen->xhr_filtering_select_data('fill_form');
+   }
 }else{
 ?>
 <script type="text/javascript">
@@ -43,9 +43,9 @@ dojo.require("dojo.data.ItemFileReadStore");
 
 </script>
 <?php
-	echo $formgen->gen_xhr_form_filler('fill_form');
-	echo $formgen->gen_xhr_filtering_select('fill_form');
-	echo $formgen->gen_form();
+   echo $formgen->gen_xhr_form_filler('fill_form');
+   echo $formgen->gen_xhr_filtering_select('fill_form');
+   echo $formgen->gen_form();
 }
 
 ?>

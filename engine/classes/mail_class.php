@@ -1,64 +1,64 @@
 <?php
 class Mail_native{
 
-	function __construct(){
+   function __construct(){
 
-	}	
+   }   
 
-	/**
-	@param from : your email address
-	@param to	: If multiple mail addresses provide an array or string for single email
-	@param cc	: If multiple mail addresses provide an array or string for single email can be null
-	@param bcc	: If multiple mail addresses provide an array or string for single email can be null
-	@param subject : subject of the mail
-	@param message : mail body HTML or plain text
-	*/
-	function send_mail($from,$to,$cc=null,$bcc=null,$subject,$message){
-		// To send HTML mail, the Content-type header must be set
-		$headers  = "MIME-Version: 1.0\r\n";
-		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+   /**
+   @param from : your email address
+   @param to   : If multiple mail addresses provide an array or string for single email
+   @param cc   : If multiple mail addresses provide an array or string for single email can be null
+   @param bcc   : If multiple mail addresses provide an array or string for single email can be null
+   @param subject : subject of the mail
+   @param message : mail body HTML or plain text
+   */
+   function send_mail($from,$to,$cc=null,$bcc=null,$subject,$message){
+      // To send HTML mail, the Content-type header must be set
+      $headers  = "MIME-Version: 1.0\r\n";
+      $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-		$_TO="";
-		if(is_array($to)){
-			$_TO=implode(',',$to);
-		}else{
-			$_TO=$to;
-		}
+      $_TO="";
+      if(is_array($to)){
+         $_TO=implode(',',$to);
+      }else{
+         $_TO=$to;
+      }
 
-		// Additional headers
-		$headers .= "To: $_TO"."\r\n";
-		$headers .= "From: $from" . "\r\n";
+      // Additional headers
+      $headers .= "To: $_TO"."\r\n";
+      $headers .= "From: $from" . "\r\n";
 
-		//adding cc to header
-		$_CC="";
-		if($cc != ''){
-			if(is_array($cc)){
-				$_CC=implode(',',$cc);
-			}else{
-				$_CC=$cc;
-			}
-			$headers .= "Cc: $_CC"."\r\n";
-		}
+      //adding cc to header
+      $_CC="";
+      if($cc != ''){
+         if(is_array($cc)){
+            $_CC=implode(',',$cc);
+         }else{
+            $_CC=$cc;
+         }
+         $headers .= "Cc: $_CC"."\r\n";
+      }
 
-		//adding bcc to header
-		$_BCC="";
-		if($bcc != ''){
-			if(is_array($bcc)){
-				$_BCC=implode(',',$bcc);
-			}else{
-				$_BCC=$bcc;
-			}
-			$headers .= "Bcc: $_BCC"."\r\n";
-		}
-		//sending mail
-		$mail_sent = mail($_TO, $subject, $message, $headers);
-		return $mail_sent;
-	}
+      //adding bcc to header
+      $_BCC="";
+      if($bcc != ''){
+         if(is_array($bcc)){
+            $_BCC=implode(',',$bcc);
+         }else{
+            $_BCC=$bcc;
+         }
+         $headers .= "Bcc: $_BCC"."\r\n";
+      }
+      //sending mail
+      $mail_sent = mail($_TO, $subject, $message, $headers);
+      return $mail_sent;
+   }
 function mail_attachment($filename, $path, $mailto, $from_mail, $from_name, $replyto, $subject, $message) {
     $file = $path."/".$filename;
 /*
-	$finfo		=finfo_open(FILEINFO_MIME_TYPE); 
-	$mime_type	=finfo_file($finfo, $file);
+   $finfo      =finfo_open(FILEINFO_MIME_TYPE); 
+   $mime_type   =finfo_file($finfo, $file);
 */
     $content = chunk_split(base64_encode(file_get_contents($file)));
     $uid = md5(uniqid(time()));
@@ -79,7 +79,7 @@ function mail_attachment($filename, $path, $mailto, $from_mail, $from_name, $rep
     $header .= $content."\r\n\r\n";
     $header .= "--".$uid."--";
 
-	//log_msg('mail',$header);
+   //log_msg('mail',$header);
 
     return mail($mailto, $subject, "", $header);
 }

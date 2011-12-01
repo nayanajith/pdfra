@@ -12,7 +12,7 @@ $_SESSION['views'] = 1;
 $_SESSION['host']=$_SERVER['REMOTE_ADDR'];
 
 if (!isset($_SESSION['username'])){
-	
+   
 }
 ?>
 <!DOCTYPE center PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,7 +20,7 @@ if (!isset($_SESSION['username'])){
 <title>Marks Uploading System</title>
 <script type="text/javascript" src="spreadsheet.js"></script>
 <link rel="stylesheet" href="spreadsheet.css" type="text/css"
-	media=screen>
+   media=screen>
 
 </head>
 <body>
@@ -30,17 +30,17 @@ if (!isset($_SESSION['username'])){
 
 <?php
 $login_array=array(
-	"username"	=> "Username",
-	"password"	=> "Password"
+   "username"   => "Username",
+   "password"   => "Password"
 );
 
 foreach ($login_array as $id => $label) {
-	echo "<li>
-	<label for=$id accesskey=". $id.substr(0,1) .">
-	$label
-	</label>
-	<input type=text size=5 id=$id name=$id value='".(empty($_GET[$id]) ? "" : $_GET[$id])."'>
-	</li>";
+   echo "<li>
+   <label for=$id accesskey=". $id.substr(0,1) .">
+   $label
+   </label>
+   <input type=text size=5 id=$id name=$id value='".(empty($_GET[$id]) ? "" : $_GET[$id])."'>
+   </li>";
 }
  
 if (isset($_SESSION['username']))

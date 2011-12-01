@@ -8,7 +8,7 @@
 </style>
 
 <script type="text/javascript" src="../js/dojo/dojo.js"
-	djConfig="parseOnLoad: true"></script>
+   djConfig="parseOnLoad: true"></script>
 
 <!-- combo box -->
 <script type="text/javascript">
@@ -33,9 +33,9 @@
         dojo.require("dijit.ProgressBar");
         dojo.require("dijit.Tooltip");
         dojo.require("dijit.layout.AccordionContainer");
-		  dojo.require("dijit.Tree");
-		  dojo.require("dijit.ColorPalette");
-		  dojo.require("dijit.Editor");
+        dojo.require("dijit.Tree");
+        dojo.require("dijit.ColorPalette");
+        dojo.require("dijit.Editor");
         dojo.require("dijit.TitlePane");
 
         dojo.require("dojo.data.ItemFileReadStore");
@@ -48,27 +48,27 @@
 <!-- _______________________________________________________________________ -->
 <h2>Auto Completer Combo box</h2>
 <select dojoType="dijit.form.FilteringSelect" name="sname"
-	autocomplete="false" value="Vinod">
-	<option value="Vinod">Vinod</option>
-	<option value="Vikash">Vikash</option>
-	<option value="Deepak">Deepak</option>
-	<option value="DeepakSir">Deepak Sir</option>
-	<option value="Arun">Arun</option>
-	<option value="Amar">Amar</option>
-	<option value="Aman">Aman</option>
+   autocomplete="false" value="Vinod">
+   <option value="Vinod">Vinod</option>
+   <option value="Vikash">Vikash</option>
+   <option value="Deepak">Deepak</option>
+   <option value="DeepakSir">Deepak Sir</option>
+   <option value="Arun">Arun</option>
+   <option value="Amar">Amar</option>
+   <option value="Aman">Aman</option>
 </select>
 
 
 <!-- _______________________________________________________________________ -->
 <h2>Radio button</h2>
 <input dojoType="dijit.form.RadioButton" id="val1" name="group1"
-	checked="checked" value="Programmer" type="radio" />
+   checked="checked" value="Programmer" type="radio" />
 <label for="val1"> Programmer </label>
 <input dojotype="dijit.form.RadioButton" id="val2" name="group1"
-	value="Designer" type="radio" />
+   value="Designer" type="radio" />
 <label for="val2"> Designer </label>
 <input dojotype="dijit.form.RadioButton" id="val3" name="group1"
-	value="Developer" type="radio" />
+   value="Developer" type="radio" />
 <label for="val3"> Developer </label>
 
 
@@ -77,7 +77,7 @@
 <!-- _______________________________________________________________________ -->
 <h2>Check box</h2>
 <input id="cb" dojotype="dijit.form.CheckBox" name="developer"
-	checked="checked" value="on" type="checkbox" />
+   checked="checked" value="on" type="checkbox" />
 <label for="cb"> Are you a Developer </label>
 
 
@@ -86,7 +86,7 @@
 <!-- _______________________________________________________________________ -->
 <h2>Edit Please:</h2>
 <p id="areaEditable" dojoType="dijit.InlineEditBox" renderAsHtml="true"
-	autoSave="false"><textarea dojoType="dijit.form.Textarea">
+   autoSave="false"><textarea dojoType="dijit.form.Textarea">
         vinod
    </textarea></p>
 
@@ -94,7 +94,7 @@
 <!-- _______________________________________________________________________ -->
 <h2>Date:</h2>
 <input type="text" name="date1" id="date1" value="2005-12-30"
-	dojoType="dijit.form.DateTextBox" required="true" />
+   dojoType="dijit.form.DateTextBox" required="true" />
 <label for="date1"> Drop down Date box. Click inside to display the
 calendar. </label>
 
@@ -103,8 +103,8 @@ calendar. </label>
 <!-- _______________________________________________________________________ -->
 <h2>Number spinner:</h2>
 <input dojoType="dijit.form.NumberSpinner" value="0" smallDelta="1"
-	constraints="{min:0,max:1550,places:0}" maxlength="20"
-	id="integerspinner2">
+   constraints="{min:0,max:1550,places:0}" maxlength="20"
+   id="integerspinner2">
 
 
 
@@ -112,10 +112,10 @@ calendar. </label>
 <!-- _______________________________________________________________________ -->
 <h2>horizontalSlider</h2>
 <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider"
-	value="5" minimum="-10" maximum="10" discreteValues="11"
-	intermediateChanges="true"
-	onChange="dojo.byId('horizontalSlider').value = arguments[0];"
-	handleSrc="preciseSliderThumb.png"></div>
+   value="5" minimum="-10" maximum="10" discreteValues="11"
+   intermediateChanges="true"
+   onChange="dojo.byId('horizontalSlider').value = arguments[0];"
+   handleSrc="preciseSliderThumb.png"></div>
 
 
 
@@ -125,7 +125,7 @@ calendar. </label>
 <button id="next" onClick="dijit.byId('mainTabContainer').forward()">
 Next->></button>
 <div id="mainTabContainer" dojoType="dijit.layout.StackContainer"
-	style="width: 90%; border: 1px solid #9b9b9b; height: 10em; margin: 0.5em 0 0.5em 0; padding: 0.5em;">
+   style="width: 90%; border: 1px solid #9b9b9b; height: 10em; margin: 0.5em 0 0.5em 0; padding: 0.5em;">
 <p id="Page1" dojoType="dijit.layout.ContentPane" label="Intro">Page
 First</p>
 

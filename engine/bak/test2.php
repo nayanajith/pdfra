@@ -13,12 +13,12 @@
             dojo.require("dijit.layout.BorderContainer");
             dojo.require("dijit.layout.TabContainer");
             dojo.require("dijit.layout.AccordionContainer");
-				
-				dojo.require("dijit.MenuBar");
-				dojo.require("dijit.PopupMenuBarItem");
-				dojo.require("dijit.Menu");
-				dojo.require("dijit.MenuItem");
-				dojo.require("dijit.PopupMenuItem");
+            
+            dojo.require("dijit.MenuBar");
+            dojo.require("dijit.PopupMenuBarItem");
+            dojo.require("dijit.Menu");
+            dojo.require("dijit.MenuItem");
+            dojo.require("dijit.PopupMenuItem");
         </script>
         <link rel="stylesheet" type="text/css" href="../js/dijit/themes/claro/claro.css"
         />
@@ -30,55 +30,55 @@
 <body class="claro">
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%" gutters="true">
 <div dojoType="dijit.layout.ContentPane" region="top" style="height:120px;">
-	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%" gutters="true">
-		<div dojoType="dijit.layout.ContentPane" region="top" >
-			<div dojoType="dijit.MenuBar" id="navMenu" >
-				<div dojoType="dijit.PopupMenuBarItem">
-					<span>
-					File
-					</span>
-					<div dojoType="dijit.Menu" id="fileMenu">
-						<div dojoType="dijit.MenuItem" onClick="alert('file 1')">
-						File #1
-						</div>
-						<div dojoType="dijit.MenuItem" onClick="alert('file 2')">
-						File #2
-						</div>
-					</div>
-				</div>
-				<div dojoType="dijit.PopupMenuBarItem">
-					<span>
-						Edit
-					</span>
-					<div dojoType="dijit.Menu" id="editMenu">
-						<div dojoType="dijit.MenuItem" onClick="alert('edit 1')">
-						Edit #1
-						</div>
-						<div dojoType="dijit.MenuItem" onClick="alert('edit 2')">
-						Edit #2
-						</div>
-					</div>
-				</div>
-			</div>
+   <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%" gutters="true">
+      <div dojoType="dijit.layout.ContentPane" region="top" >
+         <div dojoType="dijit.MenuBar" id="navMenu" >
+            <div dojoType="dijit.PopupMenuBarItem">
+               <span>
+               File
+               </span>
+               <div dojoType="dijit.Menu" id="fileMenu">
+                  <div dojoType="dijit.MenuItem" onClick="alert('file 1')">
+                  File #1
+                  </div>
+                  <div dojoType="dijit.MenuItem" onClick="alert('file 2')">
+                  File #2
+                  </div>
+               </div>
+            </div>
+            <div dojoType="dijit.PopupMenuBarItem">
+               <span>
+                  Edit
+               </span>
+               <div dojoType="dijit.Menu" id="editMenu">
+                  <div dojoType="dijit.MenuItem" onClick="alert('edit 1')">
+                  Edit #1
+                  </div>
+                  <div dojoType="dijit.MenuItem" onClick="alert('edit 2')">
+                  Edit #2
+                  </div>
+               </div>
+            </div>
+         </div>
   <!-- end MenuBar -->
 
-		</div>
+      </div>
   <!-- end top -->
       <div dojoType="dijit.layout.ContentPane" region="bottom" style="height:50px;">
-		menu
-		</div>
+      menu
+      </div>
   <!-- end center -->
-	</div>
+   </div>
   <!-- end bc -->
-	</div>
+   </div>
   <!-- end top -->
    <div dojoType="dijit.layout.ContentPane" region="center">
-	body
-	</div>
+   body
+   </div>
   <!-- end center -->
    <div dojoType="dijit.layout.ContentPane" region="bottom">
-status bar	
-	</div>
+status bar   
+   </div>
   <!-- end bottom -->
 </div>
 <!-- end bc -->

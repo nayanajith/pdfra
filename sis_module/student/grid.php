@@ -1,6 +1,6 @@
 <style type="text/css">
- 	@import "<?php echo JS; ?>/dojox/grid/resources/Grid.css";
- 	@import "<?php echo JS; ?>/dojox/grid/resources/claroGrid.css";
+    @import "<?php echo JS; ?>/dojox/grid/resources/Grid.css";
+    @import "<?php echo JS; ?>/dojox/grid/resources/claroGrid.css";
     .dojoxGrid table { margin: 0; } html, body { width: 100%; height: 100%;
     margin: 0; }
 </style>
@@ -16,26 +16,26 @@
 
 <span dojoType='dojo.data.ItemFileWriteStore' jsId='store4' url='/sis/mod/student/bcsc_student_data.json'></span>
 <table dojoType='dojox.grid.DataGrid' jsId='grid4' store='store4' query="{ name: '*' }"
-	rowsPerPage='20' clientSort='true' style='width: 310px; height: 300px;'
-	rowSelector='20px'>
+   rowsPerPage='20' clientSort='true' style='width: 310px; height: 300px;'
+   rowSelector='20px'>
     <thead>
         <tr>
             <th width='auto' field='id'>
-            	Index No    
+               Index No    
             </th>
             <th width='auto' field='name'>
-					Full Name
+               Full Name
             </th>
             <th width='auto' field='sex' cellType='dojox.grid.cells.Select' options='Male,Female' editable='true'>
-					Sex
+               Sex
             </th>
         </tr>
     </thead>
-	</table>
+   </table>
 
 
 
-	<span dojoType="dojo.data.ItemFileWriteStore" jsId="store3" url="/sis/mod/student/countries.json">
+   <span dojoType="dojo.data.ItemFileWriteStore" jsId="store3" url="/sis/mod/student/countries.json">
    </span>
         <p class="info">
             This example shows, how to make the column "Type" editable. In order to

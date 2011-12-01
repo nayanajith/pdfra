@@ -37,7 +37,7 @@ if(isset($_REQUEST['form'])){
 	echo "dojo.addOnLoad(function() {";
 
 	$xhr_combobox->gen_xhr_combobox('short_name',"Donation",$xhr_combobox->get_val('short_name'),80,20,null,null);
-	$xhr_combobox->param_setter();
+	$xhr_combobox->param_setter();$xhr_combobox->html_requester();
 	echo "});";
 	$xhr_combobox->form_submitter('program_frm');
 	echo "</script>";

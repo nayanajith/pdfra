@@ -25,10 +25,10 @@ $GLOBALS['FAVICON']     = 'favicon.ico';
 
 /*MCQ processing status array*/
 $GLOBALS['MCQ_PROC_STATUS']=array(
-	'INIT', 				//Initial stat where an entry added to the paper and csv files were uploaded
-	'EXTRACTED', 		//Marking logic  and students answers where extracted from the csv files to the database
-	'ITEM_ANALYSIS',	//Item analysis report where generated 
-	'MARK_ANSWERS'		//Answers where markd and marks generated for all students
+   'INIT',             //Initial stat where an entry added to the paper and csv files were uploaded
+   'EXTRACTED',       //Marking logic  and students answers where extracted from the csv files to the database
+   'ITEM_ANALYSIS',   //Item analysis report where generated 
+   'MARK_ANSWERS'      //Answers where markd and marks generated for all students
 );
 
 include_once(A_CORE."/database_schema.php");

@@ -5,8 +5,8 @@ require(A_LIB.'/ufpdf/ufpdf.php');
 
 class Degree_cert{
 
-	public function __construct($page_format=null,$page_orientation=null){
-		$pdf = new UFPDF();
+   public function __construct($page_format=null,$page_orientation=null){
+      $pdf = new UFPDF();
 $pdf->Open();
 $pdf->SetTitle("UFPDF is Cool.\nŨƑƤĐƒ ıš ČŏōĹ");
 $pdf->SetAuthor('Steven Wittens');
@@ -19,9 +19,9 @@ $pdf->Write(12, "ıš ČŏōĹ.\n");
 $pdf->Close();
 $pdf->Output('unicode.pdf', 'F');
 
-	}
+   }
 
-	public function include_content($name_in_en,$date_in_ta,$name_in_si,$date_in_si,$name_in_ta,$date_in_ta){
-	}
+   public function include_content($name_in_en,$date_in_ta,$name_in_si,$date_in_si,$name_in_ta,$date_in_ta){
+   }
 }
 ?>

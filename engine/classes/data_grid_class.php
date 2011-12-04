@@ -1,43 +1,46 @@
 <?php
-class Data_grid(){
-   public __construct(){
+class Data_grid{
+   public function __construct(){
      d_r('dojox.widget.PlaceholderMenuItem');
      d_r('dojox.grid.EnhancedGrid');
      d_r("dojox.grid.enhanced.plugins.exporter.CSVWriter");
      d_r("dojox.grid.enhanced.plugins.Printer");
    }
    //type -> CSV,TABLE
-   public function gen_data_grid($field_array,$csv_url_or_tableid,$key,$type,$title=''{
-       $output.= "
-        <script>
+   public function gen_data_grid($field_array,$csv_url_or_tableid,$key,$type,$title=''){
+       $output= "
+        <script language='javascript'>
             //acction to perform when the user clicked on the grid
             function grid_clicked(e){
                var selectedValue = grid3.store.getValue(grid3.getItem(e.rowIndex),'".$key."');
                alert('selected cell Value is '+selectedValue);
-            };
+            }
 
             //Expor the gird to csv and insert it in the textarea so the user can copy and paste
-            function grid_to_csv(){
+            function csv_grid(){
                info_dialog(
                   '<textarea cols=\"150\" rows=\"30\"id=\"output\"></textarea>',
-                  '".$title."',
-                  '<button onClick=\"dojo.byId('output').select()\">Select all</button>',
+                  'CSV of Grid | Copy and paste',
+                  '<button dojoType=\"dijit.form.Button\" onClick=\"dojo.byId(\'output\').select()\">Select all</button>',
                   800,
                   600 
                );
                dijit.byId('grid').exportGrid(
                   'csv', 
+                  {writerArgs: {separator:',',enclosure:'\''}},
                   function(str){
                      dojo.byId('output').value = str;
-                  });
-            };
+                  }
+               );
+            }
             
             //style to be used when printing the grid
             var cssFiles = [
-               '".CSS."/print_style.css'
+               '".CSS."/grid_print.css'
             ];
+
             //Prit the grid 
-            function grid_print(){
+            function print_grid(){
                dijit.byId('grid').printGrid({
                   title:'".$title."',
                   cssFiles: cssFiles
@@ -58,20 +61,21 @@ class Data_grid(){
                toolbar.addChild(print_grid_btn);
 
 
-               var csv_grid_button=new dijit.form.Button({
+               var csv_grid_btn=new dijit.form.Button({
                   iconClass:'dijitIcon dijitIconFunction',
                   label: 'CSV Grid',
-                  onClick:grid_to_csv,
+                  onClick:csv_grid,
                });
 
-               toolbar.addChild(csv_grid_button);
-            }
+               toolbar.addChild(csv_grid_btn);
+            });
 
-         </script>";
+         </script>
+         ";
 
       if($type == 'CSV'){
          d_r('dojox.data.CsvStore');
-         $output.= "<span dojoType='dojox.data.CsvStore' jsId='store3' url='".$csv_url_or_tableid."'></span>";
+         $output.= "<span dojoType='dojox.data.CsvStore' jsId='gridStore' url='".$csv_url_or_tableid."'></span>";
       }else{
          d_r('dojox.data.HtmlTableStore');
          $output.= "<span dojoType='dojox.data.HtmlTableStore' tableId='".$csv_url_or_tableid."' jsId='gridStore'></span>";
@@ -82,8 +86,9 @@ class Data_grid(){
 
          <table 
             dojoType    ='dojox.grid.EnhancedGrid' 
-            jsId        ='grid3' 
-            store       ='store3' 
+            jsId        ='grid' 
+            id          ='grid' 
+            store       ='gridStore' 
             query       ='{ ".$key.": \"*\" }'
             rowsPerPage ='40' 
             clientSort  ='true' 
@@ -92,7 +97,7 @@ class Data_grid(){
             rowSelector ='20px'
             columnReordering='true'
             headerMenu  ='gridMenu'
-            plugins     ={printer: true,exporter: true}
+            plugins     ='{printer:true,exporter:true}'
          >
          <thead>
             <tr>";
@@ -104,6 +109,7 @@ class Data_grid(){
             $output.= "</tr>
          </thead>
          </table>";
+        echo $output;
     }
 }
 

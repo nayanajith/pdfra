@@ -16,6 +16,7 @@ d_r('dijit.Dialog');
          break;
          case 'ERROR':
             info="<font color='red'>"+info+"</font>";
+            process.innerHTML="<img src='<?php echo IMG."/process-stopped.gif"; ?>' >";
          break;
          case 'NOT_DEFINED':
             info="<font color='orange'>"+info+"</font>";

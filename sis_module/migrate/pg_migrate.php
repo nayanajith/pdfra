@@ -24,10 +24,10 @@ $dest      =isset($_REQUEST['dest_db'])?$_REQUEST['dest_db']:'';
 
 $migrate_queries=array(
    "student"   =>"REPLACE INTO ".$program_."_student(index_no,registration_no,initials,last_name,full_name,date_of_graduation,status,NID,current_address,title,email,designation,permanent_address,phone,work_place) SELECT indexno,regno,initials,lastname,fullname,dateofaward,status,nic,contactaddress,title,email,designation,address,telephone,workplace FROM ".$source.".students WHERE regno like '%".$cc."%'",
-   "marks"      =>"REPLACE INTO ".$program_."_marks(exam_id,index_no,course_id,final_mark) SELECT exam,indexno,code,marks FROM ".$source.".markbook WHERE indexno regexp '^0[0-9]".$ic."[0-9]*$';",
-   "exam1"      =>"REPLACE INTO ".$program_."_exam(exam_id) SELECT DISTINCT exam_id FROM ".$program_."_marks",
+   "marks"      =>"REPLACE INTO ".$program_."_marks(exam_hid,index_no,course_id,final_mark) SELECT concat(exam+2000,'-01-01:',RIGHT(LEFT(code,4),1),':',IF(RIGHT(LEFT(code,4),1) >2,2,1)),indexno,code,marks FROM ".$source.".markbook WHERE indexno regexp '^0[0-9]".$ic."[0-9]*$';",
+   "exam1"      =>"REPLACE INTO ".$program_."_exam(exam_hid,semester,student_year,exam_date) SELECT DISTINCT exam_hid,RIGHT(exam_hid,1),LEFT(RIGHT(exam_hid,3),1),LEFT(exam_hid,10) FROM ".$program_."_marks",
    "batch"      =>"REPLACE INTO ".$program_."_batch(batch_id,admission_year) SELECT  distinct LEFT(index_no,2),(LEFT(index_no,2)+2000) FROM ".$program_."_student",
-   "course"      =>"REPLACE INTO ".$program_."_course(course_id,semester,lecture_credits,compulsory) SELECT code,semester,credits,category FROM ".$source.".courses where code like '".$cc."%'"
+   "course"      =>"REPLACE INTO ".$program_."_course(course_id,semester,student_year,lecture_credits,compulsory) SELECT code,semester,IF(RIGHT(LEFT(code,4),1) >2,2,1),credits,IF(category='C',1,0) FROM ".$source.".courses where code like '".$cc."%'"
 );
 
 //select case compulsory when 'x'  then 'a' when 'N' then 'b' end from sis.bcsc_course
@@ -35,6 +35,17 @@ $migrate_queries=array(
 if(isset($_REQUEST['action'])){ /*haldle requests*/
    switch($_REQUEST['action']){
       case 'migrate_db':
+         //cleanup the tables
+         foreach(array("student","marks","exam","batch","course") as $table){
+            $GLOBALS['CONNECTION'] = mysql_connect("localhost", "root", $_REQUEST['root_pwd']);
+            if($GLOBALS['CONNECTION'] && mysql_select_DB($dest, $GLOBALS['CONNECTION'])){
+               if(!exec_query("DELETE FROM ".$program_."_$table",Q_RET_NONE,$db=null,$array_key=null,$deleted=null,$no_connect=true)){
+                  $create=false;
+                  $error.=get_sql_error();
+               }   
+            }
+         }
+
          $create=true;
          $error="";
          foreach($migrate_queries as $key => $query){
@@ -49,7 +60,7 @@ if(isset($_REQUEST['action'])){ /*haldle requests*/
          if(!$create){
             return_status_json('ERROR',$error);
          }else{
-            return_status_json('OK','Database was migrated successfully!');
+            return_status_json('OK','Database migrated successfully!');
          }
       break;
    }

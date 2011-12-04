@@ -28,9 +28,15 @@ function gen_exam_summery(){
 
    //Generating the summery report  for all the courses of the selected exam
    $report= "<h4 class='coolh'>Examination date:".$exam_info_arr[0]." Year:".$exam_info_arr[1]." Semester:".$exam_info_arr[2]."</h4>";
-   $report.= "<table style='border-collapse:collapse' border='1' cellpadding='2'>";
-   $header="<tr><th>Course ID</th><th>STD</th><th title='Avarage without absents'>AVG</th><th>MAX</th><th>MIN</th><th>PRESENT</th><th>ABSENT</th><th>MEDICAL</th><th>OFFENDED</th><th>GRADE COUNT</th></tr>";
+   //Hide the table when you want to convert the table in to datagrid
+   $report.= "<table id='exam_summary' style='display:none' class='clean'>";
+   //$report.= "<table id='exam_summary' class='clean' border='1'>";
+   $header_arr=array(
+   "Course_ID"=>"Course ID","STD"=>"STD","AVG"=>"AVG","MAX"=>"MAX","MIN"=>"MIN","PRESENT"=>"PRESET","ABSENT"=>"ABSENT","MEDICAL"=>"MEDICAL","OFFENDED"=>"OFFENDED","GRADE_COUNT"=>"GRADE COUNT"
+   );
+   $header="<thead><tr><th>".implode("</th><th>",array_keys($header_arr))."</th></tr></thead>";
    $report.=$header;
+   $report.="<tbody>";
    foreach($arr_statistics as $course_id => $stat_arr){
       $report.= "<tr>";
       $report.= "<td>$course_id</td>";
@@ -47,7 +53,10 @@ function gen_exam_summery(){
       $report.= "</tr>";
    } 
    $report.= $header;
-   $report.= "</table>";
+   $report.= "</tbody></table>";
+   include A_CLASSES."/data_grid_class.php";
+   $data_grid= new Data_grid();
+   echo $data_grid->gen_data_grid($header_arr,'exam_summary','Course_ID','TABLE');
    $report.="<center>".date("M d, Y")."</center>";
    if(isset($_REQUEST['action'])&&$_REQUEST['action']=='pdf'){
       include A_CLASSES."/letterhead_pdf_class.php";
@@ -124,7 +133,7 @@ function print_detailed_marks($course_id){
    $report.="</table>";
 
    //Get grade count for the course
-   $arr_grade_count=exec_query("SELECT g.grade grade,COUNT(g.grade) count FROM ".$GLOBALS['P_TABLES']['marks']." m,".$GLOBALS['P_TABLES']['grades']." g WHERE m.exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND course_id='".$_SESSION[PAGE]['course_id']."' AND m.state='PR' AND m.final_mark=g.mark GROUP BY g.grade,m.course_id ORDER BY grade;",Q_RET_ARRAY,null,'grade');
+   $arr_grade_count=exec_query("SELECT g.grade grade,COUNT(g.grade) count FROM ".$GLOBALS['P_TABLES']['marks']." m,".$GLOBALS['P_TABLES']['grades']." g WHERE m.exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND course_id='".$_SESSION[PAGE]['course_id']."' AND m.state='PR' AND (m.final_mark+m.push)=g.mark GROUP BY g.grade,m.course_id ORDER BY grade;",Q_RET_ARRAY,null,'grade');
 
    $report.="<table class='clean' border='1'>";
    $head="<tr>";
@@ -177,7 +186,11 @@ function print_lms_marks($course_ids){
    $marks_arr=exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['marks']." WHERE course_id in('".implode("','",$course_ids_arr)."') AND exam_hid='".$_SESSION[PAGE]['exam_hid']."'",Q_RET_ARRAY);
    $grades_studentwise_arr=array();
    foreach($marks_arr as $row){
-      $grades_studentwise_arr[$row['index_no']][$row['course_id']]=getGradeC($row['final_mark']+$row['push'],$row['course_id']);
+      if(is_numeric($row['final_mark'])){
+         $grades_studentwise_arr[$row['index_no']][$row['course_id']]=getGradeC($row['final_mark']+$row['push'],$row['course_id']);
+      }else{
+         $grades_studentwise_arr[$row['index_no']][$row['course_id']]=$row['final_mark'];
+      }
    }
 
    $serial_no=1;

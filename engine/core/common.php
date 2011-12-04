@@ -323,4 +323,17 @@ function file_download($path,$fid){
    exit;
 }
 
+function table_to_csv($table){
+   $table=trim($table);
+   $table=str_replace(array('</td><td>','</th><th>'),"','",$table);
+   $table=str_replace(array('<tr><td>','<tr><th>'),"'",$table);
+   $table=str_replace(array('</td></tr>','</th></tr>'),"'\n",$table);
+
+   header('Content-Type', 'application/vnd.ms-excel');
+   header('Content-Disposition: attachment; filename='.$_SESSION[PAGE]['batch_id'].'-'.$_SESSION[PAGE]['eligibility'].'.csv');
+   header("Pragma: no-cache");
+   header("Expires: 0");
+   exit();
+}
+
 ?>

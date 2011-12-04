@@ -29,6 +29,7 @@ function help_dialog(){
 /*-- Downloader --*/
 dojo.require('dojo.io.iframe');
 
+//Seamless download using  iframe
 function download(url){
 	update_status_bar('OK','Processing...');
 	var iframe = dojo.io.iframe.create("downloader");
@@ -39,7 +40,7 @@ function download(url){
 	update_progress_bar(100);
 }
 
-
+//acquire GET request key,values from the current url 
 function get_request_value( name ){
    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
    var regexS = "[\\?&]"+name+"=([^&#]*)";
@@ -52,15 +53,31 @@ function get_request_value( name ){
 	}
 }
 
-function info_dialog(info){
+//Info dialog will  show the information as floating dialog box
+function info_dialog(info,title,more_buttons,width,height){
+if(!more_buttons)more_buttons="";
+if(!title)title="Information";
+if(!width)width=300;
+if(!height)height=200;
 infoDialog = new dijit.Dialog({
-   title: "Information",
-   style: "width: 400px;"
+   title: title,
+   style: "width:"+width+"px;height:"+height+";"
 });
 
-var button="<br/><center><button dojoType='dijit.form.Button' onClick=\"infoDialog.hide()\" >OK</button></center>";
-infoDialog.attr("content", info+button);
+var buttons="<br/><center>"+more_buttons+"<button dojoType='dijit.form.Button' onClick=\"infoDialog.hide()\" >OK</button></center>";
+infoDialog.attr("content", info+buttons);
 infoDialog.show();
 }
 
-
+//This function allow to copy the content of given object to clipboard
+//Only work with IE TODO: try to fix with suppor of flash
+function copy_to_clipboard(object){
+   var obj=dojo.byId(object);
+   obj.select();
+   if(window.clipboardData){ 
+      var r=clipboardData.setData('Text',obj.value);
+      return 1; 
+   }else{ 
+      alert('please copy manually');
+   }
+}

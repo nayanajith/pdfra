@@ -16,8 +16,8 @@ do
 		echo Processing $FILE ...;
 		TMP="/tmp/$(basename $FILE)";
 		cp $FILE $TMP;
-		#cat $TMP | sed s/"$FIND"/"$REPLACE"/g > $FILE;
+		cat $TMP | sed s/"$FIND"/"$REPLACE"/g > $FILE;
 		#cat $TMP | sed 's/[	]/   /g' > $FILE;
-		cat $TMP | sed 's/$xhr_combobox->param_setter();/$xhr_combobox->param_setter();$xhr_combobox->html_requester();/g' > $FILE;
+		#cat $TMP | sed 's/$xhr_combobox->param_setter();/$xhr_combobox->param_setter();$xhr_combobox->html_requester();/g' > $FILE;
 	fi 
 done

@@ -14,6 +14,7 @@ $fields=array(
       "required"=>"true",
       "label"=>"Full name",
       "value"=>""),   
+/*
 "degree"=>array(
       "length"=>"350",
       "dojoType"=>"dijit.form.ValidationTextBox",
@@ -38,6 +39,7 @@ $fields=array(
       "required"=>"true",
       "label"=>"Gpv",
       "value"=>""),   
+ */
 "table_prefix"=>array(
       "length"=>"350",
       "dojoType"=>"dijit.form.ValidationTextBox",

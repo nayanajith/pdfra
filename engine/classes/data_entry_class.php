@@ -1313,7 +1313,7 @@ submit the given form
        @$key: custom key to be presented
        @$filter: custom filter to be applied
        */
-      public function xhr_filtering_select_data($table=null,$key=null,$filter=null){
+      public function xhr_filtering_select_data($table=null,$key=null,$filter=null,$order_by=null){
          $key   =$key==null?$this->self['key']:$key;
          if($this->self['key'] != $key)
          {
@@ -1325,7 +1325,7 @@ submit the given form
 
          header('Content-Type', 'application/json');
          include 'qread_store_class.php';
-         $query_read_store = new Query_read_store($table,$key,$filter);
+         $query_read_store = new Query_read_store($table,$key,$filter,$order_by);
          echo $query_read_store->gen_json_data();
       }
 

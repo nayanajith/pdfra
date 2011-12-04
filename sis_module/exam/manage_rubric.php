@@ -42,6 +42,13 @@ $filter_map=array(
    'course_id'=>isset($_SESSION[PAGE]['student_year'])?"student_year='".$_SESSION[PAGE]['student_year']."'":null,
 );
 
+//id table mapper array
+$order_by_map=array(
+   'exam_hid'=>'ORDER BY exam_hid DESC',
+);
+
+
+
 
 if(isset($_REQUEST['form'])){
    switch($_REQUEST['form']){
@@ -62,7 +69,13 @@ if(isset($_REQUEST['form'])){
                if(isset($filter_map[$_REQUEST['id']])){
                   $filter_str=$filter_map[$_REQUEST['id']];
                }
-               $formgen->xhr_filtering_select_data($table_of_id[$_REQUEST['id']],$_REQUEST['id'],$filter_str);
+
+               $order_by=null;
+               if(isset($order_by_map[$_REQUEST['id']])){
+                  $order_by=$order_by_map[$_REQUEST['id']];
+               }
+
+               $formgen->xhr_filtering_select_data($table_of_id[$_REQUEST['id']],$_REQUEST['id'],$filter_str,$order_by);
             break;
             case 'param':
                $_SESSION[PAGE][$_REQUEST['param']]=$_REQUEST[$_REQUEST['param']];

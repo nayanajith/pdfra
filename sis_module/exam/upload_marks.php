@@ -13,11 +13,11 @@ $columns=array(
 '5'=>'final_mark',
 '6'=>'grade',
 '7'=>'push',
-'8'=>'suggestions',
+'8'=>'NOTE',
 '9'=>'can_release'
 );
 
-function gen_mark_tr($index_no,$serial_no,$marks_arr,$state){
+function gen_mark_tr($index_no,$serial_no,$marks_arr,$state,$is_non_grade){
    $style         ='';
    $ab            ='';
    $onchange      =" onChange='re_calculate(\"".$serial_no."\")' ";
@@ -25,6 +25,13 @@ function gen_mark_tr($index_no,$serial_no,$marks_arr,$state){
    $dojoCheckBox  =" dojoType='dijit.form.CheckBox'";
    $dojoCheckBox  ="";
    $dojoType      ="";
+
+   //Nongrade courses will not recalculated onchage
+   if($is_non_grade){
+      $onchange      ="";
+   }
+
+
    switch($state){
       case 'BLANK':
          $marks_arr=array('paper_mark'=>'','assignment_mark'=>'','final_mark'=>'','push'=>'0','can_release'=>'1');
@@ -39,12 +46,16 @@ function gen_mark_tr($index_no,$serial_no,$marks_arr,$state){
          $ab='MC';
       break;
       default:
-         $ab=getGradeC($marks_arr['final_mark']+$marks_arr['push'],$_SESSION[PAGE]['course_id']);
+         if(is_numeric($marks_arr['final_mark'])){
+            $ab=getGradeC($marks_arr['final_mark']+$marks_arr['push'],$_SESSION[PAGE]['course_id']);
+         }else{
+            $ab=$marks_arr['final_mark'];
+         }
       break;
    }
-   $checked="checked='false'";
+   $checked="";
    if($marks_arr['can_release']=='1'){
-      $checked="checked='true'";
+      $checked="checked";
    }
    echo "<td><input type='text' class='cell' $style name='2:".$serial_no."' id='2:".$serial_no."' value='".$index_no."'></td>
    <td><input type='text' $dojoType $onchange class='cell' $style name='3:".$serial_no."' id='3:".$serial_no."' value='".$marks_arr['paper_mark']."'></td>
@@ -118,7 +129,7 @@ function gen_mark_in_form(){
    $serial_no=1;
    foreach($reg_arr as $index_no => $row){
       echo "<tr><td id='1:".$serial_no."'>".$serial_no."</td>";
-      gen_mark_tr($index_no,$serial_no,$marks_arr[$index_no],'');
+      gen_mark_tr($index_no,$serial_no,$marks_arr[$index_no],'',isNonGrade($_SESSION[PAGE]['course_id']));
       echo "</tr>";
       $serial_no++;
    }
@@ -149,7 +160,7 @@ $db_columns=array(
 );
    */
 
-   $arr=exec_query("SELECT index_no FROM ".$GLOBALS['P_TABLES']['course_reg']." WHERE  course_id='".$_SESSION[PAGE]['course_id']."' AND exam_hid='".$_SESSION[PAGE]['exam_hid']."'",Q_RET_ARRAY);
+   $arr=exec_query("SELECT index_no FROM ".$GLOBALS['P_TABLES']['marks']." WHERE  course_id='".$_SESSION[PAGE]['course_id']."' AND exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND state not in('AB','MC')",Q_RET_ARRAY);
    $studnt_count=get_num_rows();
 
    $query   ='';
@@ -160,12 +171,20 @@ $db_columns=array(
 
 
    $sql_errors=array();
-
    for($i=1;$i<=$studnt_count;$i++){
       $values_comma   ='';
       //If can_release is false the value for the request will not set so we set it as 0 
       $_REQUEST['9:'.$i]=isset($_REQUEST['9:'.$i])?1:0;
+      $_REQUEST['7:'.$i]=isset($_REQUEST['7:'.$i])&&$_REQUEST['7:'.$i]!=''?$_REQUEST['7:'.$i]:null;
 
+      /*
+    [2:1] => 08000018
+    [3:1] => 50
+    [4:1] => 50
+    [5:1] => 50
+    [7:1] => 
+    [9:1] => 1
+     */
       foreach($db_colomns as $key => $bla){
          if(isset($_REQUEST[$key.':'.$i])){
             $value=trim($_REQUEST[$key.':'.$i]);   
@@ -178,12 +197,11 @@ $db_columns=array(
             $blank   =true;
          }
       }
-      $values=$values.",'".$_SESSION[PAGE]['course_id']."','".$_SESSION[PAGE]['exam_hid']."'";
-      
-      //build the query
-      $query="REPLACE INTO ".$GLOBALS['P_TABLES']['marks']."($keys)values($values)";
 
       if(!$blank){
+         $values=$values.",'".$_SESSION[PAGE]['course_id']."','".$_SESSION[PAGE]['exam_hid']."'";
+         //build the query
+         $query="REPLACE INTO ".$GLOBALS['P_TABLES']['marks']."($keys)values($values)";
          //Insert marks to the database if exists with same keys replace with new values
          exec_query($query,Q_RET_ARRAY,null,null,'all');
       
@@ -322,11 +340,11 @@ function get_grade(mark){
 
 
 function find_index_no(index_no){
-   var student_count      =document.getElementById('student_count').value;
+   var student_count    =document.getElementById('student_count').value;
    var index_found      =false;
    for( i=1;i<=student_count;i++){
       var sys_index_no=document.getElementById('2:'+i).value.trim();
-      if(sys_index_no == index_no.trim()){
+      if(sys_index_no == index_no){
          index_found=i;
          break;
       }
@@ -343,7 +361,7 @@ Extract marks from textarea to the table
 '5'=>'Final',
 '6'=>'Grade',
 '7'=>'Adjustment',
-'8'=>'Suggestions'
+'8'=>'NOTE'
 
 */
 
@@ -378,33 +396,33 @@ function re_calculate(key){
 
 
 function extract(){
-   var col_offset         =2;
-   var content            =dijit.byId('paste').getValue();
+   var col_offset          =2;
+   var content             =dijit.byId('paste').getValue();
    dijit.byId('paste').setValue('');
    content=content.trim();
-   var marks_array      =content.split("\n");
-   var rubric_assignment=document.getElementById('assignment_rubric').value;
-   var rubric_paper      =document.getElementById('paper_rubric').value;
+   var marks_array         =content.split("\n");
+   var rubric_assignment   =document.getElementById('assignment_rubric').value;
+   var rubric_paper        =document.getElementById('paper_rubric').value;
    var i;
    var j;
 
    
    for( i=1;i<=marks_array.length;i++){
       var row=marks_array[i-1];
-      var row=row.replace('  ',' ')
-      var row=row.replace('  ',' ')
-      var row=row.replace('  ',' ')
-      var row=row.replace("\t",' ')
-      var row=row.replace("\t",' ')
-
-      row_arr=row.split(" ");
+      var row=row.replace(/  /g,',')
+      var row=row.replace(/\t/g,',')
+      row_arr=row.split(",");
       //check Index No
       var index_no=row_arr[0].trim();
       var key=find_index_no(index_no);
       if(key == false){
-           update_status_bar('ERROR','Index number missmatch ['+index_no+" <=> "+row_arr[0]+"]");
-         //document.getElementById('2:'+i).style.color='red';
+         update_status_bar('ERROR','Index number missmatch ['+index_no+" <=> "+row_arr[0]+"]");
+         document.getElementById('2:'+i).style.color='red';
+         document.getElementById('2:'+i).title='Index number missmatch ['+index_no+" <=> "+row_arr[0]+"]";
          continue;
+      }else{
+         document.getElementById('2:'+i).style.color='black';
+         document.getElementById('2:'+i).title=null;
       }
       //document.getElementById('2:'+i).value=row_arr[0];
 
@@ -413,11 +431,29 @@ function extract(){
 
       //Paper Marks
       document.getElementById('4:'+key).value=row_arr[2];
+/*
+Extract marks from textarea to the table
+'1'=>'#',
+'2'=>'Index No',
+'3'=>'Assignment Marks',
+'4'=>'Paper Marks',
+'5'=>'Final',
+'6'=>'Grade',
+'7'=>'Adjustment',
+'8'=>'NOTE'
 
-
+*/
+      //Nongrade courses will not calculate for the grade and final mark
+      <?php if(isset($_SESSION[PAGE]['course_id']) && isNonGrade($_SESSION[PAGE]['course_id'])){ ?>
       //Calculation of the final
+      var final_mark=row_arr[3];
+      document.getElementById('5:'+key).value=final_mark;
+      document.getElementById('6:'+key).innerHTML=final_mark;
+      document.getElementById('8:'+key).innerHTML='NON_GRADE';
+      <?php }else{ ?>
       var final_mark=((row_arr[1]*rubric_assignment)+(row_arr[2]*rubric_paper))/100;
       var final_mark_round=Math.round(final_mark,0);
+
       //Margin fix
       if(final_mark_round == 48 || final_mark_round == 49 ){
          document.getElementById('5:'+key).title=final_mark_round+'->'+50;
@@ -429,6 +465,7 @@ function extract(){
 
       //Grade
       document.getElementById('6:'+key).innerHTML=get_grade(final_mark_round);
+      <?php } ?>
       update_progress_bar(i/(marks_array.length/100));
 
    }                                                            

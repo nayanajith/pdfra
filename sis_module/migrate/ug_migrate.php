@@ -53,6 +53,17 @@ $migrate_queries=array(
 if(isset($_REQUEST['action'])){ /*haldle requests*/
    switch($_REQUEST['action']){
       case 'migrate_db':
+         //cleanup the tables
+         foreach(array("student","marks","exam","batch","course","gpa") as $table){
+            $GLOBALS['CONNECTION'] = mysql_connect("localhost", "root", $_REQUEST['root_pwd']);
+            if($GLOBALS['CONNECTION'] && mysql_select_DB($dest, $GLOBALS['CONNECTION'])){
+               if(!exec_query("DELETE FROM ".$program_."_$table",Q_RET_NONE,$db=null,$array_key=null,$deleted=null,$no_connect=true)){
+                  $create=false;
+                  $error.=get_sql_error();
+               }   
+            }
+         }
+
          $create=true;
          $error="";
          $GLOBALS['CONNECTION'] = mysql_connect("localhost", "root", $_REQUEST['root_pwd']);
@@ -87,7 +98,7 @@ if(isset($_REQUEST['action'])){ /*haldle requests*/
          if(!$create){
             return_status_json('ERROR',$error);
          }else{
-            return_status_json('OK','Database was migrated successfully!');
+            return_status_json('OK','Database migrated successfully!');
          }
       break;
    }

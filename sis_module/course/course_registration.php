@@ -96,7 +96,7 @@ function gen_bulk_registration_form(){
    );
 
    //Get the total course array available for the given year
-   $arr=exec_query("SELECT ".implode(',',$display)." FROM ".$GLOBALS['P_TABLES']['course']." WHERE student_year='".$_SESSION[PAGE]['student_year']."'",Q_RET_ARRAY);
+   $arr=exec_query("SELECT ".implode(',',$display)." FROM ".$GLOBALS['P_TABLES']['course']." WHERE student_year='".$_SESSION[PAGE]['student_year']."' AND semester='".$_SESSION[PAGE]['semester']."'",Q_RET_ARRAY);
 
    //Table of courses to be registred or unregistered 
    echo "<h4 style='background-color:#C9D7F1;padding:2px;text-align:center' class='bgCenter'>Bulk course registration for batch-".$_SESSION[PAGE]['batch_id']."</h4>";
@@ -230,10 +230,9 @@ if(isset($_REQUEST['action'])){
          if(isset($filter_map[$_REQUEST['id']])){
             $filter=$filter_map[$_REQUEST['id']];
          }
-         if(isset($bordr_by_map[$_REQUEST['id']])){
-            $order_by=$bordr_by_map[$_REQUEST['id']];
+         if(isset($order_by_map[$_REQUEST['id']])){
+            $order_by=$order_by_map[$_REQUEST['id']];
          }
-
          $xhr_combobox->json_data($table_of_id[$_REQUEST['id']],$_REQUEST['id'],$filter,$order_by);
       break;
       break;
@@ -262,6 +261,7 @@ if(isset($_REQUEST['action'])){
             case 'exam_hid':   
                $student_year=exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['exam']." WHERE exam_hid='".$_SESSION[PAGE][$_REQUEST['param']]."'",Q_RET_ARRAY);
                $_SESSION[PAGE]['student_year']=$student_year[0]['student_year'];
+               $_SESSION[PAGE]['semester']=$student_year[0]['semester'];
                $_SESSION[PAGE]['academic_year']=$student_year[0]['academic_year'];
             break;
          }

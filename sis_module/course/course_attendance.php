@@ -7,8 +7,6 @@ d_r('dijit.form.Select');
 Generate attendance sheet for the give course in given batch
 */
 function gen_attendance_sheet($put_attendance=null){
-   $batch_arr=exec_query("SELECT code FROM ".$GLOBALS['P_TABLES']['batch']." WHERE  batch_id='".$_SESSION[PAGE]['batch_id']."' ",Q_RET_ARRAY);
-
    $arr=exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['marks']." WHERE  course_id='".$_SESSION[PAGE]['course_id']."'AND exam_hid='".$_SESSION[PAGE]['exam_hid']."'",Q_RET_ARRAY);
    $count_all=get_num_rows();
 
@@ -17,7 +15,7 @@ function gen_attendance_sheet($put_attendance=null){
    $count_absent=get_num_rows();
 
    echo "<table style='border:1px solid #C9D7F1;border-collapse:collapse;' border='1'>";
-   echo "<tr><th colspan='3'>Attendance Sheet for Course ".$_SESSION[PAGE]['course_id']." <br\> Batch ".$_SESSION[PAGE]['batch_id']."</th></tr>";
+   echo "<tr><th colspan='3'>Attendance Sheet for Course ".$_SESSION[PAGE]['course_id']." Exam ".$_SESSION[PAGE]['exam_hid']."</h3></th></tr>";
    if($put_attendance == true){
       echo "<tr><th>Index No</th><th>State</th></tr>";
    }else{
@@ -147,7 +145,7 @@ if(isset($_REQUEST['form'])){
       break;
       case 'html':
          $_SESSION[PAGE]['course_id']=$_REQUEST['course_id'];
-         $_SESSION[PAGE]['batch_id']=$_REQUEST['batch_id'];
+         $_SESSION[PAGE]['exam_hid']=$_REQUEST['exam_hid'];
 
          gen_attendance_sheet(true);
       break;
@@ -188,7 +186,7 @@ if(isset($_REQUEST['form'])){
    }
 }else{
    echo "<div align='center'><div id='attendance_frm' jsId='attendance_frm' dojoType='dijit.form.Form' >";
-   if(isset($_SESSION[PAGE]['course_id'])&&isset($_SESSION[PAGE]['batch_id'])&&isset($_SESSION[PAGE]['student_year'])){
+   if(isset($_SESSION[PAGE]['course_id']) && isset($_SESSION[PAGE]['student_year'])){
       gen_attendance_sheet(true);
    }   
    echo "</div></div>";
@@ -200,7 +198,7 @@ if(isset($_REQUEST['form'])){
    //$xhr_combobox->gen_xhr_combobox('student_year',"Student Year",$xhr_combobox->get_val('student_year'),30,20,null,null);
 //   $xhr_combobox->gen_xhr_combobox('batch_id',"Batch",$xhr_combobox->get_val('batch_id'),80,20,null,null);
    $xhr_combobox->gen_xhr_combobox('exam_hid',"Exam",$xhr_combobox->get_val('exam_hid'),110,20,null,null);
-   $xhr_combobox->gen_xhr_combobox('course_id',"Course",$xhr_combobox->get_val('course_id'),80,20,array('batch_id','course_id'),'attendance_frm');
+   $xhr_combobox->gen_xhr_combobox('course_id',"Course",$xhr_combobox->get_val('course_id'),80,20,array('exam_hid','course_id'),'attendance_frm');
    $xhr_combobox->param_setter();$xhr_combobox->html_requester();
    echo "});";
    $xhr_combobox->form_submitter('attendance_frm');

@@ -2,22 +2,20 @@
 /*
 Student should get at least acquire C passes for subjects worth of 10 credits to eligible to fallow year-2
 */
-$RULE= "The sum of the credits which have 'C' or greater in YEAR-1 should be grater than or equal to 10 to eligible YEAR-2";
+$RULE= "The sum of the credits of the courses which have 'C' or greater grades in YEAR-1 should be grater than or equal to 10 to eligible YEAR-2";
 $KEYS=array('state','credits','detail');
 
 include(MOD_CLASSES."/student_eligibility_interface.php");
 class Eligibility implements eligibility_interface{
    //Override these constants to reflect the relevence
-   const program             = 'bcsc';
-   const eligibility_name    = 'year_2_eligible';
-   const student_year       = '1';
-   const rule                = "The sum of the credits which have 'C' or greater in YEAR-1 should be grater than or equal to 10 to eligible YEAR-2";
-
-   const pass_credit_limit = '10';
+   const program              = 'bcsc';
+   const eligibility_name     = 'year_2_eligible';
+   const student_year         = '1';
+   const pass_credit_limit    = '10';
    
-   protected $index_no      = '';
-   protected $info_arr      = '';
-   protected $year_pass_grade='C'; //Students should get at least a given number of C grades  for each year
+   protected $index_no        = '';
+   protected $info_arr        = '';
+   protected $year_pass_grade ='C'; //Students should get at least a given number of C grades  for each year
 
    public function __construct($index_no){
       $this->index_no=$index_no;
@@ -32,9 +30,10 @@ class Eligibility implements eligibility_interface{
       );
       foreach($student->getCourses() as $course_id => $course){
          if(courseYear($course_id)==$this::student_year && !isNonGrade($course_id) && !isNonCredit($course_id)){
-            $exam_id=$student->getRepeatMax($course_id);
-            if(is_null($exam_id))continue;
-            if(array_sum($student->getMark($course_id,$exam_id)) >= $year_pass_mark){
+            $exam_hid_arr  =$student->getRepeatMax($course_id);
+            $marks_arr     =$student->getMark($exam_hid_arr['course_id'],$exam_hid_arr['exam_hid']);
+            if(is_null($marks_arr)){log_msg('kk',$course_id.":".$this->index_no);continue;}
+            if(array_sum($marks_arr) >= $year_pass_mark){
                $info['pass'][$course_id]=getCredits($course_id);
                $info['credits']+=getCredits($course_id);
             }else{

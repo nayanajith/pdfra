@@ -22,9 +22,7 @@ $toolbar   =array(
       'Print'   =>array('icon'=>'Print','action'=>'submit_form("print")')
    ),
    "transcpt"      =>array(
-      'Transcript'      =>array('action'=>'submit_form("transcpt")'),
-      'Transcript PDF'   =>array('action'=>'submit_form("pdf")'),
-      'Print'            =>array('icon'=>'Print','action'=>'submit_form("print")')
+      'PDF'   =>array('action'=>'submit_form("pdf")'),
    ),
    "mark_book"      =>array(
       'help'      =>array('action'=>'help_dialog()')

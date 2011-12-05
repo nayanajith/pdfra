@@ -8,7 +8,7 @@ class MYPDF extends TCPDF {
 
    /*Array to store header info*/
    protected $header_info=array();
-   protected $AR_name   ='A.B.C. Mangalie';
+   protected $AR_name   ='A.B.C. defghi';
 
    /*Set header infor*/
    public function set_header_info(){
@@ -213,7 +213,19 @@ class Transcript{
       $DO_AWARD      =$trancpt_detail['YOA'];
       $GPA            =$trancpt_detail['GPA'];
 
-      global $gradeGpv;
+
+      //TODO: this array should be global fix this
+$gradeGpv = array(
+      "A+"=>4.25,"A"=>4.00,"A-"=>3.75,
+      "B+"=>3.25,"B"=>3.00,"B-"=>2.75,
+      "C+"=>2.25,"C"=>2.00,"C-"=>1.75,
+      "D+"=>1.25,"D"=>1.00,"D-"=>0.75,
+      "E"=>0.00,"F"=>0.00,"AB"=>0.00,
+      "NR"=>0.00,"MC"=>0.00,"NA"=>0.00,
+      "NC"=>0.00,"0"=>0.00
+);
+
+
       $grades='';
       foreach($gradeGpv as $grade => $gpv){
          $grades.="<tr><td>$grade</td><td>$gpv</td></tr>";
@@ -226,7 +238,7 @@ class Transcript{
             <tr><td>Second class lower</td><td>from 3 to 3.5</td></tr>
             <tr><td>Pass</td><td>from 2.5 to 3</td></tr>";
 
-      $AR_name="A.B.C. Mangalie";
+      $AR_name="A.B.C. def";
                
       $template=<<<EOS
 <style>

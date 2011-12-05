@@ -66,7 +66,7 @@ function gen_eligibility_list($eligibility_arr){
    }
 
    if(isset($_REQUEST['action']) && $_REQUEST['action']=='print'){
-      echo "<h3>$RULE</h3>";
+      echo "<h3 class='coolh'>$RULE</h3>";
       echo "<table border='1' style='border-collapse:collapse'>";
       echo $report;
       echo "</table>";
@@ -83,7 +83,7 @@ function gen_eligibility_list($eligibility_arr){
       header("Expires: 0");
       echo $report;
    }else{
-      echo "<h3>$RULE</h3>";
+      echo "<h3 class='coolh'>$RULE</h3>";
       echo "<table border='1' style='border-collapse:collapse'>";
       echo $report;
       echo "</table>";

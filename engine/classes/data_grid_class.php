@@ -12,7 +12,7 @@ class Data_grid{
         <script language='javascript'>
             //acction to perform when the user clicked on the grid
             function grid_clicked(e){
-               var selectedValue = grid3.store.getValue(grid3.getItem(e.rowIndex),'".$key."');
+               var selectedValue = grid.store.getValue(grid.getItem(e.rowIndex),'".$key."');
                alert('selected cell Value is '+selectedValue);
             }
 
@@ -42,7 +42,7 @@ class Data_grid{
             //Prit the grid 
             function print_grid(){
                dijit.byId('grid').printGrid({
-                  title:'".$title."',
+                  title:'".str_replace('\'','"',$title)."',
                   cssFiles: cssFiles
                   });
              }
@@ -79,6 +79,7 @@ class Data_grid{
       }else{
          d_r('dojox.data.HtmlTableStore');
          $output.= "<span dojoType='dojox.data.HtmlTableStore' tableId='".$csv_url_or_tableid."' jsId='gridStore'></span>";
+         $output.= "<script>dojo.byId('".$csv_url_or_tableid."').style.display='none';</script>";
       }
         $output.="<div dojoType='dijit.Menu' jsid='gridMenu' id='gridMenu' style='display: none;'>
             <div dojoType='dojox.widget.PlaceholderMenuItem' label='GridColumns'></div>
@@ -103,13 +104,18 @@ class Data_grid{
             <tr>";
             /*Set labels for the table header if available in fileds array*/
             foreach($field_array as $key => $label){
-               $output.= "<th width='auto' field='$key'>$label</th>";
+               $width='auto';
+               if(isset($label['width'])){
+                  $width=$label['width'];
+                  $label=$label['label'];
+               }
+               $output.= "<th width='$width' field='$key'>$label</th>";
             }
             //<th width='auto' field='sex' cellType='dojox.grid.cells.Select' options='Male,Female' editable='true'>Sex</th>
             $output.= "</tr>
          </thead>
          </table>";
-        echo $output;
+        return $output;
     }
 }
 

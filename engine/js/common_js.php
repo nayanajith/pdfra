@@ -4,6 +4,34 @@ include_once (A_CORE.'/common.php');
 header("Content-type: application/javascript");
 header("Content-Disposition: attachment; filename=\"common.js\"");
 ?>
+/*
+ * Browser detection
+dojo.isIE
+dojo.isMozilla
+dojo.isFF
+dojo.isOpera
+dojo.isSafari
+dojo.isKhtml
+dojo.isAIR 
+dojo.isQuirks
+dojo.isBrowser
+dojo.isWebKit
+dojo.isChrome
+
+alert(dojo.isIE+':'+
+dojo.isMozilla+':'+
+dojo.isFF+':'+
+dojo.isOpera+':'+
+dojo.isSafari+':'+
+dojo.isKhtml+':'+
+dojo.isAIR +':'+
+dojo.isQuirks+':'+
+dojo.isBrowser+':'+
+dojo.isWebKit+':'+
+dojo.isChrome);
+*/
+
+
 /*--help viewer--*/
 function help_dialog(){
 	dojo.xhrPost({

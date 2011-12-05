@@ -65,6 +65,9 @@ if(isset($_REQUEST['form'])){
 
    //function gen_xhr_combobox($id,$label,$value,$width,$page_size,$source_array=null,$target=null);
    //$xhr_combobox->gen_xhr_combobox('student_year',"Student Year",$xhr_combobox->get_val('student_year'),30,20,null,null);
+   $item_array=array('FORMAT_L','FORMAT_P');
+   $xhr_combobox->gen_xhr_static_combo('transcpt_format','Format',$xhr_combobox->get_val('transcpt_format'),100,$item_array,null,null);
+
    $xhr_combobox->gen_xhr_combobox('index_no',"Index No",$xhr_combobox->get_val('index_no'),80,20,array('index_no'),'attendance_frm');
    //Different report types to be select
    $item_array=array('WITH_MARKS','WITHOUT_MARKS');
@@ -124,8 +127,12 @@ function transcript(){
 }
 
 function transcript_pdf(){
-   include(MOD_CLASSES."/transcript1_pdf_class.php");
-   //include(MOD_CLASSES."/transcript2_pdf_class.php");
+   if(isset($_SESSION[PAGE]['transcpt_format'])&&$_SESSION[PAGE]['transcpt_format']=='FORMAT_L'){
+      include(MOD_CLASSES."/transcript1_pdf_class.php");
+   }else{
+      include(MOD_CLASSES."/transcript2_pdf_class.php");
+   }
+
    //Generate the transcript
    $with_marks =false;
    $note       ="";

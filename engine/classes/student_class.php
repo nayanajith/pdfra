@@ -1,28 +1,9 @@
 <?php
-//Descriptive degree array
-$descDegree=array(
-   "Bachelor of Computer Science with Honours",            //0
-   "Bachelor of Computer Science",                        //1
-   "Bachelor of Science (Computer Science) with Honours",//2
-   "Bachelor of Science (Computer Science)",               //3
-   "Not Completed"                                       //4
-);
 //Class array
 $classes=array("P"=>2,"2L"=>3,"2U"=>3.25,"1"=>3.5);
 
-//Descriptive Class array
-$descClass=array(
-   "First Class(Honours)",          //0
-   "First Class",                     //1
-   "Second Class(Upper Division)",  //2
-   "Second Class(Lower Division)",  //3
-   "Pass",                           //4
-   "Pending"                        //5
-);
-
-
 function getGradeGpv($grade){
-   $gradeGpv = array(
+ $gradeGpv = array(
       "A+"=>4.25,"A"=>4.00,"A-"=>3.75,
       "B+"=>3.25,"B"=>3.00,"B-"=>2.75,
       "C+"=>2.25,"C"=>2.00,"C-"=>1.75,
@@ -30,9 +11,7 @@ function getGradeGpv($grade){
       "E"=>0.00,"F"=>0.00,"AB"=>0.00,
       "NR"=>0.00,"MC"=>0.00,"NA"=>0.00,
       "NC"=>0.00,"0"=>0.00
-   );
-  
-
+);
    if(!empty($gradeGpv[strtoupper(trim($grade))])){
       return $gradeGpv[strtoupper(trim($grade))];
    }else{
@@ -414,9 +393,27 @@ class Student{
       CLASS OBTAINED :First Class(Honours)
     */
 public function getTranscript(){
-      global $descDegree;
-      global $descClass;
-
+      //Descriptive degree array
+      $descDegree=array(
+         "Bachelor of Computer Science with Honours",            //0
+         "Bachelor of Computer Science",                        //1
+         "Bachelor of Science (Computer Science) with Honours",//2
+         "Bachelor of Science (Computer Science)",               //3
+         "Not Completed"                                       //4
+      );
+      
+      //Descriptive Class array
+      $descClass=array(
+         "First Class(Honours)",          //0
+         "First Class",                     //1
+         "Second Class(Upper Division)",  //2
+         "Second Class(Lower Division)",  //3
+         "Pass",                           //4
+         "Pending"                        //5
+      );
+      
+      
+      
       $transcript=array();
       $myGPA=$this->getCGPA();
       $myClass=$this->getClass($myGPA);
@@ -698,7 +695,9 @@ public function getTranscript(){
    public function getMark($course_id,$exam_hid){
       if(isset($this->courses[$course_id])){
          $course=$this->courses[$course_id];
-         if(!isset($course[$exam_hid])){ log_msg('lllllllll',$course_id."--".$exam_hid);return null; }
+         if(!isset($course[$exam_hid])){
+            return null; 
+         }
          $marks=$course[$exam_hid];
          return array($marks['final_mark'],$marks['push']);
       }else{

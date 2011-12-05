@@ -144,8 +144,8 @@ class Eligibility implements eligibility_interface{
       }
 
       return array(
-         'state'   =>$state,
-         'detail'   =>implode($state_info,','),
+         'state'  =>$state,
+         'detail' =>implode($state_info,','),
          'cgpa'   =>round($cgpa,2)
       );
    }

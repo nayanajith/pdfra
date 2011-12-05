@@ -24,15 +24,24 @@ function gen_exam_summery(){
 
    //Get the statistics of each course of the selected exam
    $arr_statistics=exec_query("SELECT course_id,MAX(final_mark) max,MIN(final_mark) min,ROUND(AVG(final_mark),2) avg,ROUND(STD(final_mark),2) std FROM ".$GLOBALS['P_TABLES']['marks']." WHERE exam_hid='".$_SESSION[PAGE]['exam_hid']."' AND state='PR' GROUP BY course_id;",Q_RET_ARRAY,null,'course_id');
-   $exam_info_arr=explode(':',$_SESSION[PAGE]['exam_hid']);
 
+   $exam_info_arr=explode(':',$_SESSION[PAGE]['exam_hid']);
    //Generating the summery report  for all the courses of the selected exam
-   $report= "<h4 class='coolh'>Examination date:".$exam_info_arr[0]." Year:".$exam_info_arr[1]." Semester:".$exam_info_arr[2]."</h4>";
+   $title= "Examination date:".$exam_info_arr[0]." Year:".$exam_info_arr[1]." Semester:".$exam_info_arr[2];
+   $report="<h4 class='coolh'>$title</h4>";
    //Hide the table when you want to convert the table in to datagrid
-   $report.= "<table id='exam_summary' style='display:none' class='clean'>";
-   //$report.= "<table id='exam_summary' class='clean' border='1'>";
+   $report.= "<table id='exam_summary' class='clean' border='1'>";
    $header_arr=array(
-   "Course_ID"=>"Course ID","STD"=>"STD","AVG"=>"AVG","MAX"=>"MAX","MIN"=>"MIN","PRESENT"=>"PRESET","ABSENT"=>"ABSENT","MEDICAL"=>"MEDICAL","OFFENDED"=>"OFFENDED","GRADE_COUNT"=>"GRADE COUNT"
+      "Course_ID"=>array('width'=>'80','label'=>"Course ID"),
+      "STD"=>array('width'=>'50','label'=>"STD"),
+      "AVG"=>array('width'=>'50','label'=>"AVG"),
+      "MAX"=>array('width'=>'50','label'=>"MAX"),
+      "MIN"=>array('width'=>'50','label'=>"MIN"),
+      "PRESENT"=>array('width'=>'50','label'=>"PR"),
+      "ABSENT"=>array('width'=>'50','label'=>"AB"),
+      "MEDICAL"=>array('width'=>'50','label'=>"MED"),
+      "OFFENDED"=>array('width'=>'50','label'=>"EO"),
+      "GRADE_COUNT"=>array('width'=>'450','label'=>"GRADE COUNT")
    );
    $header="<thead><tr><th>".implode("</th><th>",array_keys($header_arr))."</th></tr></thead>";
    $report.=$header;
@@ -43,20 +52,28 @@ function gen_exam_summery(){
       $report.= "<td>".$stat_arr['std']."</td><td>".$stat_arr['avg']."</td><td>".$stat_arr['max']."</td><td>".$stat_arr['min']."</td>";
       $report.= "<td>".$arr_state_count_pr[$course_id]['PR']."</td><td>".$arr_state_count_pr[$course_id]['AB']."</td><td>".$arr_state_count_pr[$course_id]['MC']."</td><td>".$arr_state_count_pr[$course_id]['EO']."</td>";
       //Grade count
-      $report.= "<td title='";
+      $report.= "<td title=''>";
       $bar='';
-      foreach($arr_grade_count_pr[$course_id] as $grade => $count){
-         $report.= "$bar$grade:$count";
-         $bar='&nbsp;|&nbsp;';
+      if(isset($arr_grade_count_pr[$course_id])){
+         foreach($arr_grade_count_pr[$course_id] as $grade => $count){
+            $report.= "$bar$grade:$count";
+            $bar='&nbsp;|&nbsp;';
+         }
       }
-      $report.="'>||||||||||</td>";
+      $report.="</td>";
       $report.= "</tr>";
    } 
    $report.= $header;
    $report.= "</tbody></table>";
-   include A_CLASSES."/data_grid_class.php";
-   $data_grid= new Data_grid();
-   echo $data_grid->gen_data_grid($header_arr,'exam_summary','Course_ID','TABLE');
+
+   //When the user request a reload of the page the table will display as a dojo grid
+   //THIS IS TESTING FUNCTIONALITY TODDO:
+   if(!isset($_REQUEST['action'])){
+      include A_CLASSES."/data_grid_class.php";
+      $data_grid= new Data_grid();
+      $report.=$data_grid->gen_data_grid($header_arr,'exam_summary','Course_ID','TABLE',$title);
+   }
+
    $report.="<center>".date("M d, Y")."</center>";
    if(isset($_REQUEST['action'])&&$_REQUEST['action']=='pdf'){
       include A_CLASSES."/letterhead_pdf_class.php";

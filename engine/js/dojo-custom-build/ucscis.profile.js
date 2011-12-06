@@ -35,7 +35,19 @@ dependencies = {
  	 	 	 	"dijit.form.Form",
             "dijit.form.Button",
             "dijit.form.DropDownButton",
-				"dijit.ProgressBar"
+				"dijit.ProgressBar",
+
+            "dijit._base.focus",
+            "dijit._base.place",
+            "dijit._base.popup",
+            "dijit._base.scroll",
+            "dijit._base.sniff",
+            "dijit._base.typematic",
+            "dijit._base.wai",
+            "dijit._base.window",
+
+            "dijit.MenuSeparator",
+            "dijit.ToolbarSeparator"
 			]
 		},
 		{
@@ -43,7 +55,9 @@ dependencies = {
 			dependencies: [
  	 	 	 	"dojo.data.ItemFileReadStore",
  	 	 	 	"dojo.data.ItemFileWriteStore",
- 	 	 	 	"dojo.io.iframe"
+ 	 	 	 	"dojo.io.iframe",
+            "dojo.selector.acme",
+            "dojo.cldr.nls.en.number"
 			]
 		},
 		{

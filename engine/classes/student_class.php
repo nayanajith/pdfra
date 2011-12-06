@@ -1,9 +1,42 @@
 <?php
-//Class array
-$classes=array("P"=>2,"2L"=>3,"2U"=>3.25,"1"=>3.5);
+//Descriptive degree array
+function getDescDegreeArr(){
+   $descDegree=array(
+      "Bachelor of Computer Science with Honours",          //0
+      "Bachelor of Computer Science",                       //1
+      "Bachelor of Science (Computer Science) with Honours",//2
+      "Bachelor of Science (Computer Science)",             //3
+      "Not Completed"                                       //4
+   );
+   return  $descDegree;
+}
 
-function getGradeGpv($grade){
- $gradeGpv = array(
+//Descriptive Class array
+function getDescClassArr(){
+   $descClass=array(
+      "First Class(Honours)",          //0
+      "First Class",                   //1
+      "Second Class(Upper Division)",  //2
+      "Second Class(Lower Division)",  //3
+      "Pass",                          //4
+      "Pending"                        //5
+   );
+   return $descClass;
+}
+ 
+//Class array
+function getClassesArr(){
+   $classes=array(
+      "P"   =>2,
+      "2L"  =>3,
+      "2U"  =>3.25,
+      "1"   =>3.5
+   );
+   return $classes;
+}
+
+function getGradeGPVArr(){
+   $gradeGpv = array(
       "A+"=>4.25,"A"=>4.00,"A-"=>3.75,
       "B+"=>3.25,"B"=>3.00,"B-"=>2.75,
       "C+"=>2.25,"C"=>2.00,"C-"=>1.75,
@@ -11,7 +44,12 @@ function getGradeGpv($grade){
       "E"=>0.00,"F"=>0.00,"AB"=>0.00,
       "NR"=>0.00,"MC"=>0.00,"NA"=>0.00,
       "NC"=>0.00,"0"=>0.00
-);
+   );
+   return  $gradeGpv;
+}
+
+function getGradeGpv($grade){
+   $gradeGpv=getGradeGPVArr();
    if(!empty($gradeGpv[strtoupper(trim($grade))])){
       return $gradeGpv[strtoupper(trim($grade))];
    }else{
@@ -19,18 +57,21 @@ function getGradeGpv($grade){
    }
 }
 
-
-function getMinMarkC($grade){
-   /*
-    * Array to hold minimum marks to obtain a particular Grade
-    */
-
+/*
+ * Array to hold minimum marks to obtain a particular Grade
+ */
+function getMinMarkCArr(){
    $minGradeMark=array(
       'D-'=>20,'D'=>30,'D+'=>40,
       'C-'=>45,'C'=>50,'C+'=>55,
       'B-'=>60,'B'=>65,'B+'=>70,
       'A-'=>75,'A'=>80,'A+'=>90
    );
+   return  $minGradeMark;
+}
+
+function getMinMarkC($grade){
+   $minGradeMark=getMinMarkCArr();
    return $minGradeMark[strtoupper(trim($grade))];
 }
 
@@ -74,6 +115,15 @@ function getGradeC($mark,$course_id){
    return $grade;
 }
 
+$course_arr =null;
+function getCourseArr(){
+   global $course_arr;
+   if(is_null($course_arr)){
+      $course_arr  = exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAY,null,'course_id');
+   }
+   return  $course_arr;
+}
+
 /*Course excpetions*/
 /*
 $courseNonGrade   = array('ENH1001','ENH1002');
@@ -84,12 +134,8 @@ $courseNonCredit   = array('SCS3026','ICT3015','ICT3016');
 /*
  * Check for non grade courses
  */
-$course_arr =null;
 function isNonGrade($courseid){
-   global $course_arr;
-   if(is_null($course_arr)){
-      $course_arr  = exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAY,null,'course_id');
-   }
+   $course_arr=getCourseArr();
    if($course_arr[$courseid]['non_grade']==true){
       return true;
    }else{
@@ -101,10 +147,7 @@ function isNonGrade($courseid){
  * Check for non credit courses
  */
 function isNonCredit($courseid){
-   global $course_arr;
-   if(is_null($course_arr)){
-      $course_arr  = exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAY,null,'course_id');
-   }
+   $course_arr=getCourseArr();
    if($course_arr[$courseid]['non_credit']==true){
       return true;
    }else{
@@ -118,10 +161,7 @@ function isNonCredit($courseid){
  *
  */
 function courseYear($courseid){
-   global $course_arr;
-   if(is_null($course_arr)){
-      $course_arr  = exec_query("SELECT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAY,null,'course_id');
-   }
+   $course_arr=getCourseArr();
    if(isset($course_arr[$courseid]['student_year'])){
       return $course_arr[$courseid]['student_year'];
    }else{
@@ -133,10 +173,7 @@ function courseYear($courseid){
  * Return Credits of the given course unit
  */
 function getCredits($courseid){
-   global $course_arr;
-   if(is_null($course_arr)){
-      $course_arr  = exec_query("SELECT DISTINCT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAT,null,'course_id');
-   }
+   $course_arr=getCourseArr();
 
    //if(!isNonGrade($courseid) && !isNonCredit($courseid)){
    if(!isNonCredit($courseid)){
@@ -147,10 +184,7 @@ function getCredits($courseid){
 }
 
 function getCourseName($course_id){
-   global $course_arr;
-   if(is_null($course_arr)){
-      $course_arr  = exec_query("SELECT DISTINCT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAT,null,'course_id');
-   }
+   $course_arr=getCourseArr();
    return $course_arr[$course_id]['course_name'];
 }
 
@@ -158,10 +192,7 @@ function getCourseName($course_id){
  *Return alternate course IDS as an array 
  * */
 function getAltCourses($course_id){
-   global $course_arr;
-   if(is_null($course_arr)){
-      $course_arr  = exec_query("SELECT DISTINCT * FROM ".$GLOBALS['P_TABLES']['course'],Q_RET_ARRAY,null,'course_id');
-   }
+   $course_arr=getCourseArr();
    if(!is_null($course_arr[$course_id]['alt_course_id'])){
       $alt_courses=explode(',',$course_arr[$course_id]['alt_course_id']); 
       array_unshift($alt_courses,$course_id);
@@ -394,25 +425,10 @@ class Student{
     */
 public function getTranscript(){
       //Descriptive degree array
-      $descDegree=array(
-         "Bachelor of Computer Science with Honours",            //0
-         "Bachelor of Computer Science",                        //1
-         "Bachelor of Science (Computer Science) with Honours",//2
-         "Bachelor of Science (Computer Science)",               //3
-         "Not Completed"                                       //4
-      );
-      
+      $descDegree=getDescDegreeArr();      
+
       //Descriptive Class array
-      $descClass=array(
-         "First Class(Honours)",          //0
-         "First Class",                     //1
-         "Second Class(Upper Division)",  //2
-         "Second Class(Lower Division)",  //3
-         "Pass",                           //4
-         "Pending"                        //5
-      );
-      
-      
+      $descClass=getDescClassArr();      
       
       $transcript=array();
       $myGPA=$this->getCGPA();
@@ -486,9 +502,9 @@ public function getTranscript(){
    /*
     * Classes for GPA
     */
-   protected $classes=array("P"=>2,"2L"=>3,"2U"=>3.25,"1"=>3.5);
 
    public function getClass($GPA){
+      $classes=getClassesArr();
       $gpa=$GPA;
 
       if(!$gpa){
@@ -497,7 +513,7 @@ public function getTranscript(){
 
          $gpa=$mydgpa;
          //Choose from degree gpa and class gpa
-         if($mydgpa >=$this->classes['P'] && $mycgpa < $mydgpa){
+         if($mydgpa >=$classes['P'] && $mycgpa < $mydgpa){
             $gpa=$mycgpa;
          }
       }
@@ -505,13 +521,13 @@ public function getTranscript(){
       if($gpa <2){
          return -1;
       }elseif($gpa <3){
-         return array_search(2,$this->classes);
+         return array_search(2,$classes);
       }elseif($gpa <3.25){
-         return array_search(3,$this->classes);
+         return array_search(3,$classes);
       }elseif($gpa <3.5){
-         return array_search(3.25,$this->classes);
+         return array_search(3.25,$classes);
       }else{
-         return array_search(3.5,$this->classes);
+         return array_search(3.5,$classes);
       }
    }
 

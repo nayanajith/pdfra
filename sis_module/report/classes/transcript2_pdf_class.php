@@ -215,28 +215,20 @@ class Transcript{
 
 
       //TODO: this array should be global fix this
-$gradeGpv = array(
-      "A+"=>4.25,"A"=>4.00,"A-"=>3.75,
-      "B+"=>3.25,"B"=>3.00,"B-"=>2.75,
-      "C+"=>2.25,"C"=>2.00,"C-"=>1.75,
-      "D+"=>1.25,"D"=>1.00,"D-"=>0.75,
-      "E"=>0.00,"F"=>0.00,"AB"=>0.00,
-      "NR"=>0.00,"MC"=>0.00,"NA"=>0.00,
-      "NC"=>0.00,"0"=>0.00
-);
-
+      $gradeGpv = getGradeGPVArr();
 
       $grades='';
       foreach($gradeGpv as $grade => $gpv){
          $grades.="<tr><td>$grade</td><td>$gpv</td></tr>";
       }
 
+
+      $classes_arr=getClassesArr();
       $classes="
-            <tr><td width='35mm'>First class</td><td>5.5 and above</td></tr>
-            <tr><td>First class lower</td><td>from 4 to 4.5</td></tr>
-            <tr><td>Second class</td><td>from 3.5 to 4</td></tr>
-            <tr><td>Second class lower</td><td>from 3 to 3.5</td></tr>
-            <tr><td>Pass</td><td>from 2.5 to 3</td></tr>";
+            <tr><td width='35mm'>First class</td><td>3.5 and above</td></tr>
+            <tr><td>Second class Upper</td><td>from 3.25 to 3.5</td></tr>
+            <tr><td>Second class lower</td><td>from 3 to 3.25</td></tr>
+            <tr><td>Pass</td><td>from 2 to 3</td></tr>";
 
       $AR_name="A.B.C. def";
                
@@ -316,7 +308,7 @@ A4
 Subject Offered
       </td>
       <td class='section_title' width='60mm'>
-Key to Grade and Grade points
+Grade Point and Important Dates 
       </td>
    </tr>
    <tr>
@@ -331,23 +323,25 @@ Key to Grade and Grade points
          </table>
       </td>
       <td valign='top' width='60mm' >
-         <table border='1' style='border-collapse:collapse;' class='grade' width='30mm' >
-            <tr><th >GRADE</th><th>GP</th></tr>
-            $grades
-         </table>
-         <br>
-         <br>
-         <br>
-         <table class='classes'>
-            $classes
-         </table>
-         <br>
-         <br>
-         <br>
          <table class='info'>
             <tr><td width='40mm'>YEAR OF ADMISSION</td><td>$DO_ADMIT</td></tr>
             <tr><td>DATE OF AWARD</td><td>$DO_AWARD</td></tr>
             <tr><td>GRADE POINT AVARAGE</td><td>$GPA</td></tr>
+         </table>
+         <br>
+         <div class='section_title'>Key to Grades</div>
+         <br>
+         <br>
+         &nbsp;&nbsp;<table border='1' style='border-collapse:collapse;' class='grade info' width='30mm' >
+            <tr><th>GRADE</th><th align='center'>GP</th></tr>
+            $grades
+         </table>
+         <br>
+         <div class='section_title'>Key to Grade points</div>
+         <br>
+         <br>
+         <table class='classes'>
+            $classes
          </table>
       </td>
    </tr>

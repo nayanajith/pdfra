@@ -87,7 +87,6 @@ if(isset($_REQUEST['action'])){ /*haldle requests*/
                   $a_r=$a_r-($a_r%10);
                }
                $p_r=100-$a_r;
-               log_msg($row['final_mark']."($x)",$row['final_mark']-round(($row['assignment_mark']*$a_r+$row['paper_mark']*$p_r)/100,0));
                $query="REPLACE INTO ".$program_."_rubric(exam_hid,course_id,paper,assignment)VALUES('$exam_hid','".$row['course_id']."','$p_r','$a_r')";
                if(!exec_query($query,Q_RET_NONE,$db=null,$array_key=null,$deleted=null,$no_connect=true)){
                   $error.=get_sql_error();

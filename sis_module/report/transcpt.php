@@ -126,6 +126,47 @@ function transcript(){
    }
 }
 
+function transcript_id(){
+	//get next transaction for the day for the program
+	$next_arr=exec_query("SELECT count(*)+1 next FROM ".$GLOBALS['P_TABLES']['transcript']." WHERE DATE(init_time)=CURRENT_DATE()",Q_RET_ARRAY);
+	$trans_id=$next_arr[0]['next'];
+
+	/*current date in 25032011 format*/
+	$date				=date("dmy");
+	
+	$composite_no='';
+
+	/*Fill zeros for program_id*/
+	/*
+	for($j=$this->program_id_digits;$j>strlen($program_id);$j--){
+		$composite_no.='0';
+	}
+	$composite_no.=$program_id;
+	*/
+
+	/*Fill zeros for transaction_id*/
+   /*
+	for($j=$this->trans_id_digits;$j>strlen($trans_id);$j--){
+		$composite_no.='0';
+	}
+	$composite_no.=$trans_id;
+	$composite_no.=$date;
+    */
+
+   /*
+	$check=0;
+	foreach(str_split($composite_no) as $digit){
+		$check+=(int)$digit;
+	}
+	$check=($check%$this->modulus);
+    */
+	/*Complete transaction id*/
+	//return $program_code.$this->code_seperator.$pay_for_code.$this->code_seperator.$tp_ref_id.$this->code_seperator.$composite_no.$check;
+	//return $program_code.$this->code_seperator.$pay_for_code.$this->code_seperator.$tp_ref_id.$this->code_seperator.$composite_no;
+
+}
+
+//Pdf version of transcript will be returend  in selected format
 function transcript_pdf(){
    if(isset($_SESSION[PAGE]['transcpt_format'])&&$_SESSION[PAGE]['transcpt_format']=='FORMAT_L'){
       include(MOD_CLASSES."/transcript1_pdf_class.php");

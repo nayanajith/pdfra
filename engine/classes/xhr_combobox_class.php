@@ -36,6 +36,7 @@ class XHR_Combobox{
    }
    
    function store($id){
+      d_r('dojox.data.QueryReadStore');
       echo "
       var ".$id."_store = new dojox.data.QueryReadStore({
          url:'".gen_url()."&data=json&form=main&action=store&id=$id',
@@ -45,6 +46,7 @@ class XHR_Combobox{
    }
 
    function static_store($id,$items_arr){
+      d_r('dojo.data.ItemFileReadStore');
       echo "
          var ".$id."_store = new dojo.data.ItemFileReadStore({
             data:{   
@@ -66,6 +68,7 @@ class XHR_Combobox{
          $onchange="set_param('$id',this.value);source_array=new Array('".implode("','",$source_array)."');request_html('$target',source_array,null)";
       }
 
+      d_r('dijit.form.ComboBox');
       echo  "
        var ".$id."_combo = new dijit.form.ComboBox({
          jsId:'$id',

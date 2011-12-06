@@ -175,7 +175,7 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
     */
 
    //Enable this to log all the queries
-   //log_msg('exec_query',$db.":".$query);
+   log_msg('exec_query',$db.":".$query);
 
    /*Execute query*/
    $result    = mysql_query($query, $GLOBALS['CONNECTION']);

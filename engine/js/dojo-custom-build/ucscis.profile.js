@@ -28,11 +28,13 @@ dependencies = {
  	 	 	 	"dijit.form.TextBox",
  	 	 	 	"dijit.form.Textarea",
  	 	 	 	"dijit.form.DateTextBox",
+            "dijit.form.NumberTextBox",
  	 	 	 	"dijit.form.NumberSpinner",
             "dijit.form.HorizontalSlider",
  	 	 	 	"dijit.form.ValidationTextBox",
  	 	 	 	"dijit.form.Form",
             "dijit.form.Button",
+            "dijit.form.DropDownButton",
 				"dijit.ProgressBar"
 			]
 		},
@@ -40,14 +42,20 @@ dependencies = {
 			name: "../dojo/ucscis.js",
 			dependencies: [
  	 	 	 	"dojo.data.ItemFileReadStore",
- 	 	 	 	"dojo.data.ItemFileWriteStore"
+ 	 	 	 	"dojo.data.ItemFileWriteStore",
+ 	 	 	 	"dojo.io.iframe"
 			]
 		},
 		{
 			name: "../dojox/ucscis.js",
 			dependencies: [
  	 	 	 	"dojox.grid.DataGrid",
+            "dojox.grid.EnhancedGrid",
+            "dojox.grid.enhanced.plugins.exporter.CSVWriter",
+            "dojox.grid.enhanced.plugins.Printer",
+            "dojox.data.HtmlTableStore",
  	 	 	 	"dojox.data.QueryReadStore",
+ 	 	 	 	"dojox.data.CsvStore",
             "dojox.form.PasswordValidator",
             "dojox.widget.PlaceholderMenuItem"
 			]

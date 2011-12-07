@@ -36,20 +36,7 @@ dependencies = {
             "dijit.form.Button",
             "dijit.form.DropDownButton",
 				"dijit.ProgressBar",
-
             "dijit._base",
-            /*
-            "dijit._base.focus",
-            "dijit._base.place",
-            "dijit._base.popup",
-            "dijit._base.scroll",
-            "dijit._base.sniff",
-            "dijit._base.typematic",
-            "dijit._base.wai",
-            "dijit._base.window",
-            "dijit._base.WidgetSet",
-            */
-
             "dijit.MenuSeparator",
             "dijit.ToolbarSeparator"
 			]

@@ -76,8 +76,8 @@ class XHR_Combobox{
          name:'$id',
          style:'width:".$width."px;',
          value:'$value',
-          searchAttr: '$id',
-          pageSize: '$page_size',
+         searchAttr: '$id',
+         pageSize: '$page_size',
          onChange:function(){".$onchange.";},
          store : ".$id."_store
       },'".$id."_select');

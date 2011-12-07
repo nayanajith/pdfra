@@ -49,6 +49,7 @@ function gen_registration_form(){
    echo "<th>Choose</th>";
    echo "</tr>";
 
+   d_r('dijit.form.CheckBox');
    //Print all the courses with details where as compulsory courses will be automatically selected and the previousely registred courses will also be selected 
    //Total of the already selecte and compulsory courses will also be returned
    foreach($arr as $row){
@@ -288,9 +289,31 @@ if(isset($_REQUEST['action'])){
       $xhr_combobox->gen_xhr_combobox('batch_id',"Batch",$xhr_combobox->get_val('batch_id'),80,20,null,null);
       $xhr_combobox->gen_xhr_combobox('exam_hid',"Exam",$xhr_combobox->get_val('exam_hid'),110,20,array('batch_id','exam_hid'),'course_selection_frm');
       $xhr_combobox->gen_xhr_combobox('index_no',"Index No",$xhr_combobox->get_val('index_no'),80,20,array('batch_id','exam_hid','index_no'),'course_selection_frm');
-      $xhr_combobox->param_setter();$xhr_combobox->html_requester();
+      echo "
+      var credit_count = new dijit.form.TextBox({
+         id:'credit_count',
+         jsId:'credit_count',
+         name:'credit_count'
+      });
+   
+      toolbar.addChild(credit_count);
+      ";
+
+
+      $xhr_combobox->param_setter();
+      $xhr_combobox->html_requester();
       echo "});";
       $xhr_combobox->form_submitter('course_selection_frm');
+      echo "
+      function count_credits(course_id,state,lec_cred,prac_cred){
+         if(state=true){
+            dojo.byId('compulsory_credits')+=(lec_cred+prac_cred);
+         }else{
+            dojo.byId('compulsory_credits')-=(lec_cred+prac_cred);
+         }
+         dojo.byId('credit_count').value=dojo.byId('compulsory_credits').value;
+      }";
+
       echo "</script>";
 
    }

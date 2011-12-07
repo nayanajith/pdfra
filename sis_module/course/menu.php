@@ -19,7 +19,8 @@ $toolbar   =array(
       'Add Filter'   =>array('icon'=>'Filter','action'=>'show_dialog()','dojoType'=>'dijit.form.Button','label'=>'Add Filter')
    ),
    "course_registration"      =>array(
-      'Save'   =>array('icon'=>'Save','action'=>'submit_form("modify")')
+      'Save'   =>array('icon'=>'Save','action'=>'submit_form("modify")'),
+      'Reset'   =>array('icon'=>'Reload','action'=>'submit_form("reset")')
    ),
    "course_attendance"      =>array(
       'Print'   =>array('icon'=>'NewPage','label'=>'PDF','action'=>'submit_form("pdf")'),

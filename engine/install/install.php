@@ -139,11 +139,12 @@ return;
          include A_CORE."/script.php";
       ?>
 <script language='javascript'>
+   //content:"<ul>"+msg+"</ul><br/><center><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();window.open('<?php echo W_ROOT;?>','_self')\" type='button'>OK</button></center>"
    function status_dialog(msg){
       stausDialog = new dijit.Dialog({
          title: "Status report",
          style: "width: 600px;",
-         content:"<ul>"+msg+"</ul><br/><center><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();window.open('<?php echo W_ROOT;?>','_self')\" >OK</button></center>"
+         content:"<ul>"+msg+"</ul><br/><center><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide()\" type='button'>OK</button></center>"
       });
       stausDialog.show();
    }

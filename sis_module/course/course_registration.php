@@ -132,11 +132,13 @@ function gen_bulk_registration_form(){
 /*
 Function to save the registration request from the frontend
 */
-function save_bulk_selection(){
+function save_batch_selection(){
    $error=array();
    $arr=exec_query("SELECT course_id,semester FROM ".$GLOBALS['P_TABLES']['course']." WHERE student_year='".$_SESSION[PAGE]['student_year']."'",Q_RET_ARRAY);
 
    $index_arr=exec_query("SELECT index_no FROM ".$GLOBALS['P_TABLES']['student']." WHERE batch_id='".$_SESSION[PAGE]['batch_id']."'",Q_RET_ARRAY,null,'index_no');
+   //clear previouse data
+   exec_query("DELETE FROM ".$GLOBALS['P_TABLES']['marks']."(index_no,course_id,exam_hid)values('".$index_no."','".$c_arr['course_id']."','".$_SESSION[PAGE]['exam_hid']."')",Q_RET_MYSQL_RES);
 
    //Clean previousely registered courses before re setting the courses
    foreach($arr as $c_arr){
@@ -192,6 +194,15 @@ function save_selection(){
    }
 }
 
+function reset_batch(){
+   return_status_json('ERROR','batch reset');
+}
+
+function reset_student(){
+   return_status_json('ERROR','student reset');
+
+}
+
 //id table mapper array
 $table_of_id=array(
    'index_no'=>$GLOBALS['P_TABLES']['student'],
@@ -216,14 +227,17 @@ if(isset($_REQUEST['action'])){
    switch($_REQUEST['action']){
       case 'modify':
          if(isset($_REQUEST['bulk']) && $_REQUEST['bulk'] == 'true'){
-            save_bulk_selection();
+            save_batch_selection();
          }else{
             save_selection();
          }
       break;
-      case 'pdf':
-      break;
-      case 'csv':
+      case 'reset':
+         if(isset($_REQUEST['bulk']) && $_REQUEST['bulk'] == 'true'){
+            reset_batch();
+         }else{
+            reset_student();
+         }
       break;
       case 'store':
          $filter   =null;
@@ -290,10 +304,24 @@ if(isset($_REQUEST['action'])){
       $xhr_combobox->gen_xhr_combobox('exam_hid',"Exam",$xhr_combobox->get_val('exam_hid'),110,20,array('batch_id','exam_hid'),'course_selection_frm');
       $xhr_combobox->gen_xhr_combobox('index_no',"Index No",$xhr_combobox->get_val('index_no'),80,20,array('batch_id','exam_hid','index_no'),'course_selection_frm');
       echo "
+<<<<<<< HEAD
       var credit_count = new dijit.form.TextBox({
          id:'credit_count',
          jsId:'credit_count',
          name:'credit_count'
+=======
+      var credit_count_label=new dijit.form.Button({
+         label: 'Credit Count',
+         disabled:true
+      });
+      toolbar.addChild(credit_count_label);
+
+      var credit_count = new dijit.form.TextBox({
+         id:'credit_count',
+         jsId:'credit_count',
+         name:'credit_count',
+         style:'width:40px;'
+>>>>>>> a1416b2b2877d187eff18f1ac4bbfe068f7556d4
       });
    
       toolbar.addChild(credit_count);
@@ -306,10 +334,20 @@ if(isset($_REQUEST['action'])){
       $xhr_combobox->form_submitter('course_selection_frm');
       echo "
       function count_credits(course_id,state,lec_cred,prac_cred){
+<<<<<<< HEAD
          if(state=true){
             dojo.byId('compulsory_credits')+=(lec_cred+prac_cred);
          }else{
             dojo.byId('compulsory_credits')-=(lec_cred+prac_cred);
+=======
+         var compulsory_credits=dojo.byId('compulsory_credits');
+         var prev_value =parseInt(compulsory_credits.value);
+         var sel_value  =parseInt(lec_cred)+parseInt(prac_cred);
+         if(state==true){
+            compulsory_credits.value=prev_value+sel_value;
+         }else{
+            compulsory_credits.value=prev_value-sel_value;
+>>>>>>> a1416b2b2877d187eff18f1ac4bbfe068f7556d4
          }
          dojo.byId('credit_count').value=dojo.byId('compulsory_credits').value;
       }";

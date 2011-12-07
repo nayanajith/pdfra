@@ -379,6 +379,8 @@ foreach($course_id_arr as $course_id){
    }
 }
 
+d_r("dijit.form.CheckBox");
+d_r("dijit.form.Button");
 d_r("dijit.form.DropDownButton");
 $submit_button="<center><button dojoType='dijit.form.Button' type='submit' onClick='handle_ttdialog()'>OK</button></center>";
 ?>

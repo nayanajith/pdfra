@@ -1,8 +1,8 @@
 <?php
 /*--------------------------------paths---------------------------------------*/
 //define('A_ROOT'    , getcwd());
-define('A_ROOT'      , '/home/nayanajith/Projects/uis/engine');
-define('W_ROOT'      , '/uis');
+define('A_ROOT'      , '/home/nayanajith/Projects/sis/engine');
+define('W_ROOT'      , '/sis');
 define('IMG'         , W_ROOT.'/img');
 define('A_IMG'       , A_ROOT.'/img');
 define('CSS'         , W_ROOT.'/css');

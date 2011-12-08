@@ -4,7 +4,7 @@ Program database tables set of tables for each program
 */
 include A_CORE."/database_schema.php";
 $program_table_schemas=array();
-$program_table_schemas['course']="CREATE TABLE `course` ( 
+$program_table_schemas['course']="CREATE TABLE `%scourse` ( 
  `course_id`         mediumint    NOT NULL AUTO_INCREMENT,
  `short_name`        varchar(10)  NOT NULL,
  `long_name`         varchar(60)  NOT NULL,
@@ -20,7 +20,7 @@ $program_table_schemas['course']="CREATE TABLE `course` (
  PRIMARY KEY (`course_id`)
  ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
-$program_table_schemas['schedule']="CREATE TABLE `schedule` (
+$program_table_schemas['schedule']="CREATE TABLE `%sschedule` (
   `session_id`          mediumint   NOT NULL AUTO_INCREMENT,
   `course_id`           mediumint   NOT NULL,
   `session_name`        varchar(30) DEFAULT NULL,
@@ -30,7 +30,7 @@ $program_table_schemas['schedule']="CREATE TABLE `schedule` (
 	PRIMARY KEY (`session_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
-$program_table_schemas['reg']="CREATE TABLE `reg` (
+$program_table_schemas['reg']="CREATE TABLE `%sreg` (
   `reg_id`              mediumint   NOT NULL AUTO_INCREMENT,
   `session_id`          mediumint   NOT NULL,
   `student_id`          mediumint   NOT NULL,
@@ -41,7 +41,7 @@ $program_table_schemas['reg']="CREATE TABLE `reg` (
   	PRIMARY KEY (`reg_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
-$program_table_schemas['student']="CREATE TABLE `student` (
+$program_table_schemas['student']="CREATE TABLE `%sstudent` (
   `student_id`          mediumint  	NOT NULL AUTO_INCREMENT,
   `email`               varchar(60)	NOT NULL,
   `NIC`                 varchar(20) NOT NULL,
@@ -61,4 +61,5 @@ $program_table_schemas['student']="CREATE TABLE `student` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 
+add_table_prefix($program_table_schemas,MODULE);
 ?>

@@ -8,14 +8,17 @@ dependencies = {
             "dijit.layout.BorderContainer",
             "dijit.layout.TabContainer",
             "dijit.layout.AccordionContainer",
+            "dijit.layout.AccordionPane",
 				"dijit.Dialog",
  	 	 	 	"dijit.MenuBar",
  	 	 	 	"dijit.PopupMenuBarItem",
  	 	 	 	"dijit.Menu",
  	 	 	 	"dijit.MenuItem",
+ 	         "dijit.MenuSeparator",
  	 	 	 	"dijit.PopupMenuItem",
  	 	 	 	"dijit.Toolbar",
- 	 	 	 	"dijit.Tree",
+            "dijit.ToolbarSeparator"
+ 	 	 	   "dijit.Tree",
 				"dijit.InlineEditBox",
 				"dijit.TooltipDialog",
 				"dijit.Tooltip",
@@ -37,9 +40,7 @@ dependencies = {
             "dijit.form.DropDownButton",
 				"dijit.ProgressBar",
             "dijit._base",
-            "dijit.MenuSeparator",
-            "dijit.ToolbarSeparator"
-			]
+  			]
 		},
 		{
 			name: "../dojo/ucscis.js",
@@ -48,7 +49,10 @@ dependencies = {
  	 	 	 	"dojo.data.ItemFileWriteStore",
  	 	 	 	"dojo.io.iframe",
             "dojo.selector.acme",
-            "dojo.cldr.nls.en.number"
+            "dojo.cldr.nls.en.number",
+            "dojo.fx.Toggler",
+            "dojo.dnd.AutoSource",
+            "dojo.dnd.Target",
 			]
 		},
 		{
@@ -62,7 +66,7 @@ dependencies = {
  	 	 	 	"dojox.data.QueryReadStore",
  	 	 	 	"dojox.data.CsvStore",
             "dojox.form.PasswordValidator",
-            "dojox.widget.PlaceholderMenuItem"
+            "dojox.widget.PlaceholderMenuItem",
 			]
 		}
 	],

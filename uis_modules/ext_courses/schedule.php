@@ -1,12 +1,7 @@
 <?php 
-
 include A_CLASSES."/data_entry_class.php";
-include "mod/navin/core/database_schema.php";	
 
-//add_table_prefix($program_table_schemas,"");
-//echo create_tables($program_table_schemas);
-
-$table				='schedule';
+$table				=$GLOBALS['MOD_P_TABLES']['schedule'];
 $file					='schedule';
 $key1					='session_id';
 
@@ -20,7 +15,7 @@ $filter_string		="";
 if(isset($_REQUEST['data']) && $_REQUEST['data']=='csv'){
    
 	$filter_str=$filter_string!=""?" WHERE ".$filter_string:"";
-   include "schedule_modif.php";
+   include $file."_modif.php";
 	$columns=array_keys($fields);
 	
 	$fields=implode(",",$columns);
@@ -34,8 +29,7 @@ if(isset($_REQUEST['data']) && $_REQUEST['data']=='csv'){
 }
 
 
-	if($_REQUEST['form'] == 'main'){
- //     case 'main':
+if(isset($_REQUEST['form'])&&$_REQUEST['form'] == 'main'){
 			if(isset($_REQUEST['action'])){
 				switch($_REQUEST['action']){
 				 case 'add':
@@ -52,17 +46,12 @@ if(isset($_REQUEST['data']) && $_REQUEST['data']=='csv'){
 			}else{
 				if(isset($_REQUEST['data'])&&$_REQUEST['data']=='json'){
 					if(isset($_REQUEST['id'])){
-						
 						$formgen->xhr_form_filler_data($_REQUEST['id']);
 					}else{
 						$formgen->xhr_filtering_select_data(null,null,$filter_string);
 					}
 				}
 			}
-//		break;
-      
-
-	
 }else{
 //echo "<table width=100%><tr><td style='vertical-align:top'>";
    echo "<table height = 100%  style = 'vertical-align:top '> <tr><td valign = 'top' >" ;

@@ -3,22 +3,21 @@
 System Database tables
 */
          
-/*
 $system_table_schemas['program']="CREATE TABLE `program` (
-  `id`                int(3) unsigned NOT NULL AUTO_INCREMENT,
+  `id`               int(3) unsigned NOT NULL AUTO_INCREMENT,
   `short_name`       varchar(20) NOT NULL,
-  `full_name`          varchar(300) NOT NULL,
+  `full_name`        varchar(300) NOT NULL,
   `logo`             varchar(300) NOT NULL,
-  `degree`             varchar(500) NOT NULL,
-  `class`             varchar(500) NOT NULL,
-  `grade`             varchar(500) NOT NULL,
-  `gpv`                varchar(500) NOT NULL,
-  `table_prefix`       varchar(100) NOT NULL,
+  `degree`           varchar(500) NOT NULL,
+  `class`            varchar(500) NOT NULL,
+  `grade`            varchar(500) NOT NULL,
+  `gpv`              varchar(500) NOT NULL,
+  `table_prefix`     varchar(100) NOT NULL,
   `deleted`          boolean     DEFAULT false,
-   `note`             varchar(300) DEFAULT NULL,
+  `note`             varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
- */
+
 $system_table_schemas['users']="CREATE TABLE `users` (
   `user_id`          INT NOT NULL AUTO_INCREMENT,
   `syear`             decimal(4,0) DEFAULT NULL,

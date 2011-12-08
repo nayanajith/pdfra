@@ -1,11 +1,10 @@
 <?php 
 include A_CLASSES."/data_entry_class.php";
-include "mod/courses/core/database_schema.php";	
 
 //add_table_prefix($program_table_schemas,"");
 //echo create_tables($program_table_schemas);
 
-$table				='reg';
+$table				=$GLOBALS['MOD_P_TABLES']['reg'];
 $file					='manage_confirmations';
 $key1					='reg_id';
 

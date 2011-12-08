@@ -1,11 +1,11 @@
 <?php 
 include A_CLASSES."/data_entry_class.php";
-include "mod/courses/core/database_schema.php";	
 
 //add_table_prefix($program_table_schemas,"");
 //echo create_tables($program_table_schemas);
 
-$table				='course';
+$super_table		='course';
+$table				=$GLOBALS['MOD_P_TABLES'][$super_table];
 $file					='course_management';
 $key1					='short_name';
 

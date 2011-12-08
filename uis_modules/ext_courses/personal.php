@@ -107,7 +107,7 @@ echo "<ol>
 			</ol>";
 echo "</td></tr></table>";
 
-echo "<h4><a href='javascript:open_page(\"courses\",\"courses\")'>Apply for new courses</a></h4>";
+echo "<h4><a href='javascript:open_page(\"".MODULE."\",\"courses\")'>Apply for new courses</a></h4>";
 
 echo "<hr style='border:1px solid silver;'/>";
 

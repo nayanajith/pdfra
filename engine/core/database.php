@@ -113,7 +113,7 @@ $num_rows=0;
 $query_ok=false;
 
 /*sql error*/
-$sql_error="";
+$sql_error=null;
 
 /**
 Execute query
@@ -244,7 +244,11 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
 //Duplicate entry 'nmla@ucsc.lk' for key 'email'
 function get_sql_error(){
    global $sql_error;
-   return mysql_escape_string($sql_error);
+   if(!is_null($sql_error)){
+      return mysql_escape_string($sql_error);
+   }else{
+      return false; 
+   }
 }
 
 /*Return affected rows from current query*/

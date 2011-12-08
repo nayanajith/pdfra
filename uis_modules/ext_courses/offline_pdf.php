@@ -8,28 +8,28 @@ include(MOD_CLASSES."/offline_voucher_class.php");
 
 //Change offline payment status to PENDING
 
-$table = "reg";
+$table = $GLOBALS['MOD_P_TABLES']["reg"];
 $query = "UPDATE ".$table." SET status = 'PENDING' WHERE reg_id = '". $_SESSION['voucher_reg_id']."'" ;
 $res = exec_query($query,Q_RET_MYSQL_RES);
 
 
 //Acquire payer information
-$table = "reg";
+$table = $GLOBALS['MOD_P_TABLES']["reg"];
 $query = "SELECT * FROM ".$table." WHERE reg_id = '".$_SESSION['voucher_reg_id']."'" ;
 $res = exec_query($query,Q_RET_MYSQL_RES);
 $reg = mysql_fetch_array($res);
 
-$table = "student";
+$table = $GLOBALS['MOD_P_TABLES']["student"];
 $query = "SELECT * FROM ".$table." WHERE student_id = '". $_SESSION['user_id']."'" ;
 $res = exec_query($query,Q_RET_MYSQL_RES);
 $student = mysql_fetch_array($res);
 
-$table = "schedule";
+$table = $GLOBALS['MOD_P_TABLES']["schedule"];
 $query = "SELECT * FROM ".$table." WHERE session_id = '". $reg['session_id']."'" ;
 $res2 = exec_query($query,Q_RET_MYSQL_RES);
 $session = mysql_fetch_array($res2);
    
-$table = "course";
+$table = $GLOBALS['MOD_P_TABLES']["course"];
 $query = "SELECT * FROM ".$table." WHERE course_id = '". $session['course_id']."'" ;
 $res2 = exec_query($query,Q_RET_MYSQL_RES);
 $course = mysql_fetch_array($res2);  
@@ -118,7 +118,7 @@ $payment_info=array(
 
 //Generic information of the convocation payment voucher
 $acc_no		="086-1001-511-89665";
-$inv_title	="COURSE APPLICATION";
+$inv_title	="COURSE APPLICATION PAYMENT";
 $purpose		= $course['short_name']." - ".$session['session_name'];
 	
 //Generate the voucher 

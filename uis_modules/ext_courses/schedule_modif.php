@@ -5,7 +5,7 @@ $display_inner="
 ";
 
 
-$tableq = "course";
+$tableq = $GLOBALS['MOD_P_TABLES']["course"];
 $query = "SELECT * FROM ".$tableq;
 $res = exec_query($query,Q_RET_MYSQL_RES);
 $course_inner="";
@@ -32,7 +32,7 @@ $fields=array(
 		"required"=>"true",
 		"inner"=>$course_inner,
 		"label"=>"Course id",
-		"value"=>"",	
+		"value"=>""),	
 "session_name"=>array(
 		"length"=>"210",
 		"dojoType"=>"dijit.form.ValidationTextBox",

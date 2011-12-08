@@ -8,7 +8,7 @@ if((isset($_SESSION['user_id']) && $_SESSION['user_id'] == "") || isset($_SESSIO
 echo "Please login to the system <a href='javascript:open_page(\"courses\",\"login\")'>HERE</a>";
 }else{
 include A_CLASSES."/data_entry_class.php";
-$table = "course";
+$table = $GLOBALS['MOD_P_TABLES']['course'];
 
 
 $query = "SELECT * FROM ".$table." WHERE display = 'YES' ";
@@ -29,13 +29,13 @@ while($row = mysql_fetch_array($res))
   {
 
   
-  $table2 = "schedule";
+  $table2 = $GLOBALS['MOD_P_TABLES']["schedule"];
   $query2 = "SELECT * FROM ".$table2." WHERE course_id = '".$row['course_id']."' ";
   $res2 = exec_query($query2,Q_RET_MYSQL_RES);
   $chkapp = 'NO';
   
   while($row2 = mysql_fetch_array($res2)){
-    $table3 = "reg";
+    $table3 = $GLOBALS['MOD_P_TABLES']["reg"];
   $query3 = "SELECT * FROM ".$table3." WHERE session_id = '".$row2['session_id']."' AND student_id = '".$_SESSION['user_id']."' ";
       $res3 = exec_query($query3,Q_RET_MYSQL_RES);
       
@@ -56,8 +56,9 @@ while($row = mysql_fetch_array($res))
    echo '<table width = 100%><tr><td>';   
    echo '<p>Conducted by  '.$row['lecturer'].' at '.$row['venue'].'</p>';  
    echo '</td><td align = "right" >';
+   d_r('dijit.form.Button');
    echo '<form action= ""  method="get">
-<input type = "hidden" name="module" value = "courses"/>
+<input type = "hidden" name="module" value = "'.MODULE.'"/>
 <input type = "hidden" name="page" value = "course_page"/>
 <input type = "hidden" name="id" value = "'. $row['course_id'].'"/>
 <button dojoType="dijit.form.Button" type="submit" >Apply</button>

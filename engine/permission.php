@@ -30,7 +30,7 @@ if(!(isset($_SESSION['loged_module']) && $_SESSION['loged_module']=='home')){
    $permission[]=array( 'module' => 'donations', 'page' => 'email_verification', 'access_right' => 'WRITE' );
 
    //public access to courses 
-   $permission[]=array( 'module' => 'courses', 'page' => '*', 'access_right' => 'WRITE' );
+   $permission[]=array( 'module' => 'ext_courses', 'page' => '*', 'access_right' => 'WRITE' );
 
 }
 

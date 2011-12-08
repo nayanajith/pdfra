@@ -1,14 +1,16 @@
 <?php
 include A_CLASSES."/data_entry_class.php";
-include "mod/courses/core/database_schema.php";	
+include MOD_CORE."/database_schema.php";	
 
 if(isset($_REQUEST['action'])){ /*haldle requests*/
 	switch($_REQUEST['action']){
       case 'generate_db':
-      
-         echo drop_tables($program_table_schemas);			
-         $create =  create_tables($program_table_schemas);
-         return_status_json("status",$create );
+         drop_tables($program_table_schemas);			
+         if(create_tables($program_table_schemas)){
+            return_status_json("OK",'Tables created successfully!');
+         }else{
+            return_status_json("ERROR",get_sql_error());
+         }
 		break;
 	}
 return;

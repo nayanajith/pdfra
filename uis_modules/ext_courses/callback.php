@@ -129,23 +129,6 @@ echo '<form action= ""  method="get">
 <button dojoType="dijit.form.Button" type="submit" >Back to Personal Page</button>
 </form>';
 }
-
-
-
-
 }
 }
-
-
-
 ?>
-
-
-
-
-
-
-
-
-
-

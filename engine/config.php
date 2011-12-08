@@ -1,26 +1,26 @@
 <?php
 /*--------------------------------paths---------------------------------------*/
-//define('A_ROOT'       , getcwd());
-define('A_ROOT'       , '/home/nayanajith/Projects/sis/engine');
-define('W_ROOT'      , '/sis');
+//define('A_ROOT'    , getcwd());
+define('A_ROOT'      , '/home/nayanajith/Projects/uis/engine');
+define('W_ROOT'      , '/uis');
 define('IMG'         , W_ROOT.'/img');
-define('A_IMG'         , A_ROOT.'/img');
+define('A_IMG'       , A_ROOT.'/img');
 define('CSS'         , W_ROOT.'/css');
-define('JS'            , W_ROOT.'/js');
+define('JS'          , W_ROOT.'/js');
 define('A_MODULES'   , A_ROOT.'/mod');
 define('W_MODULES'   , W_ROOT.'/mod');
 define('A_CORE'      , A_ROOT.'/core');
 define('A_CLASSES'   , A_ROOT.'/classes');
-define('A_LIB'         , A_ROOT.'/lib');
-define('W_LIB'         , W_ROOT.'/lib');
-define('A_RPT'         , A_ROOT.'/rpt');
-define('W_RPT'         , W_ROOT.'/rpt');
+define('A_LIB'       , A_ROOT.'/lib');
+define('W_LIB'       , W_ROOT.'/lib');
+define('A_RPT'       , A_ROOT.'/rpt');
+define('W_RPT'       , W_ROOT.'/rpt');
 define('TMP'         , '/tmp/');
-define('DB_CONF'      , A_ROOT.'/db_config.php');
+define('DB_CONF'     , A_ROOT.'/db_config.php');
 define('INSTALLER'   , A_ROOT.'/install/install.php');
-define('LOGIN'         , A_CORE.'/login.php');
+define('LOGIN'       , A_CORE.'/login.php');
 define('LOG'         , A_ROOT.'/messages.log');
-define('LOG_ENABLED'   , 'YES'); //YES/NO : this will enable write messages to LOG
+define('LOG_ENABLED' , 'YES'); //YES/NO : this will enable write messages to LOG
 define('ERROR_LOG'   , A_ROOT.'/errors.log');
 
 define('FPDF_FONTS_PATH'  , A_ROOT.'/errors.log');
@@ -60,12 +60,12 @@ $GLOBALS['TBL_LOGIN']   = array(
    'user_id'   =>'user_id',
    'permission'=>'permission'       
 );
-$GLOBALS['AUTH_MOD']         ='MYSQL'; //authentication modes: LDAP,MYSQL,PASSWD
+$GLOBALS['AUTH_MOD']       ='MYSQL'; //authentication modes: LDAP,MYSQL,PASSWD
 
 //UCSC ldap [zimbra] configuration
-$GLOBALS['LDAP_SERVER']      = "192.248.16.86";//mail.ucsc.lk
+$GLOBALS['LDAP_SERVER']    = "192.248.16.86";//mail.ucsc.lk
 $GLOBALS['LDAP_PORT']      = 389;
-$GLOBALS['LDAP_BIND_RDN']   = "uid=%s,ou=people,dc=ucsc,dc=cmb,dc=ac,dc=lk";
+$GLOBALS['LDAP_BIND_RDN']  = "uid=%s,ou=people,dc=ucsc,dc=cmb,dc=ac,dc=lk";
  
 
 /*-------------------------------onfigure mail--------------------------------*/

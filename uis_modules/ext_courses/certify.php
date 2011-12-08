@@ -30,13 +30,7 @@ echo '<h2> For the Successful completion of '. $course['long_name'].'</h2>';
 echo '<h3> Conducted by '.$course['lecturer'].'</h3>';
 echo '<h3> From '.$session['start_date'].' to '.$session['end_date'].'</h2>';  
 
-
-
-
-
 }else{
 echo '<p style = "color:red" >Invalid Certificate</p>';
-
 }
-
 ?>

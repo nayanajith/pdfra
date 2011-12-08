@@ -1,30 +1,29 @@
 <?php
 if((isset($_SESSION['user_id']) && $_SESSION['user_id'] == "") || isset($_SESSION['user_id']) == false ){
 
-echo "Please login to the system <a href='javascript:open_page(\"courses\",\"login\")'>HERE</a>";
+echo "Please login to the system <a href='javascript:open_page(\"".MODULE."\",\"login\")'>HERE</a>";
 }else{
 include A_CLASSES."/data_entry_class.php";
-include "mod/courses/core/database_schema.php";	
 $super_table		='confirm';
 $keys					=array('reg_id');
 $key1					='reg_id';
 //$grid_array			=array('registration_no','NIC','email_1');
 //$grid_array_long	=array('registration_no','NIC','first_name','status');
 
-$table				='reg';
+$table				=$GLOBALS['MOD_P_TABLES']['reg'];
 $formgen 			=null;
 if(isset($_REQUEST['reg_id'])){
 	$formgen 		= new Formgenerator($table,$keys,$super_table,$_REQUEST['reg_id']);
 }else{
-   $table = "reg";
+   $table = $GLOBALS['MOD_P_TABLES']["reg"];
    $query = "SELECT * FROM ".$table." WHERE student_id = '". $_SESSION['user_id']."' AND session_id = '".$_REQUEST['sid']."'" ;
    $res = exec_query($query,Q_RET_MYSQL_RES);
    $reg = mysql_fetch_array($res);
 
    if($reg['reg_id'] != ""){
-      $_REQUEST['reg_id'] = $reg['reg_id'];
       $formgen 		= new Formgenerator($table,$keys,$super_table,$_REQUEST['reg_id']);
    }else{
+      $_REQUEST['reg_id'] = $reg['reg_id'];
       $formgen 		= new Formgenerator($table,$keys,$super_table,null);
    }
 	
@@ -168,7 +167,7 @@ if(isset($_REQUEST['form'])){
 	   }
 	   
 	   if(isset($_REQUEST['reg_id'])){
-	   $table = "reg";
+	   $table = $GLOBALS['MOD_P_TABLES']["reg"];
       $query = "SELECT * FROM ".$table." WHERE reg_id = '". $_REQUEST['reg_id']."'" ;
       $res = exec_query($query,Q_RET_MYSQL_RES);
       $row = mysql_fetch_array($res);
@@ -176,13 +175,13 @@ if(isset($_REQUEST['form'])){
 	   }
 	  
 	   
-	   $table = "schedule";
+	   $table = $GLOBALS['MOD_P_TABLES']["schedule"];
       $query = "SELECT * FROM ".$table." WHERE session_id = '". $sid."'" ;
       $res = exec_query($query,Q_RET_MYSQL_RES);
       $row = mysql_fetch_array($res);
 
 
-	   $table2 = "course";
+	   $table2 = $GLOBALS['MOD_P_TABLES']["course"];
       $query2 = "SELECT * FROM ".$table2." WHERE course_id = '". $row['course_id']."'" ;
       $res2 = exec_query($query2,Q_RET_MYSQL_RES);
       $row2 = mysql_fetch_array($res2);
@@ -212,6 +211,7 @@ if($GLOBALS['LAYOUT'] != 'pub'){
 	echo $formgen->gen_data_grid($grid_array,null,$key1);
 	echo "</td></tr></table>";
 }else{
+   d_r('dijit.form.Button');
 		echo "</td><td width=40% style='vertical-align:top;valign:top;'>";
 		
 		echo "</td></tr></table>";
@@ -219,18 +219,18 @@ if($GLOBALS['LAYOUT'] != 'pub'){
 
 	if(isset($_REQUEST['reg_id'])){
 		echo "<div align='right' >
-		<button dojoType='dijit.form.Button' type='submit' name='loginBtn' onClick=\"submit_form('modify','courses','payment')\">Make Payment&nbsp;&raquo;</button>
+		<button dojoType='dijit.form.Button' type='button' name='loginBtn' onClick=\"submit_form('modify','".MODULE."','payment')\">Make Payment&nbsp;&raquo;</button>
 		</div>";
 	}else{
 		echo "<div align='right'>
-		<button dojoType='dijit.form.Button' type='submit' name='loginBtn' onClick=\"submit_form('add','courses','payment')\">Confirm&nbsp;&raquo;</button>
+		<button dojoType='dijit.form.Button' type='button' name='loginBtn' onClick=\"submit_form('add','".MODULE."','payment')\">Confirm&nbsp;&raquo;</button>
 		</div>";
 
 	}
 echo "</td><td valign = 'top'  style = 'border-left:1px solid silver'>";
 echo '<h4>Course Application procedure</h4>';
 echo "<ol>
-		<li>Find a course that you are interested in completing from the <a href='javascript:open_page(\"courses\",\"courses\")'>Find Courses</a> Page</li>
+		<li>Find a course that you are interested in completing from the <a href='javascript:open_page(\"".MODULE."\",\"courses\")'>Find Courses</a> Page</li>
 		<li>Once you have found such a course click on the Apply button next to it to go to the course page</li>
 		<li>In the course page, Apply for a session which you are able to attend. The available sessions are displayed at the bottom of that page</li>
 		<li>Then you must confirm your attendance by selecting a payment method. Note that unless you confirm this, your place will not be reserved</li>

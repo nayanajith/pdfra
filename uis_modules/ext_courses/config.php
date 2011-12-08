@@ -7,7 +7,8 @@ define('INVOICE_DIR',A_MODULES."/".MODULE."/invoice");
 define('VOUCHER_DIR',A_MODULES."/".MODULE."/voucher");
 
 
-
+include_once(MOD_CORE."/database_schema.php");
+include_once(MOD_CORE."/database.php");
 
 $GLOBALS['MOD_TBL_LOGIN']   = array(
 		  /*
@@ -18,7 +19,7 @@ $GLOBALS['MOD_TBL_LOGIN']   = array(
    'db'				=>'moodledb_pg', 
 			*/
 	'md5'				=>'false',
-   'table'			=>'student', 
+   'table'			=>$GLOBALS['MOD_P_TABLES']['student'], 
    'username'		=>'email',
    'password'		=>'NIC',
    'fullname'		=>'last_name',

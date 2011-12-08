@@ -1,18 +1,17 @@
 <?php
 include A_CLASSES."/data_entry_class.php";
-include "mod/courses/core/database_schema.php";	
 $super_table		='st_reg';
 $keys					=array('student_id');
 $key1					='student_id';
 $grid_array			=array('student_id','email','NIC','first_name','last_name');
 //$grid_array_long	=array('registration_no','NIC','first_name','status');
 
-$table				='student';
+$table				=$GLOBALS['MOD_P_TABLES']['student'];
 $formgen 			=null;
 if(isset($_SESSION['user_id'])){
-	$formgen 		= new Formgenerator($table,$keys,$super_table,$_SESSION['user_id']);
+	$formgen 		= new Formgenerator($table,$key1,$super_table,$_SESSION['user_id']);
 }else{
-	$formgen 		= new Formgenerator($table,$keys,$super_table,null);
+	$formgen 		= new Formgenerator($table,$key1,$super_table,null);
 }
 
 $help_file			=$super_table."_help.php";
@@ -64,7 +63,6 @@ if(isset($_REQUEST['form'])){
                   $_SESSION['password']	=$_REQUEST['NIC'];
                   $_SESSION['fullname']	=$_REQUEST['last_name'];
                   
-                  $table = "student";
                   $query = "SELECT * FROM ".$table." WHERE NIC = '". $_SESSION['password']."'" ;
                   $res = exec_query($query,Q_RET_MYSQL_RES);
                   $student = mysql_fetch_array($res);
@@ -151,6 +149,7 @@ if($GLOBALS['LAYOUT'] != 'pub'){
 	echo $formgen->gen_data_grid($grid_array,null,$key1);
 	echo "</td></tr></table>";
 }else{
+      d_r('dijit.form.Button');
 		echo "</td><td width=40% style='vertical-align:top;valign:top;'>";
 		echo "<img src='".IMG."/help_32.png'>";
 		echo "<h4>Registration procedure </h4>";
@@ -168,11 +167,11 @@ if($GLOBALS['LAYOUT'] != 'pub'){
 
 	if(isset($_SESSION['user_id'])){
 		echo "<br/><br/><br/><div align='right' class='buttonBar'  >
-		<button dojoType='dijit.form.Button' type='submit' name='loginBtn' onClick=\"submit_form('modify','courses','personal')\">Next&nbsp;&raquo;</button>
+		<button dojoType='dijit.form.Button' type='submit' name='loginBtn' onClick=\"submit_form('modify','".MODULE."','personal')\">Next&nbsp;&raquo;</button>
 		</div>";
 	}else{
 		echo "<br/><br/><br/><div align='right' class='buttonBar'  >
-		<button dojoType='dijit.form.Button' type='submit' name='loginBtn' onClick=\"submit_form('add','courses','personal')\">Next&nbsp;&raquo;</button>
+		<button dojoType='dijit.form.Button' type='submit' name='loginBtn' onClick=\"submit_form('add','".MODULE."','personal')\">Next&nbsp;&raquo;</button>
 		</div>";
 
 	}

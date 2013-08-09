@@ -278,13 +278,13 @@ function set_param(key,value) {
         load     : function(response, ioArgs) {        
             update_status_bar(response.status_code,response.info);
             if(response.status_code == 'OK'){
-               callback(s_p_c,'ok');
+               callback(s_p_c,'ok',response);
                update_progress_bar(100);
             }
-            callback(s_p_c,'error');
+            callback(s_p_c,'error',response);
          },
          error : function(response, ioArgs) {
-            callback(s_p_c,'error');
+            callback(s_p_c,'error',response);
             update_status_bar(response.status,response.info);
          }
    });
@@ -443,9 +443,11 @@ function toolbar_load_selected(){
  * Fill filtering selects in  an area
  */
 function area_load_selected(area){
+   if(dijit.byId(area))
    dojo.forEach(dijit.byId(area).getChildren(),function(widget){
       switch(widget.declaredClass){
       case 'dijit.form.FilteringSelect':
+         alert(widget._lastValueReported);
          load_selected_value(widget,widget._lastValueReported);
       break;
       default:
@@ -1012,7 +1014,7 @@ var fill_form_callback={
    'before':[]
 };
 
-function fill_form(rid,form) {
+function fill_form(rid,response,form) {
    //callback function array
    var f_f_c=fill_form_callback;
 
@@ -1706,7 +1708,7 @@ var max_status_length=100;
 var stausDialog;
 //If the public kayout used set the javascript variable to used with
 var pub=false;
-<?php if($_SESSION['LAYOUT']=='pub'){ ?>
+<?php if(in_array($_SESSION['LAYOUT'],array('pub','pub2'))){ ?>
 pub=true;
 <?php }?>
 
@@ -1738,7 +1740,7 @@ function update_status_bar(status_code,info){
          info="<font color='orange'>"+info+"</font>";
       break;
    }
-   <?php if($_SESSION['LAYOUT']!='pub'){ ?>
+   <?php if(!in_array($_SESSION['LAYOUT'],array('pub','pub2'))){ ?>
    /*If the message too lengthy show it as a dialog*/
    var status_bar = document.getElementById('status_bar') ;
    if(info.length < max_status_length){

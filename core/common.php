@@ -1108,17 +1108,26 @@ Possible status
 @param status_code: OK, ERROR, NOT_DEFINED 
 @param info: information about the status
 */
-function return_status_json($status,$info){
+function return_status_json($status,$info,$data=null){
    $status=strtoupper($status);
+   $data_json="";
+
+   //If the data is set then set the data in json
+   if(!is_null($data) && is_array($data)){
+      foreach($data as $key => $value){
+         $data_json.=",'".$key."':'".$value."'";
+      }
+   }
+
    if($status == 'OK' || $status == 'ERROR'){
-      echo "{'status_code':'$status','info':'$info'}";
+      echo "{'status_code':'$status','info':'$info'$data_json}";
    }else{
-      echo "{'status_code':'NOT_DEFINED','info':'$info','nstatus':'$status'}";
+      echo "{'status_code':'NOT_DEFINED','info':'$info','nstatus':'$status'$data_json}";
    }
 }
 //wrapper to  return_status_json
-function status($status,$info){
-   return_status_json($status,$info);
+function status($status,$info,$data=null){
+   return_status_json($status,$info,$data);
 }
 
 

@@ -151,7 +151,7 @@ clear_view();
 //main page selection logic
 $main='';
 //TODO: group wise main file
-if($_SESSION['LAYOUT']=='pub'){
+if(in_array($_SESSION['LAYOUT'],array('pub','pub2'))){
    if(!file_exists(A_MODULES."/".MODULE."/".PAGE.".php")){
       $main="error.php";
    }else{
@@ -192,6 +192,7 @@ add_to_css(A_CORE."/style.php");
 //Fill the view according to different layouts
 switch($_SESSION['LAYOUT']){
 case 'pub':
+case 'pub2':
    //Stylesheets for the page
    add_to_breadcrumb(A_CORE."/breadcrumb.php");
 

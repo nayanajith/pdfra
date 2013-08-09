@@ -825,7 +825,7 @@ EOE;
 
          //header('Content-Type', 'application/json');
 			//TODO: add $group_by to the function
-         include 'qread_store_class.php';
+         include_once 'qread_store_class.php';
          $query_read_store = new Query_read_store($table,$key_,$filter,$order_by,$key,$default,$all_selector);
          echo $query_read_store->gen_json_data();
       }

@@ -20,7 +20,7 @@ link list genertion for the modules
       foreach($module as $page_key => $page){
 
          if(is_array($page)){
-            $page=$page['PAGE'];
+            $page=$page['label'];
          }
           echo $vbar."<a href=\"javascript:load_page('$module_key','$page_key')\" >$page</a>";
          $vbar=" | ";

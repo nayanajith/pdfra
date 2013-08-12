@@ -76,12 +76,13 @@ JSON file for the menu is generated dinamically from mod/module_man/manage_modul
                <div dojoType="dijit.layout.BorderContainer" style="width:100%; height:100%; padding:0px;" gutters="false">
                      
                   <!--TOP box of BorderContainer-2 (BorderContainer-3)-->
-                  <div dojoType="dijit.layout.ContentPane" region="top" style="height:58px; padding:0px;">
+                  <div dojoType="dijit.layout.ContentPane" region="top" style="height:100px; padding:0px;">
                      <?php
                         d_r("dijit.layout.BorderContainer");
                         echo get_navigator();
                      ?>
                   </div>
+
                   <!--end TOP box of BorderContainer-2 (BorderContainer-3)-->
 
                   <!--CENTER box of BorderContainer-2-->
@@ -130,7 +131,6 @@ JSON file for the menu is generated dinamically from mod/module_man/manage_modul
                         echo "<div id='toolbar' jsId='toolbar' dojoType='dijit.Toolbar'>";
                         echo get_toolbar();
                         echo "</div>";
-
                         echo get_statusbar();   
                      ?>
 <!--___________________________end statusbar_________________________________-->

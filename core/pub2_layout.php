@@ -1,6 +1,5 @@
-<!DOCTYPE html> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-
 <html>
    <head>
       <title><?php echo MODULE."&gt;".PAGE.":".$GLOBALS['TITLE']; ?></title>
@@ -8,131 +7,152 @@
 
 <!--_________________________________CSS_____________________________________-->
       <?php 
+         echo $GLOBALS['VIEW']['CSS'];
          echo get_css();
       ?>
 <!--______________________________FAVICON____________________________________-->
       <link rel="shortcut icon" href="<?php echo $GLOBALS['FAVICON']; ?>" type="image/x-icon" >
-
 <!--______________________DOJO JAVASCRIPT load modules_______________________-->
       <?php 
          echo get_js();
       ?>
    </head>
+<!--_____________________BODY with dojo border container_____________________-->
+<!--
+Three border containers were used 
+1) 
+top:         Bannar
+leading:      Tree menu
+center:      [border container 2]
+trailing:   ___
+bottom:      Organization info
 
-   <!-- body class="<?php echo $GLOBALS['THEME']; ?>" style='background-image:url(<?php echo IMG; ?>/stripes.gif);' -->
-   <body class="<?php echo $GLOBALS['THEME']; ?>">
+2)
+top:         [border container 3]
+center:      Body
 
+3)
+top:         Menu
+bottom:      Tool bar
+-->
+   <body class="<?php echo $GLOBALS['THEME']; ?>" >
 <!--__________________________start loading ________________________________-->
    <?php
       echo get_loading();
    ?>
 <!--____________________________end loading ________________________________-->
+      <div dojoType="dijit.layout.BorderContainer" class='bgTop bContainer'    gutters="false" liveSplitters="true" >
 
-<div class='web_bg bgTop' style='width:99%'>
-<table width='100%' cellpadding=5 cellspacing=0 >
-<!--header-->
-<tr><td colspan=2 style>
-            <img src="<?php echo $GLOBALS['LOGO']; ?>" width=140px style='float:left'>
-            <span style='float:left;font-size:26px;font-weight:bold;padding:0px;span:0px; text-shadow: 0 1px 2px #005791;'><?php echo $GLOBALS['TITLE_LONG']; ?></span>
-            <div style='float:right;padding:20px;'>
+<!--
+This contains the login box from core/login.php and program selector from core/program.php
+-->
+         <div dojoType="dijit.layout.ContentPane" region="top" gutter="false" style="padding:5px;">
+            <!-- bannar -->
+            <img src="<?php echo $GLOBALS['LOGO']; ?>" width=60px style='float:left'>
+            <h1 style='float:left;font-size:24px;padding:0px;span:0px;'><?php echo $GLOBALS['TITLE_LONG']; ?></h1>
+            <div style='float:right;'>
 <!--__________________________end Login form ________________________________-->
             <?php 
                echo get_login();
-               ?>
+            ?>
 <!--______________________________end Login form ____________________________-->
 
 <!--_________________________start Program selector__________________________-->
             <?php 
-               //echo "Change Program:";
                //program_select($program); 
             ?>
 <!--__________________________end Program selector___________________________-->
             </div>
+         </div>
+<!--___________________Leading area with the tree menu_______________________-->
+<!--
+JSON file for the menu is generated dinamically from mod/module_man/manage_module.php
+-->
 
-</td>
-</tr>
-<!-- tr><td colspan=2>&nbsp;</td></tr -->
-<!--tabs-->
-<tr>
-<td colspan=2 style='padding:10px;' >
-<!--breadcrumb-->
-<div style='padding:0px;padding-left:5px;color:black;font-weight:bold;background-color:gray;' class='round'>
-   <?php
-      echo get_breadcrumb();
-   ?>
-</div>
-</td>
-</tr>
-<!--body-->
-<tr><td  style='padding:10px;vertical-align:top;valign:top;padding-right:5px;'>
-<div style='min-height:350px;border:1px solid #C9D7F1;padding:10px;position:relative;border-bottom:3px solid #C9D7F1;' class='bgTop round' >
-<!--____________________Help Print Download buttons__________________________-->
-<?php 
-         d_r('dijit.form.Button');
-         d_r('dijit.form.Form');
-/*
-<div style='float:right'>
-   <span dojoType='dijit.form.Button' label='Help' showLabel='false' iconClass='dijitIcon dijitIconDocuments' onClick='help_dialog()'></span>
-   <span dojoType='dijit.form.Button' label='Print' showLabel='false' iconClass='dijitIcon dijitIconPrint' onClick='page_print()'></span>
-   <!--span dojoType='dijit.form.Button' label='Pdf' showLabel='false' iconClass='dijitIcon dijitIconFile' onClick='page_pdf()'></span-->
-</div>
-*/
-?>
+            <!--CENTER box of the BorderContainer-1 -->
+            <div dojoType="dijit.layout.ContentPane" region="center" style="padding:0px;" >
+
+               <!--BorderContainer-2 (BorderContainer-3 and body)-->
+               <div dojoType="dijit.layout.BorderContainer" style="width:100%; height:100%; padding:0px;" gutters="false">
+                     
+                  <!--TOP box of BorderContainer-2 (BorderContainer-3)-->
+                  <div dojoType="dijit.layout.ContentPane" region="top" style="height:100px; padding:0px;">
+                     <?php
+                        d_r("dijit.layout.BorderContainer");
+                        echo get_navigator();
+                     ?>
+                  </div>
+
+                  <!--end TOP box of BorderContainer-2 (BorderContainer-3)-->
+
+                  <!--CENTER box of BorderContainer-2-->
+                  <div dojoType="dijit.layout.ContentPane" region="center" id="data_body" class="bgBottom" style="padding:5px;">
 <!--________________________start data_body area_____________________________-->
                      <table width='100%'>
                         <tr>
-                            <td id='MAIN_TOP' colspan='2' valign='top' >
+                           <td id='MAIN_TOP' colspan='2' valign='top' width='100%'>
                               <?php 
                               echo get_main_top();
                               ?>
                            </td>
                         </tr>
                         <tr>
-                           <td id='MAIN_LEFT' valign='top' align='left' width='100%'>
+                           <td id='MAIN_LEFT' valign='top' align='left' width='50%'>
                               <?php 
                               echo get_main_left();
                               ?>
                            </td>
-                           <td id='MAIN_RIGHT' valign='top'  align='right'  >
+                           <td id='MAIN_RIGHT' valign='top'  align='right'  width='50%'>
                               <?php 
                               echo get_main_right();
                               ?>
                            </td>
                         </tr>
                         <tr>
-                           <td id='MAIN_BOTTOM' colspan='2' valign='top' >
+                           <td id='MAIN_BOTTOM' colspan='2' valign='top' width='100%'>
                               <?php 
                               echo get_main_bottom();
                               ?>
                            </td>
                         </tr>
+
                      </table>
 <!--_________________________end data_body area______________________________-->
-</div>
-</td>
-<!--_________________________link list at right______________________________-->
-<!--td width='15%' style='vertical-align:top;valign:top;padding:10px;padding-left:5px;' >
-   <div style='min-height:350px;padding:10px;border:1px solid #C9D7F1;border-top:3px solid #C9D7F1;'class='bgBottom round' >
-   <?php
-      //echo get_navigator();
-   ?>
-   </div>
-</td-->
-</tr>
-<!--footer-->
-<tr><td colspan=2 style='padding:0px;color:white;background:gray'>
-<div style='padding:10px;height:50px;position:relative'>
+                  </div>
+                  <!--end CENTER box of BorderContainer-2-->
+
+                  <!--BOTTOM box of BorderContainer-2-->
+                  <div dojoType="dijit.layout.ContentPane" region="bottom" class="bgBottom" jsId="status_bar">
+<!--___________________________start statusbar_______________________________-->
+                     <?php
+                        d_r("dijit.layout.ContentPane");
+                        d_r("dijit.Toolbar");
+
+                        echo "<div id='toolbar' jsId='toolbar' dojoType='dijit.Toolbar'>";
+                        echo get_toolbar();
+                        echo "</div>";
+                        echo get_statusbar();   
+                     ?>
+<!--___________________________end statusbar_________________________________-->
+                  </div>
+                  <!--end BOTTOM box of BorderContainer-2-->
+               </div>
+               <!--end of BorderContainer-2-->
+            </div>
+            <!--end CENTER box of the BorderContainer-1 -->
+
+            <!--BOTTOM box of the BorderContainer-1 -->
+            <div dojoType="dijit.layout.ContentPane" region="bottom" class="bgBottom" style='padding:5px;' >
 <!--______________________________start footer_______________________________-->
             <?php
                echo get_footer();
             ?>
 <!--_______________________________end footer________________________________-->
-</div>
-</td></tr>
-</table>
-</div>
+            </div>
+            <!--end BOTTOM box of the BorderContainer-1 -->
+      </div>
+      <!--end of the BorderContainer-1 -->
 <!--_______________________________parse dojo________________________________-->
       <?php parse_dojo(); ?>
-
-</body>
+   </body>
 </html>

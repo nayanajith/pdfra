@@ -35,7 +35,7 @@ tab bar genertion for the modules
       foreach($pages as $page => $name){
 
          //if $name is an array this will do
-         if(is_array($name))$name=$name['PAGE'];
+         if(is_array($name))$name=$name['label'];
 
          /*active tab is selected*/
          if(PAGE == $page){

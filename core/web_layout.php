@@ -8,12 +8,13 @@
 <!--_________________________________CSS_____________________________________-->
       <?php 
          echo $GLOBALS['VIEW']['CSS'];
+         echo get_css();
       ?>
 <!--______________________________FAVICON____________________________________-->
       <link rel="shortcut icon" href="<?php echo $GLOBALS['FAVICON']; ?>" type="image/x-icon" >
 <!--______________________DOJO JAVASCRIPT load modules_______________________-->
       <?php 
-         echo $GLOBALS['VIEW']['JS'];
+         echo get_js();
       ?>
    </head>
 <!--_____________________BODY with dojo border container_____________________-->
@@ -37,7 +38,7 @@ bottom:      Tool bar
    <body class="<?php echo $GLOBALS['THEME']; ?>" >
 <!--__________________________start loading ________________________________-->
    <?php
-      echo $GLOBALS['VIEW']['LOADING'];
+      echo get_loading();
    ?>
 <!--____________________________end loading ________________________________-->
       <div dojoType="dijit.layout.BorderContainer" class='bgTop bContainer'    gutters="false" liveSplitters="true" >
@@ -52,13 +53,13 @@ This contains the login box from core/login.php and program selector from core/p
             <div style='float:right;'>
 <!--__________________________end Login form ________________________________-->
             <?php 
-               echo $GLOBALS['VIEW']['LOGIN'];
+               echo get_login();
             ?>
 <!--______________________________end Login form ____________________________-->
 
 <!--_________________________start Program selector__________________________-->
             <?php 
-               echo $GLOBALS['VIEW']['PROGRAM'];
+               //program_select($program); 
             ?>
 <!--__________________________end Program selector___________________________-->
             </div>
@@ -78,7 +79,7 @@ JSON file for the menu is generated dinamically from mod/module_man/manage_modul
                   <div dojoType="dijit.layout.ContentPane" region="top" style="height:58px; padding:0px;">
                      <?php
                         d_r("dijit.layout.BorderContainer");
-                        echo $GLOBALS['VIEW']['NAVIGATOR'];
+                        echo get_navigator();
                      ?>
                   </div>
                   <!--end TOP box of BorderContainer-2 (BorderContainer-3)-->
@@ -90,26 +91,26 @@ JSON file for the menu is generated dinamically from mod/module_man/manage_modul
                         <tr>
                            <td id='MAIN_TOP' colspan='2' valign='top' width='100%'>
                               <?php 
-                              echo $GLOBALS['VIEW']['MAIN_TOP'];
+                              echo get_main_top();
                               ?>
                            </td>
                         </tr>
                         <tr>
                            <td id='MAIN_LEFT' valign='top' align='left' width='50%'>
                               <?php 
-                              echo $GLOBALS['VIEW']['MAIN_LEFT'];
+                              echo get_main_left();
                               ?>
                            </td>
                            <td id='MAIN_RIGHT' valign='top'  align='right'  width='50%'>
                               <?php 
-                              echo $GLOBALS['VIEW']['MAIN_RIGHT'];
+                              echo get_main_right();
                               ?>
                            </td>
                         </tr>
                         <tr>
                            <td id='MAIN_BOTTOM' colspan='2' valign='top' width='100%'>
                               <?php 
-                              echo $GLOBALS['VIEW']['MAIN_BOTTOM'];
+                              echo get_main_bottom();
                               ?>
                            </td>
                         </tr>
@@ -127,10 +128,10 @@ JSON file for the menu is generated dinamically from mod/module_man/manage_modul
                         d_r("dijit.Toolbar");
 
                         echo "<div id='toolbar' jsId='toolbar' dojoType='dijit.Toolbar'>";
-                        echo $GLOBALS['VIEW']['TOOLBAR'];
+                        echo get_toolbar();
                         echo "</div>";
 
-                        echo $GLOBALS['VIEW']['STATUSBAR'];
+                        echo get_statusbar();   
                      ?>
 <!--___________________________end statusbar_________________________________-->
                   </div>
@@ -144,7 +145,7 @@ JSON file for the menu is generated dinamically from mod/module_man/manage_modul
             <div dojoType="dijit.layout.ContentPane" region="bottom" class="bgBottom" style='padding:5px;' >
 <!--______________________________start footer_______________________________-->
             <?php
-               echo $GLOBALS['VIEW']['FOOTER'];
+               echo get_footer();
             ?>
 <!--_______________________________end footer________________________________-->
             </div>

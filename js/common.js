@@ -536,6 +536,7 @@ function reload_sections(sections){
             for(var j in section_layout){
                switch(j){
                case 'style':
+                  //console.info(section_layout[j]);
                   dojo.style(sections[i],section_layout[j]);
                break;
                default:
@@ -1708,7 +1709,7 @@ var max_status_length=100;
 var stausDialog;
 //If the public kayout used set the javascript variable to used with
 var pub=false;
-<?php if(in_array($_SESSION['LAYOUT'],array('pub','pub2'))){ ?>
+<?php if(in_array($_SESSION['LAYOUT'],array('pub'))){ ?>
 pub=true;
 <?php }?>
 
@@ -1740,7 +1741,7 @@ function update_status_bar(status_code,info){
          info="<font color='orange'>"+info+"</font>";
       break;
    }
-   <?php if(!in_array($_SESSION['LAYOUT'],array('pub','pub2'))){ ?>
+   <?php if(!in_array($_SESSION['LAYOUT'],array('pub'))){ ?>
    /*If the message too lengthy show it as a dialog*/
    var status_bar = document.getElementById('status_bar') ;
    if(info.length < max_status_length){

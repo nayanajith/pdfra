@@ -660,7 +660,7 @@ EOE;
                   
             $fields  =implode(",",$columns);
          
-            $query="SELECT $fields FROM ".$table.$filter_str.$group_by.$order_by.$limit;
+            $query   ="SELECT $fields FROM ".$table.$filter_str.$group_by.$order_by.$limit;
          }else{
             $query   =$grid['sql'].$filter_str.$group_by.$order_by.$limit;
          }

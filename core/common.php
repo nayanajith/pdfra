@@ -177,7 +177,17 @@ function set_layout_property($layout='app2',$section,$p1,$p2,$p3=null){
    if(!is_null($p3)){
       $_SESSION['LAYOUT_PROPERTIES'][$layout][$section][$p1][$p2]=$p3;
    }else{
-      $_SESSION['LAYOUT_PROPERTIES'][$layout][$section][$p1]=$p2;
+      if($p1=='style'){
+         //Convert the css style in to an array
+         $arr=array();
+         foreach(explode(';',$p2) as $prop){
+            $prop=explode(':',$prop);
+            $arr[$prop[0]]=$prop[1];
+         }
+         $_SESSION['LAYOUT_PROPERTIES'][$layout][$section][$p1]=$arr;
+      }else{
+         $_SESSION['LAYOUT_PROPERTIES'][$layout][$section][$p1]=$p2;
+      }
    }
 }
 

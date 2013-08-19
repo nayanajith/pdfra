@@ -31,6 +31,22 @@ if(isset($_REQUEST['form']) && $_REQUEST['form']=='system' && isset($_REQUEST['a
    }
    $_SESSION['loged_module']    = MODULE;
 
+   //will override by user theme and layout
+   $group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
+
+   if(!is_null($group_layout_theme[0]['theme']) && $group_layout_theme[0]['theme'] != "" && $group_layout_theme[0]['theme'] != "NULL"){
+      $_SESSION['THEME']=$group_layout_theme[0]['theme'];
+   }
+
+   if(!is_null($group_layout_theme[0]['layout']) && $group_layout_theme[0]['layout'] != "" && $group_layout_theme[0]['layout'] != "NULL"){
+      $_SESSION['LAYOUT']=$group_layout_theme[0]['layout'];
+   }
+
+   if(!is_null($group_layout_theme[0]['file_prefix']) && $group_layout_theme[0]['file_prefix'] != "" && $group_layout_theme[0]['file_prefix'] != "NULL"){
+      $_SESSION['FILE_PREFIX']=$group_layout_theme[0]['file_prefix'];
+   }
+
+
    //get and set users theme and layout
    $user_layout_theme=exec_query("SELECT layout,theme FROM ".s_t('users')." WHERE user_id='".$_SESSION['user_id']."'",Q_RET_ARRAY);
 
@@ -152,11 +168,9 @@ function after_login() {
 
    //Admin users have privilege to change the users to check whtat the user can do so they have special varialble to notify the system 
    //that he is a  user
-  if($_SESSION['role_id']=='ADMIN'){
+   if($_SESSION['role_id']=='ADMIN'){
       $_SESSION['ADMIN_USER']=true;
-  }
-
-
+   }
 
    //User changing select box
    $user_changer="";
@@ -303,7 +317,7 @@ if (isset($_SESSION['username'])) {
 
       //get and set group theme and layout
       //will override by user theme and layout
-      $group_layout_theme=exec_query("SELECT layout,theme FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
+      $group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
 
       if(!is_null($group_layout_theme[0]['theme']) && $group_layout_theme[0]['theme'] != "" && $group_layout_theme[0]['theme'] != "NULL"){
          $_SESSION['THEME']=$group_layout_theme[0]['theme'];
@@ -311,6 +325,10 @@ if (isset($_SESSION['username'])) {
 
       if(!is_null($group_layout_theme[0]['layout']) && $group_layout_theme[0]['layout'] != "" && $group_layout_theme[0]['layout'] != "NULL"){
          $_SESSION['LAYOUT']=$group_layout_theme[0]['layout'];
+      }
+
+      if(!is_null($group_layout_theme[0]['file_prefix']) && $group_layout_theme[0]['file_prefix'] != "" && $group_layout_theme[0]['file_prefix'] != "NULL"){
+         $_SESSION['FILE_PREFIX']=$group_layout_theme[0]['file_prefix'];
       }
 
       //get and set users theme and layout

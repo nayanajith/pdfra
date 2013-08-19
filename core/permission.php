@@ -7,7 +7,15 @@ include_once(A_ROOT."/permission.php");
 example json: {"P#student_hall_allocation#download_manager":"DENIED/READ/WRITE","M#payment":"DENIED/READ/WRITE"}
 */
 function load_permission(){
-   $GLOBALS['permission']=array(
+   if(isset($_SESSION['permission'])){
+      if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'switch_user'){
+         log_msg('switch_user');
+      }else{
+         return;
+      }
+   }
+
+   $_SESSION['permission']=array(
       'USER'=>array(),
       'GROUP'=>array(),
    );
@@ -25,12 +33,12 @@ function load_permission(){
 
    //permission inherited from the users group
    if(isset($_SESSION['role_id'])){
-      $GLOBALS['permission']['GROUP']=exec_query("SELECT module,page,access_right FROM ".s_t('permission')." WHERE is_user=false && group_user_id='".$_SESSION['role_id']."' AND access_right IN ('WRITE','READ') ", Q_RET_ARRAY);
+      $_SESSION['permission']['GROUP']=exec_query("SELECT module,page,access_right FROM ".s_t('permission')." WHERE is_user=false && group_user_id='".$_SESSION['role_id']."' AND access_right IN ('WRITE','READ') ", Q_RET_ARRAY);
    }
 
    //Permission will override from the users permission
    if(isset($_SESSION['username'])){
-      $GLOBALS['permission']['USER']=exec_query("SELECT module,page,access_right FROM ".s_t('permission')." WHERE  is_user=true && group_user_id='".$_SESSION['username']."' AND access_right IN ('WRITE','READ') ", Q_RET_ARRAY);
+      $_SESSION['permission']['USER']=exec_query("SELECT module,page,access_right FROM ".s_t('permission')." WHERE  is_user=true && group_user_id='".$_SESSION['username']."' AND access_right IN ('WRITE','READ') ", Q_RET_ARRAY);
    }
    load_anon_permission();
 }
@@ -67,7 +75,7 @@ function is_module_permitted($module){
       return true;
    }
 
-   $permission=$GLOBALS['permission'];
+   $permission=$_SESSION['permission'];
 
    //checking for user permission
    foreach($permission['USER'] as $arr)
@@ -92,7 +100,7 @@ function is_page_permitted($module,$page){
    if(isset($_SESSION['role_id']) && $_SESSION['role_id']=='SUPER'){
       return true;
    }
-   $permission=$GLOBALS['permission'];
+   $permission=$_SESSION['permission'];
 
    $denied=false;
    $allowd=false;
@@ -126,8 +134,5 @@ function is_page_permitted($module,$page){
 }
 
 
-
 /*------------------------------end validataion--------------------------------*/
-
-
 ?>

@@ -275,7 +275,7 @@ case 'app2':
    //login/logout 
    ob_start();
    if (isset($_SESSION['username'])){
-      echo after_login();
+      //echo after_login();
    }else{
       echo before_login();
    }

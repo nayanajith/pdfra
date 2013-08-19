@@ -21,7 +21,7 @@ echo get_program();
 <span><?php echo $_SESSION['username'];?> (<?php echo $_SESSION['role_id']?>)</span>
   <div dojoType="dijit.TooltipDialog" style="width:300px;">
 <?php 
-   if (isset($_SESSION['username'])){
+   if(isset($_SESSION['username'])){
       echo after_login();
    }
 ?>

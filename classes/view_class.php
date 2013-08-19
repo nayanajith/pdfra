@@ -40,12 +40,17 @@ class View{
 
         //Determine group prefix according to the group of the user
         $group_prefix='';
-        if(isset($_SESSION['role_id'])){
-            $arr=exec_query("SELECT file_prefix FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
+        if(isset($_SESSION['FILE_PREFIX'])){
+           /*
+           $arr=exec_query("SELECT file_prefix FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
             $group_prefix='_'.$arr[0]['file_prefix'];
+           */
+            $group_prefix='_'.$_SESSION['FILE_PREFIX'];
         }
          $model=sprintf($this->model,$group_prefix);
          $view=sprintf($this->view,$group_prefix);
+
+         log_msg($view);
 
         //Setting group wise view file if available else drop to default 
         if(file_exists($view)){

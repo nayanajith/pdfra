@@ -87,10 +87,13 @@ class Model{
          }
 
          //Setting group wise model file if available else drop to default
-         if(isset($_SESSION['role_id'])){
+         if(isset($_SESSION['FILE_PREFIX'])){
+            /*
             $arr=exec_query("SELECT file_prefix FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
             $group_prefix='_'.$arr[0]['file_prefix'];
             $file=sprintf($this->model,$group_prefix);
+             */
+            $file=sprintf($this->model,$_SESSION['FILE_PREFIX']);
 
             if(file_exists($file)){
                $this->model=$file;

@@ -249,7 +249,7 @@ include A_CORE."/activity_log.php";
 
 /*-----------------------Login functions are from here------------------------*/
 include LOGIN;
-
+load_permission();
 /*--------------------------Check for print request---------------------------*/
 $GLOBALS['PRINT']=false;
 if (isset($_REQUEST['print']) && $_REQUEST['print']=='true'){

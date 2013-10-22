@@ -2,9 +2,9 @@
 $GLOBALS['MODEL']=array(
 //-----------------KEY FIELDS OF THE MODEL----------------------
    'KEYS'=>array(
-      'PRIMARY_KEY'	=>'rid',
-      'UNIQUE_KEY'	=>array(''),
-      'MULTY_KEY'	   =>array(''),
+      'PRI'	=>array('rid'),
+      'UNI'	=>array(),
+      'MUL'	=>array(),
    ),
 //--------------FIELDS TO BE INCLUDED IN FORM-------------------
 //---------------THIS ALSO REFLECT THE TABLE--------------------

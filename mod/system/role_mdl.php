@@ -5,9 +5,9 @@ $layout_inner     =gen_select_inner(get_common_list('layout',true),null,true);
 $GLOBALS['MODEL']=array(
 //-----------------KEY FIELDS OF THE MODEL----------------------
    'KEYS'=>array(
-      'PRIMARY_KEY'	=>'rid',
-      'UNIQUE_KEY'	=>array('group_name'),
-      'MULTY_KEY'	=>array(''),
+      'PRI'	=>array('rid'),
+      'UNI'	=>array('role_id'=>array('role_id')),
+      'MUL'	=>array(),
    ),
 //--------------FIELDS TO BE INCLUDED IN FORM-------------------
 //---------------THIS ALSO REFLECT THE TABLE--------------------
@@ -21,7 +21,7 @@ $GLOBALS['MODEL']=array(
          "label_pos"	=>"top",
          "value"=>""
       ),
-      "group_name"=>array(
+      "role_id"=>array(
          "length"	=>"350",
          "dojoType"	=>"dijit.form.ValidationTextBox",
          "required"	=>"true",
@@ -66,7 +66,7 @@ $GLOBALS['MODEL']=array(
    ),
    'GRIDS'=>array(
        'GRID'=>array(
-          'columns'      =>array('rid'=>array('hidden'=>'true'),'group_name','file_prefix','layout','theme'),
+          'columns'      =>array('rid'=>array('hidden'=>'true'),'role_id','file_prefix','layout','theme'),
           'filter'       =>isset($_SESSION[PAGE]['FILTER'])?$_SESSION[PAGE]['FILTER']:null,
           'selector_id'  =>'toolbar__rid',
           'ref_table'    =>s_t('role'),
@@ -97,11 +97,11 @@ $GLOBALS['MODEL']=array(
          "pageSize"=>"10",
          "store"=>"rid_store",
 
-         "filter"=>isset($_SESSION[PAGE]['FILTER'])?" AND ".$_SESSION[PAGE]['FILTER']:null,
+         "filter"=>get_filter(null,true),
          "ref_table"=>s_t('role'),
          "ref_key"=>'rid',
          "order_by"=>'ORDER BY rid DESC',
-         "vid"=>array('group_name'),
+         "vid"=>array('role_id'),
       ),  
 
    ),

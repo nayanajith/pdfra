@@ -43,7 +43,7 @@ function is_user_check(){
 $custom_inner="<select  pageSize='20' id='module_page' dojoType='dijit.form.FilteringSelect' onChange='assign_module_page(this.value)' style='width:250px'>".gen_select_inner($page_array,null,false)."</select>";
 
 $user_arr=exec_query("SELECT username,CONCAT(username,' [U]') label FROM ".s_t('users'),Q_RET_ARRAY,null,'username');
-$group_arr=exec_query("SELECT group_name,CONCAT(group_name,' [G]') label FROM ".s_t('role'),Q_RET_ARRAY,null,'group_name');
+$group_arr=exec_query("SELECT role_id,CONCAT(role_id,' [G]') label FROM ".s_t('role'),Q_RET_ARRAY,null,'role_id');
 $arr=array_merge($user_arr,$group_arr);
 $group_user_id_inner=gen_select_inner($arr,'label',true);
 

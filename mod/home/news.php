@@ -5,7 +5,7 @@ if(isset($_SESSION['role_id'])){
 }
 
 $news_tpl="";
-$arr=exec_query("SELECT * FROM ".s_t('news')." WHERE display_until >= curdate() AND display_from <= curdate() AND role_id='$role'",Q_RET_ARRAY);
+$arr=exec_query("SELECT * FROM ".s_t('news')." WHERE display_until >= curdate() AND display_from <= curdate() AND (role_id='$role' OR role_id='_ALL_')" ,Q_RET_ARRAY);
 $news="";
 foreach($arr as $row){
    $news.="

@@ -32,7 +32,7 @@ if(isset($_REQUEST['form']) && $_REQUEST['form']=='system' && isset($_REQUEST['a
    $_SESSION['loged_module']    = MODULE;
 
    //will override by user theme and layout
-   $group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
+   $group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE role_id='".$_SESSION['role_id']."'",Q_RET_ARRAY);
 
    if(!is_null($group_layout_theme[0]['theme']) && $group_layout_theme[0]['theme'] != "" && $group_layout_theme[0]['theme'] != "NULL"){
       $_SESSION['THEME']=$group_layout_theme[0]['theme'];
@@ -317,7 +317,7 @@ if (isset($_SESSION['username'])) {
 
       //get and set group theme and layout
       //will override by user theme and layout
-      $group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE group_name='".$_SESSION['role_id']."'",Q_RET_ARRAY);
+      $group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE role_id='".$_SESSION['role_id']."'",Q_RET_ARRAY);
 
       if(!is_null($group_layout_theme[0]['theme']) && $group_layout_theme[0]['theme'] != "" && $group_layout_theme[0]['theme'] != "NULL"){
          $_SESSION['THEME']=$group_layout_theme[0]['theme'];

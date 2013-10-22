@@ -2,16 +2,17 @@
 
 $menu_array  = array(
 //   "modules"            =>"Modules",
+   "status"             =>"Status",
    "users"              =>"Users",
    "role"               =>"Roles",
    "manage_permission"  =>"Manage Permission",
    "permission"         =>"Manage Permission (Manual)",
    "base_data"          =>"Base Data",
-   "reset_password"     =>array("label"=>"Reset Password","visible"=>"true"),
+//   "reset_password"     =>array("label"=>"Reset Password","visible"=>"true"),
    "activity"           =>"Activity Log",
    "system_log"         =>"System Log",
-   "backup"             =>"Backup",
-   "db_admin"           =>"Database Administration",
+   "backup"             =>"Database Backup",
+   "db_admin"           =>"Database Upgrade/Migrate",
  //  "init_db"            =>"Regenerate Database",
 );
 

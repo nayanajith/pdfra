@@ -1,1 +1,6 @@
-<h4>About <?php echo $GLOBALS['TITLE'] ?> </h4>
+<?php
+echo "<center>";
+echo "<br><br><br><img src='".$GLOBALS['LOGO']."'><br>";
+echo "<b>".$GLOBALS['TITLE']."</b><br>";
+echo "</center>";
+?>

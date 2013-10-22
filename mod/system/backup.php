@@ -20,6 +20,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='del_backup'){
    del_backup();
 }
 
+if(isset($_REQUEST['action']) && $_REQUEST['action']=='res_backup'){
+   res_backup();
+}
+
+if(isset($_REQUEST['action']) && $_REQUEST['action']=='act_db'){
+   activate_db();
+}
+
+if(isset($_REQUEST['file_id']) && isset($_FILES[$_REQUEST['file_id']."s"])){
+   upl_backup();
+}
 
 
 ?>

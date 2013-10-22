@@ -17,7 +17,7 @@ foreach($doc_arr as $row){
 //If there is a help file created acordance to the page it will also be loaded
 $mod_page=get_param('page_id');
 $mod_page=explode('/',$mod_page);
-$doc_file=get_doc_file($mod_page[0],$mod_page[1]);
+$doc_file=get_doc_file($mod_page[0],$mod_page[1],get_param('role_id'));
 if(file_exists($doc_file) && filesize($doc_file) > 0){
    $fh=fopen($doc_file,'r');
    $content=fread($fh,filesize($doc_file));

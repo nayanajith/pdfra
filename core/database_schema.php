@@ -2,7 +2,7 @@
 /*
 System Database tables
 */
-$schema_version=7;
+$schema_version=10;
          
 $system_table_schemas['program']="CREATE TABLE `program` (
   `rid`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -50,7 +50,7 @@ $system_table_schemas['users']="CREATE TABLE `users` (
 
 $system_table_schemas['role']="CREATE TABLE `role`(
   `rid`              INT unsigned NOT NULL AUTO_INCREMENT,
-  `group_name`       VARCHAR(100) NOT NULL COMMENT 'A short name to identify the group',
+  `role_id`       VARCHAR(100) NOT NULL COMMENT 'A short name to identify the group',
   `file_prefix`      VARCHAR(10) NOT NULL COMMENT 'The prefix for the group related files',
   `layout`           VARCHAR(10) NOT NULL COMMENT 'The page layout for the group',
   `theme`            VARCHAR(10) NOT NULL COMMENT 'Theme for the group',
@@ -134,6 +134,28 @@ $system_table_schemas['news']="CREATE TABLE `news`(
    PRIMARY KEY (`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
+$system_table_schemas['db_backup']="CREATE TABLE `db_backup`(
+  `rid`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `file`             VARCHAR(300) DEFAULT NULL,
+  `upload_by`        INT UNSIGNED NOT NULL,
+  `backup_by`        INT UNSIGNED NOT NULL,
+  `restore_by`       INT UNSIGNED NOT NULL,
+  `delete_by`        INT UNSIGNED NOT NULL,
+  `upload_date`      DATETIME NOT NULL,
+  `backup_date`      DATETIME NOT NULL,
+  `restore_date`     DATETIME NOT NULL,
+  `delete_date`      DATETIME NOT NULL,
+  `restore_name`     VARCHAR(100) DEFAULT NULL,
+  `active`           BOOLEAN DEFAULT FALSE,
+  `state`            VARCHAR(50) DEFAULT NULL,
+  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   FOREIGN KEY       (`upload_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
+   FOREIGN KEY       (`backup_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
+   FOREIGN KEY       (`delete_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
+   FOREIGN KEY       (`restore_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
+   PRIMARY KEY (`rid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
 
 //Base data which should be populated at the first time the system is set up;
 $system_base_data['base_data']="
@@ -200,5 +222,15 @@ $system_table_migrate[7][]="
 	ALTER TABLE log change user_id user_id INT UNSIGNED NOT NULL;
 	ALTER TABLE log ADD FOREIGN KEY(`user_id`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT;
 	";
+$system_table_migrate[8][]=$system_table_schemas['db_backup'];
+
+$system_table_migrate[9][]="UPDATE permission SET access_right='READ' WHERE access_right='WRITE'";
+$system_table_migrate[9][]="DELETE FROM news;";
+$system_table_migrate[9][]="ALTER TABLE news CHANGE rid rid INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;";
+$system_table_migrate[10][]="ALTER TABLE role CHANGE group_name role_id VARCHAR(100) NOT NULL;";
+$system_table_migrate[10][]="alter table db_backup CHANGE upload_by upload_by INT(10) UNSIGNED NULL;
+ALTER TABLE db_backup CHANGE backup_by backup_by INT(10) UNSIGNED NULL;
+ALTER TABLE db_backup CHANGE restore_by restore_by INT(10) UNSIGNED NULL;
+ALTER TABLE db_backup CHANGE delete_by delete_by INT(10) UNSIGNED NULL;";
 
 ?>

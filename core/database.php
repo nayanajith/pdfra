@@ -10,6 +10,7 @@ $system_tables=array(
    'base_data'       =>'base_data',         
    'filter'          =>'filter',         
    'news'            =>'news',         
+   'db_backup'       =>'db_backup',         
    'log'             =>'log',
    'user_doc'        =>'user_doc',              
 );
@@ -23,6 +24,11 @@ define('SQL_LOG','sql.log');
  * Database connection and disconnection
  */
 function opendbi($DB=null) {
+	//Check and load db_active.php
+	if (file_exists(DB_ACTIVE)){
+		include(DB_ACTIVE);
+	}
+
    $DB=$DB==null?$GLOBALS['DB']:$DB;
    $db_avail=true;
 
@@ -49,6 +55,12 @@ function opendbi($DB=null) {
  * Database connection and disconnection
  */
 function opendb($DB=null) {
+
+	//Check and load db_active.php
+	if (file_exists(DB_ACTIVE)){
+		include(DB_ACTIVE);
+	}
+
    $DB=$DB==null?$GLOBALS['DB']:$DB;
    $db_avail=true;
 
@@ -151,6 +163,11 @@ function exec_multy_query($query,$type=null,$db=null,$array_key=null,$deleted=nu
    $query_ok=false;
    
    if(is_null($db)){
+		//Check and load db_active.php
+		if (file_exists(DB_ACTIVE)){
+			include(DB_ACTIVE);
+		}
+
       $db=$GLOBALS['DB'];
    }
 
@@ -231,7 +248,6 @@ Execute query
 @param array_key: If this parameter set, this key will be used as the key when returning array
 @param deleted: if deleted is true, it will only return the deleted redcords. if deleted=all, it will return all records, if deleted is null it will return only non deleted
 */
-
 function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no_connect=null){
    global $num_rows;
    global $aff_rows;
@@ -243,6 +259,11 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
    $query_ok=false;
    
    if(is_null($db)){
+		//Check and load db_active.php
+		if (file_exists(DB_ACTIVE)){
+			include(DB_ACTIVE);
+		}
+
       $db=$GLOBALS['DB'];
    }
 
@@ -397,15 +418,16 @@ function db_to_csv($query,$csv_file,$db=null){
 /*
 db to csv data export function for non root users
 */
-function db_to_csv_nr($query,$csv_file,$header_array=null,$delimiter=",",$enclosure='"',$terminator="\n",$db=null){
+function db_to_csv_nr($query,$csv_file,$header_array=null,$delimiter=",",$enclosure='"',$terminator="\n",$db=null,$save=null){
    //$res    = exec_query($query,Q_RET_MYSQL_RES,$db);
    $res    = exec_query($query,Q_RET_ARRAY,$db);
    set_file_header($csv_file);
    $header=false;
+	$csv="";
 
    //print column header
    if(!is_null($header_array)){
-      echo $enclosure.implode($enclosure.$delimiter.$enclosure,$column_array).$enclosure.$terminator;
+      $csv.=$enclosure.implode($enclosure.$delimiter.$enclosure,$column_array).$enclosure.$terminator;
       $header=true;
    }
 
@@ -413,11 +435,15 @@ function db_to_csv_nr($query,$csv_file,$header_array=null,$delimiter=",",$enclos
    //while($row = mysql_fetch_assoc($res)){
    foreach($res as $key => $row){
       if(!$header){
-         echo $enclosure.implode($enclosure.$delimiter.$enclosure,array_keys($row)).$enclosure.$terminator;
+         $csv.=$enclosure.implode($enclosure.$delimiter.$enclosure,array_keys($row)).$enclosure.$terminator;
          $header=true;
       }
-      echo $enclosure.implode($enclosure.$delimiter.$enclosure,array_values($row)).$enclosure.$terminator;
+      $csv.=$enclosure.implode($enclosure.$delimiter.$enclosure,array_values($row)).$enclosure.$terminator;
    }
+	if(!is_null($save)){
+		file_put_contents($save."/".$csv_file, $csv);
+	}
+	echo $csv;
    exit();
 }
 
@@ -531,7 +557,7 @@ function drop_tables($tables){
    $state=true;
    foreach($tables as $key=>$name){
       if(is_view($name)){
-         if(exec_multy_query("SET FOREIGN_KEY_CHECKS=0; DROP VIEW ".$name,Q_RET_MYSQL_RES)){
+         if(exec_query("DROP VIEW ".$name,Q_RET_MYSQL_RES)){
             log_msg('drop_view'.$name,null,SQL_LOG);
          }else{
             log_msg('drop_view'.get_sql_error(),null,SQL_LOG);
@@ -542,14 +568,14 @@ function drop_tables($tables){
 
          /*IF the table have data backup the table instead of deleting*/
          if(get_num_rows()>0){
-            if(exec_multy_query("SET FOREIGN_KEY_CHECKS=0; RENAME TABLE ".$name." TO ".$name."_BAK_".Date('d_m_Y'),Q_RET_MYSQL_RES)){
+            if(exec_query("RENAME TABLE ".$name." TO ".$name."_BAK_".Date('d_m_Y'),Q_RET_MYSQL_RES)){
                log_msg('rename_tables'.$name,null,SQL_LOG);
             }else{
                log_msg('rename_tables'.get_sql_error(),null,SQL_LOG);
                $state=false;
             }
          }else{
-            if(exec_multy_query("SET FOREIGN_KEY_CHECKS=0; DROP TABLE ".$name,Q_RET_MYSQL_RES)){
+            if(exec_query("DROP TABLE ".$name,Q_RET_MYSQL_RES)){
                log_msg('drop_tables'.$name,null,SQL_LOG);
             }else{
                log_msg('drop_tables'.get_sql_error(),null,SQL_LOG);
@@ -693,6 +719,19 @@ CALL colavg('Country', 'LifeExpectancy');
 
 ";
 
+/**
+ * Backup current database as to sql dump
+ */
+function backup_db(){
+   $backup_file=MOD_BACKUP."/".$GLOBALS['DB']."_".date("j-n-Y_H:m:s").".sql.gz";
+   log_msg("mysqldump -f -u".$GLOBALS['DB_USER']." -p".$GLOBALS['DB_PASS']."  ".$GLOBALS['DB']." | gzip > $backup_file");
+   exec("mysqldump -f -u".$GLOBALS['DB_USER']." -p".$GLOBALS['DB_PASS']."  ".$GLOBALS['DB']." | gzip > $backup_file");
+   if(file_exists($backup_file)){
+      return_status_json('OK','Backup successful!');
+   }else{
+      return_status_json('ERROR','Backup error!');
+   }
+}
 
    
    

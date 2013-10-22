@@ -2,9 +2,9 @@
 $GLOBALS['MODEL']=array(
 //-----------------KEY FIELDS OF THE MODEL----------------------
    'KEYS'=>array(
-      'PRIMARY_KEY'	=>'rid',
-      'UNIQUE_KEY'	=>array(''),
-      'MULTY_KEY'	=>array(''),
+      'PRI'	=>array('rid'),
+      'UNI'	=>array(),
+      'MUL'	=>array(),
    ),
 //--------------FIELDS TO BE INCLUDED IN FORM-------------------
 //---------------THIS ALSO REFLECT THE TABLE--------------------
@@ -184,7 +184,7 @@ $GLOBALS['MODEL']=array(
          "pagesize"=>"10",
          "store"=>"rid_store",
 
-         "filter"=>isset($_SESSION[PAGE]['FILTER'])?" AND ".$_SESSION[PAGE]['FILTER']:null,
+         "filter"=>get_filter(null,true),
          "ref_table"=>s_t('log'),
          "ref_key"=>'rid',
          "order_by"=>'ORDER BY rid DESC',

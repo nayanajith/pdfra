@@ -111,7 +111,7 @@ $GLOBALS['MODEL']=array(
          "pageSize"=>"10",
          "store"=>"rid_store",
 
-         "filter"=>isset($_SESSION[PAGE]['FILTER'])?" AND ".$_SESSION[PAGE]['FILTER']:null,
+         "filter"=>get_filter(null,true),
          "ref_table"=>s_t('base_data'),
          "ref_key"=>'rid',
          "order_by"=>'ORDER BY rid DESC',

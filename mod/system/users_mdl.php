@@ -26,7 +26,7 @@ $password_custom='
 ';
 
 $arr=array('USER'=>'');
-$arr=array_merge($arr,exec_query("SELECT group_name,rid FROM ".s_t('role'),Q_RET_ARRAY,null,'group_name'));
+$arr=array_merge($arr,exec_query("SELECT role_id,rid FROM ".s_t('role'),Q_RET_ARRAY,null,'role_id'));
 $group_inner      =gen_select_inner(array_keys($arr),null,true);
 
 $res=exec_query("SELECT short_name,rid FROM ".s_t('program'),Q_RET_ARRAY,null,'rid');
@@ -49,9 +49,9 @@ for($i=($curr_year-2); $i < ($curr_year+2); $i++ ){
 $GLOBALS['MODEL']=array(
 //-----------------KEY FIELDS OF THE MODEL----------------------
    'KEYS'=>array(
-      'PRIMARY_KEY'	=>'user_id',
-      'UNIQUE_KEY'	=>array('username','ldap_user_id'),
-      'MULTY_KEY'	=>array(''),
+      'PRI'	=>array('user_id'),
+      'UNI'	=>array('username'=>array('username'),'ldap_user_id'=>array('ldap_user_id')),
+      'MUL'	=>array(),
    ),
 //--------------FIELDS TO BE INCLUDED IN FORM-------------------
 //---------------THIS ALSO REFLECT THE TABLE--------------------
@@ -314,7 +314,7 @@ $GLOBALS['MODEL']=array(
          "pageSize"=>"10",
          "store"=>"rid_store",
 
-         "filter"=>isset($_SESSION[PAGE]['FILTER'])?" AND ".$_SESSION[PAGE]['FILTER']:null,
+         "filter"=>get_filter(null,true),
          "ref_table"=>s_t('users'),
          "ref_key"=>'user_id',
          "order_by"=>'ORDER BY user_id DESC',

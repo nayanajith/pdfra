@@ -25,7 +25,7 @@ foreach ($GLOBALS['MODULES'] as $mod_key => $mod) {
 //Get the content of the help effective file 
 $mod_page=get_param('page_id');
 $mod_page=explode('/',$mod_page);
-$doc_file=get_doc_file($mod_page[0],$mod_page[1]);
+$doc_file=get_doc_file($mod_page[0],$mod_page[1],get_param('role_id'));
 
 $content="";
 if(file_exists($doc_file) && filesize($doc_file) > 0){
@@ -67,6 +67,25 @@ $GLOBALS['MODEL']=array(
          "pageSize"  =>"10",
          "label"	   =>"Page",
          "value"     =>""
+      ),
+      "role_id"=>array(
+         "length"	   =>"150",
+         "dojoType"  =>"dijit.form.FilteringSelect",
+         "required"	=>"true",
+         "onChange"  =>'s_p_c_add("ok",reload_main,this.value);set_param(this.id,this.value)',
+         "pageSize"  =>"10",
+         "label"	   =>"Role",
+
+         "searchAttr"=>"label",
+         "pageSize"	=>"10",
+         "store"		=>"role_id_store",
+
+			"default"	=>false,
+			//"all_selector"	=>true,
+
+         "ref_key"	=>'file_prefix',
+         "ref_table"	=>s_t('role'),
+         "vid"			=>array('group_name'),
       ),
       "add"=>array(
          "dojoType"=>"dijit.form.Button",

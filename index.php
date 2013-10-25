@@ -301,6 +301,17 @@ if(isset($_SESSION['REDIRECT']) && $_SESSION['REDIRECT'] != ''){
    header("Location:".$redirect);
 }
 
+/*----If env_vars log is enabled log the env vars array in to  ENV_VARS_LOG----*/
+if(defined('LOG_ENABLED')){
+   $logs=explode(',',LOG_ENABLED);
+   if(in_array('env_vars',$logs)){
+      $out="";
+      //$out=print_r(get_defined_constants(true),true);
+      log_msg($out."\n-------------------------------------\n".print_r($_SESSION, true)."\n-------------------------------------\n".print_r($GLOBALS, true),1,'env_vars');
+   }
+}
+
+
 /*-----------------------------------------------------------------------------*/
 /**
  * Process the request related to page and insert into view array which will be used in layouts
@@ -312,6 +323,7 @@ include A_CORE."/assembler.php";
 /*----------------------------HTML started below------------------------------*/
 /*--------------start output buffering for html compression-------------------*/
 if(COMPRESS=='YES'){
+   /*start output buffering*/
    ob_start('ob_gzhandler');
 }
 
@@ -331,5 +343,6 @@ if(COMPRESS=='YES'){
 
    //echo trim($out,"\n\t");
 }
+
 
 ?>

@@ -1053,10 +1053,21 @@ function get_widget_field($field_id){
    return get_pviw_property(array('WIDGETS',$field_id,'field'));
 }
 
+//Simplified wrapper for get_widget_field
+function gwf($field_id){
+   return get_pviw_property(array('WIDGETS',$field_id,'field'));
+}
+
+
 /**
  * Add return the label for the given field_id from $GLOBALS['PREVIEW']['FORM']
  */
+
 function get_widget_label($field_id){
+   return get_pviw_property(array('WIDGETS',$field_id,'label'));
+}
+//Simplified wrapper for get_widget_label
+function gwl($field_id){
    return get_pviw_property(array('WIDGETS',$field_id,'label'));
 }
 

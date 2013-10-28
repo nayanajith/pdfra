@@ -1526,7 +1526,9 @@ function walk_style_text(&$item,$key,$var=null){
 
 function log_msg($msg=null,$level=null,$file=null){
 
-   if(!defined('LOG_ENABLED '))return;
+   if(!defined('LOGS_ENABLED')){
+      return;
+   }
 
    //Set from Global log level if $level is not set
    if(defined('LOG_LEVEL') && is_null($level)){
@@ -1581,11 +1583,14 @@ function log_msg($msg=null,$level=null,$file=null){
       }
    }
 
-   //Log file
-   $log_file=LOG;
-   //custom log file
+   //Default log file
+   $log_file="messages";
+
+   //Choose custom log file if selected
    if(!is_null($file)){
-      $log_file=A_ROOT."/".$file;
+      $log_file=A_ROOT."/".$file.".log";
+   }else{
+      $log_file=A_ROOT."/".$log_file.".log";
    }
 
    $file_handler =null;
@@ -1605,6 +1610,17 @@ function log_msg($msg=null,$level=null,$file=null){
 
    fwrite($file_handler, "[$date_time]$bt :$msg\n");
    fclose($file_handler);
+}
+
+//Special type of log function to log envioronmantal variables
+function env_vars_log(){
+   if(defined('LOGS_ENABLED')){
+      if(in_array('env_vars',explode(',',LOGS_ENABLED))){
+         $out="";
+         //$out=print_r(get_defined_constants(true),true);
+         log_msg("\n##################-GLOBALS-###################\n".print_r($GLOBALS, true),1,'env_vars');
+      }
+   }
 }
 
 

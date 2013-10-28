@@ -140,6 +140,8 @@ if(isset($_REQUEST['section'])){
 
 
 if(isset($_REQUEST['section']) && $content_found){
+   //Log Environmental variables
+   env_vars_log();
    exit();
 }
 
@@ -404,6 +406,9 @@ if(isset($_REQUEST['section'])){
       echo get_from_cview($_REQUEST['section']);
    break;
    }
+   //Log environmant variables
+   env_vars_log();
+
    //exit from all
    exit();
 }

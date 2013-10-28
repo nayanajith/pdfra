@@ -18,7 +18,7 @@ $system_tables=array(
 $GLOBALS['S_TABLES']=$system_tables;
 
 //Custom log file for sql only log entries
-define('SQL_LOG','sql.log');
+define('SQL_LOG','sql');
 
 /*
  * Database connection and disconnection

@@ -212,7 +212,6 @@ if(isset($toolbar)&&isset($toolbar[PAGE])){
    $GLOBALS['TOOLBAR_ITEMS']=$toolbar[PAGE];
 }
 
-
 /*--------------------------validate program request--------------------------*/
 if (!isset($program)){
    global $program;
@@ -271,6 +270,8 @@ if ($GLOBALS['DATA'] && isset($_REQUEST['action']) && $_REQUEST['action']=='js')
    return;
 }
 
+
+
 /*----------------------execute data/print request----------------------------*/
 //CSV generation request sent to particular page and stop further execution in this page
 if($GLOBALS['DATA']||$GLOBALS['PRINT']){
@@ -282,6 +283,9 @@ if($GLOBALS['DATA']||$GLOBALS['PRINT']){
 	}else{
       include A_MODULES."/".MODULE."/".PAGE.".php";
    }
+
+   /*----If env_vars log is enabled log the env vars array in to  ENV_VARS_LOG----*/
+   env_vars_log();
    return;
 }
 
@@ -301,18 +305,6 @@ if(isset($_SESSION['REDIRECT']) && $_SESSION['REDIRECT'] != ''){
    header("Location:".$redirect);
 }
 
-/*----If env_vars log is enabled log the env vars array in to  ENV_VARS_LOG----*/
-if(defined('LOG_ENABLED')){
-   $logs=explode(',',LOG_ENABLED);
-   if(in_array('env_vars',$logs)){
-      $out="";
-      //$out=print_r(get_defined_constants(true),true);
-      log_msg($out."\n-------------------------------------\n".print_r($_SESSION, true)."\n-------------------------------------\n".print_r($GLOBALS, true),1,'env_vars');
-   }
-}
-
-
-/*-----------------------------------------------------------------------------*/
 /**
  * Process the request related to page and insert into view array which will be used in layouts
  */

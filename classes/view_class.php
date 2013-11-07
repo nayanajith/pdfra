@@ -321,6 +321,7 @@ class View{
     data-> data for text area
    */
    public function gen_widget_entry($field,$field_array){
+
       /*fill data from data array*/
       $fill =get_param($field);
 

@@ -103,7 +103,22 @@ img {
    height: 16px;
    text-align: center;
 }
-
+.arrowDown {
+    width: 15px;
+    height: 15px;
+    /*margin: 0px auto;*/
+    background-image: url("<?php echo JS.'/dijit/themes/'.$GLOBALS['THEME'].'/form/images/buttonArrows.png'; ?>");
+    background-repeat: no-repeat;
+    background-position: -51px 53%;
+}
+.arrowUp{
+    width: 15px;
+    height: 15px;
+    /*margin: 0px auto;*/
+    background-image: url("<?php echo JS.'/dijit/themes/'.$GLOBALS['THEME'].'/form/images/buttonArrows.png'; ?>");
+    background-repeat: no-repeat;
+    background-position: -0px 53%;
+}
 /*------------------------------news styles------------------------------*/
 .news_title{
    font-size:150%;

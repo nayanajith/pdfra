@@ -58,7 +58,7 @@ if(isset($_REQUEST['form'])){
          break;
          case 'param':
             //Check if the id is from toolbar and if so remote 'toolbar.' prefix from id
-            $section='FORM';
+            $section='WIDGETS';
             $param=$_REQUEST['param'];
             $br=explode('__',$_REQUEST['param']);
             if(isset($br[0]) && in_array(strtoupper($br[0]),array('WIDGETS','TOOLBAR'))){
@@ -76,7 +76,10 @@ if(isset($_REQUEST['form'])){
             }
 
             //Callback the php function if set in the MODEL
-            $field_array=$GLOBALS['MODEL'][strtoupper($section)][$param];
+            $field_array=array();
+            if(isset($GLOBALS['MODEL'][strtoupper($section)][$param])){
+               $field_array=$GLOBALS['MODEL'][strtoupper($section)][$param];
+            }
             $action=$param."_action";
             if(isset($field_array['action'])){
                $action=$field_array['action'];

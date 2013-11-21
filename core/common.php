@@ -1258,6 +1258,15 @@ $dijitEditorIcons=array(
    "Wikiword"
 );
 
+$customIcons=array(
+   "GFIcon",
+   "homeIcon",
+   "notifyIcon",
+   "notifyIconRed",
+   "arrowDown",
+   "arrowUp",
+);
+
 /**
  * return the css classes which represent the relevent button icon
  */
@@ -1269,6 +1278,8 @@ function get_icon_class($name){
       return 'dijitIcon dijitIcon'.$name;
    }elseif(array_search($name,$dijitEditorIcons)){
       return 'dijitEditorIcon dijitEditorIcon'.$name;   
+   }elseif(array_search($name,$customIcons)){
+      return $name;   
    }else{
       return 'dijitIcon dijitIconFunction';   
    }

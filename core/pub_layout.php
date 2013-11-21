@@ -28,6 +28,9 @@
    ?>
 <!--____________________________end loading ________________________________-->
 
+<!--____________________________common dialog ________________________________-->
+    <div dojoType="dijit.Dialog" refreshOnShow="true" id='DIALOG' ></div>
+
 <div class='web_bg bgTop'>
 <table width='100%' cellpadding=5 cellspacing=0 >
 <!--header-->

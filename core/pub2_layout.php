@@ -40,6 +40,9 @@ bottom:      Tool bar
    <?php
       echo get_loading();
    ?>
+<!--____________________________common dialog ________________________________-->
+      <div dojoType="dijit.Dialog" refreshOnShow="true" id='DIALOG' ></div>
+
 <!--____________________________end loading ________________________________-->
       <div dojoType="dijit.layout.BorderContainer" class='bgTop bContainer'  style='width:99%'   gutters="false" liveSplitters="true" >
 

@@ -83,12 +83,36 @@ function in_array(needle, haystack){
 
 /*--show page xhr dialogbox--*/
 function show_xhr_dialog(url_,title,width,height,no_buttons){
+   var xhr_dialog=dijit.byId('DIALOG');
+   xhr_dialog.set('title',title);
+   xhr_dialog.set('href',url_);
+   xhr_dialog.show();
+}
+
+/*--hide page xhr dialogbox--*/
+function hide_xhr_dialog(){
+   var xhr_dialog=dijit.byId('DIALOG');
+   xhr_dialog.hide();
+}
+
+/*--show page xhr dialogbox--*/
+/*
+function show_xhr_dialog(url_,title,width,height,no_buttons){
 	dojo.xhrPost({
       url 		: url_,
   	   handleAs :'text',
       timeout  : timeout_,
   	   load 		: function(response, ioArgs) {	     
-         xhr_Dialog = new dijit.Dialog({
+         //Destroy all the nodes and their ids before creating the new window.
+         if (typeof xhr_dialog_div=== 'undefined') {
+         }else{
+            dijit.byId(xhr_dialog_div).destroyRecursive();
+            //dijit.byId(xhr_dialog).destroyRecursive();
+            //dijit.byId(xhr_dialog).destroy();
+            //xhr_dialog.destroy();
+         }
+
+         var xhr_dialog = new dijit.Dialog({
             title: title,
             style: "width:"+width+"px;height:"+height+"px;"
          });
@@ -107,10 +131,11 @@ function show_xhr_dialog(url_,title,width,height,no_buttons){
             content="";
          }
 
-         content="<div style='width:"+width+"px;min-height:"+height+"px;'>"+response+"</div>"+content;
+         var content="<div dojoType='dijit.layout.ContentPane' id='xhr_dialog_div' style='width:"+width+"px;min-height:"+height+"px;'>"+response+"</div>"+content;
 
-         xhr_Dialog.set("content", content);
-         xhr_Dialog.show();
+         alert(content);
+         xhr_dialog.set("content", content);
+         xhr_dialog.show();
   	   },
   	   error : function(response, ioArgs) {
          if(response=='Error: timeout exceeded'){
@@ -123,6 +148,7 @@ function show_xhr_dialog(url_,title,width,height,no_buttons){
   	   }
    });
 }
+*/
 
 /*--help viewer--*/
 function show_help_dialog(){
@@ -511,14 +537,14 @@ function reload_sections(sections){
             case 'MAIN_BOTTOM':
                var parent_node = section.getParent();
                section.destroy();
-               var bottom_pane = new dijit.layout.ContentPane({
+               var bottom_pane = new dijit.layout.contentpane({
                   'id':sections[i],
                    'region': 'bottom',
                    'gutters':false,
                    'style':layout[sections[i]].style,
                    'href':gen_url()+'section='+sections[i]
                }, sections[i]);
-               parent_node.addChild(bottom_pane);
+               parent_node.addchild(bottom_pane);
             break;
             case 'TOOLBAR':
                set_param_off();

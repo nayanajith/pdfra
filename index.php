@@ -64,6 +64,22 @@ include A_CORE."/common.php";
 /*--------------------------Set global error log -----------------------------*/
 ini_set('error_log',ERROR_LOG);
 
+/*--------------------------return session status-----------------------------*/
+$SESSION_DURATION=1800;//1800s => 30m
+if(isset($_REQUEST['chksession'])){
+   if(isset($_SESSION['username'])){
+      if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $SESSION_DURATION)){
+         status('ERROR','Expired ...');
+      }else{
+         status('OK',($SESSION_DURATION - (time() - $_SESSION['LAST_ACTIVITY'] )));
+      }
+   }else{
+      status('OK','Not Loged in');
+   }
+   exit();
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+
 /*-------if the database configuration file not found install the system------*/
 if(file_exists(DB_CONF)){
    include DB_CONF;

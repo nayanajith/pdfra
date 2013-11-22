@@ -204,8 +204,18 @@ function after_login() {
    </div>";
 }
 
-$RESULT      =null;
-$RESULT_ARR   =null;
+/*--------------------------destroy the session if expired--------------------*/
+/*
+if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 10)){
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+*/
+
+$RESULT     =null;
+$RESULT_ARR =null;
 $LOGIN      =false;
 
 if (isset($_SESSION['username'])) {

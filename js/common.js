@@ -1588,7 +1588,7 @@ function p_f_add(callback_function,param){
 /**
  * poll given set of functions
  */
-var secs=5;
+var secs=30;
 var auto_save_timeout=secs*1000;
 var stop_auto_save=false;
 function poll(){
@@ -1603,7 +1603,7 @@ function poll(){
 }
 
 //--------------Starting poll function------------------
-//poll();
+poll();
 //--------------Starting poll function------------------
 
 /**
@@ -1679,6 +1679,32 @@ function notify(){
 if('<?php echo $_SESSION['LAYOUT'] ?>'=='app2'){
    //p_f_add(notify);
 }
+
+//Check the session time out and automatically terminate at time out
+function chksession(){
+   dojo.xhrPost({
+      url      :gen_url(), 
+      content  :{chksession:'true'},
+      handleAs :'json',
+      timeout  : 100,
+      handle: function(response){
+      },
+      load: function(response) {
+         if(response.status_code=='OK'){
+            console.info("Session will be terminated in "+response.info+"s");
+         }else if(response.status_code=='ERROR'){
+            console.info(response.info);
+            window.location=gen_url()+"logout=logout";
+         }
+      }, 
+      error: function(response,ioArgs) {
+      }
+   });
+}
+
+//initiate the session check timeout function polling
+<?php if(isset($_SESSION['username'])){echo 'p_f_add(chksession);';} ?>
+
 
 /**
  * Convert phrase to titlecase

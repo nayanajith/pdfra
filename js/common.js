@@ -82,10 +82,10 @@ function in_array(needle, haystack){
 }
 
 /*--show page xhr dialogbox--*/
-function show_xhr_dialog(url_,title,width,height,no_buttons){
+function show_xhr_dialog(url,title,width,height,no_buttons){
    var xhr_dialog=dijit.byId('DIALOG');
-   xhr_dialog.set('title',title);
-   xhr_dialog.set('href',url_);
+   xhr_dialog.set('title','<span>'+title+'</span><span>&nbsp;::&nbsp;</span><span id="status_bar2"></span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+   xhr_dialog.set('href',url);
    xhr_dialog.show();
 }
 
@@ -1795,10 +1795,19 @@ function update_status_bar(status_code,info){
    }
    <?php if(!in_array($_SESSION['LAYOUT'],array('pub'))){ ?>
    /*If the message too lengthy show it as a dialog*/
+   var status_bar2 = document.getElementById('status_bar2') ;
    var status_bar = document.getElementById('status_bar') ;
    if(info.length < max_status_length){
+      //Update status bar 1 if status bar 2 is not defined
       status_bar.innerHTML=info;
       status_bar.title=orig_info;
+
+      if(typeof status_bar2 === 'undefined' || status_bar2 == null) {
+      }else{
+         //Update status bar 2 
+         status_bar2.innerHTML=info;
+         status_bar2.title=orig_info;
+      }
    }else{
       /*Create dialog only if not initialized*/
       if(typeof stausDialog === 'undefined') {

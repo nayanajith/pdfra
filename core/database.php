@@ -142,7 +142,7 @@ $num_rows=0;
 $query_ok=false;
 
 /*sql error*/
-$sql_error=null;
+$GLOBALS['sql_error']=array();
 
 /**
 Execute query
@@ -156,7 +156,6 @@ function exec_multy_query($query,$type=null,$db=null,$array_key=null,$deleted=nu
    global $num_rows;
    global $aff_rows;
    global $query_ok;
-   global $sql_error;
 
    $num_rows=0;
    $aff_rows=0;
@@ -188,7 +187,8 @@ function exec_multy_query($query,$type=null,$db=null,$array_key=null,$deleted=nu
    
    /*Set affected rows*/
    $aff_rows   =mysqli_affected_rows($GLOBALS['CONN_I']);
-   $sql_error  =mysqli_error($GLOBALS['CONN_I']);
+
+   add_sql_error(mysqli_error($GLOBALS['CONN_I']));
 
    switch($type){
       case Q_RET_NONE:
@@ -252,7 +252,6 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
    global $num_rows;
    global $aff_rows;
    global $query_ok;
-   global $sql_error;
 
    $num_rows=0;
    $aff_rows=0;
@@ -313,7 +312,7 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
    /*Set affected rows*/
    $aff_rows=mysql_affected_rows($GLOBALS['CONNECTION']);
 
-   $sql_error=mysql_error($GLOBALS['CONNECTION']);
+   add_sql_error(mysql_error($GLOBALS['CONNECTION']));
 
    if($result){
       $query_ok=true;
@@ -369,13 +368,20 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
       break;
    }
 }
+//Collect all the sql errors until it is red by the program
+function add_sql_error($error=null){
+   if(!is_null($error) && trim($error) != ''){
+      $GLOBALS['sql_error'][]=$error;
+   }
+}
 
 /*Return sql error*/
 //Duplicate entry 'nmla@ucsc.lk' for key 'email'
 function get_sql_error(){
-   global $sql_error;
-   if(!is_null($sql_error) || trim($sql_errori) != '' ){
-      //return mysql_escape_string($sql_error);
+   if(sizeof($GLOBALS['sql_error']) > 0){
+      $sql_error=implode($GLOBALS['sql_error'],',');
+      $GLOBALS['sql_error']=array();
+
       return str_replace("'","`",$sql_error);
    }else{
       return false; 

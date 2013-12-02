@@ -1126,8 +1126,22 @@ function set_file_header($file_name){
   header("Expires: 0");
 }
 
-
-
+//Toggle the status message showing
+$GLOBALS['show_status']=true;
+function status_toggle($status=null){
+   if(is_null($status)){
+      $GLOBALS['show_status']=!$GLOBALS['show_status'];
+   }else{
+      $GLOBALS['show_status']=$status;
+   }
+   return $GLOBALS['show_status'];
+}
+function st_on(){
+   tatus_toggle(true);
+}
+function st_off(){
+   tatus_toggle(false);
+}
 
 /*Return staus as json for XHR request or io.iframe request */
 /*
@@ -1137,6 +1151,10 @@ Possible status
 @param info: information about the status
 */
 function return_status_json($status,$info,$data=null){
+
+   //Return if show status is false
+   if(!$GLOBALS['show_status'])return;
+
    $status=strtoupper($status);
    $data_json="";
 

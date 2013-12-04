@@ -241,6 +241,23 @@ function exec_multy_query($query,$type=null,$db=null,$array_key=null,$deleted=nu
 }
 
 /**
+ * Return the table of a simple query
+ * @param query: query string
+ */
+function table_of_query($query){
+	//TODO
+}
+
+/**
+ * Return true if the given column exists in the given table
+ * @param column: string column name
+ * @param table: the table which searching for the column
+ */
+function column_exists($column,$table=null){
+	//TODO
+}
+
+/**
 Execute query
 @param query: query string
 @param type: type of database mysql/mssql

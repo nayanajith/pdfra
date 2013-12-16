@@ -265,7 +265,7 @@ Execute query
 @param array_key: If this parameter set, this key will be used as the key when returning array
 @param deleted: if deleted is true, it will only return the deleted redcords. if deleted=all, it will return all records, if deleted is null it will return only non deleted
 */
-function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no_connect=null){
+function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_connect=null,$log=false){
    global $num_rows;
    global $aff_rows;
    global $query_ok;
@@ -286,25 +286,6 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$deleted=null,$no
    //Sometimes the database connection is done externally eg: login 
    if($no_connect != true ){
       opendb($db);
-   }
-
-   //add filter to deselect recoreds marked as deleted
-   //with this array it will only return non deleted
-   $deleted_filter=array(
-      '/WHERE/'   =>'WHERE deleted=false AND',
-      '/ORDER/'   =>'WHERE deleted=false ORDER',
-      '/GROUP/'   =>'WHERE deleted=false GROUP',
-      '/$/'         =>' WHERE deleted=false'
-   );
-
-   //with this array it will only return deleted
-   if($deleted==true){
-      $deleted_filter=array(
-         '/WHERE/'   =>'WHERE deleted=true AND',
-         '/ORDER/'   =>'WHERE deleted=true ORDER',
-         '/GROUP/'   =>'WHERE deleted=true GROUP',
-         '/$/'         =>' WHERE deleted=true'
-      );
    }
 
    //If deleted not set to all query will be edited to return either deleted or non deleted  else return all records(bypass this iteration)

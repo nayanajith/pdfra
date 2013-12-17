@@ -265,7 +265,7 @@ Execute query
 @param array_key: If this parameter set, this key will be used as the key when returning array
 @param deleted: if deleted is true, it will only return the deleted redcords. if deleted=all, it will return all records, if deleted is null it will return only non deleted
 */
-function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_connect=null,$log=false){
+function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_connect=null,$log=false,$who_field=null){
    global $num_rows;
    global $aff_rows;
    global $query_ok;
@@ -299,7 +299,23 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_
          }
       }
    }
-    */
+   */
+	$who_field='updated_by';
+
+	/*
+		INSERT INTO `base_data`(`base_value`,`base_class`,`base_key`)VALUES('0','VARIABLE','__DB_VERSION')
+		UPDATE users SET last_login=CURRENT_TIMESTAMP,failed_logins=0 WHERE username='admin'
+	 */
+	if(!is_null($who_field)){
+		if(preg_match('/INSERT|REPLACE/i',$query) > 0 ){
+			$find=array(')',')');
+			$replace=array(",`$who_field`)",",'".$_SESSION['user_id']."')");
+			$query=preg_replace($find,$replace,$query);
+		}elseif(preg_match('/UPDATE/i',$query) > 0 ){
+			$query=preg_replace('/ SET /i'," SET `$who_field`='".$_SESSION['user_id']."',",$query);
+		}
+	}
+	log_msg($query);
 
    //Enable this to log all the queries
    if(!strstr($query,'INSERT INTO log'))log_msg('exec_query'.":".$db.":".$query,1,SQL_LOG);
@@ -401,6 +417,31 @@ function get_num_rows(){
 function is_query_ok(){
    global $query_ok;
    return $query_ok;
+}
+
+/*
+ * function to delete the record
+ * @param table: Table name to delete the record
+ * @param where: Where clause to match the records to delete
+ * @param purge: Purge the record (actually delete) or flag as deleted
+ * @param flag_field: If flag as deleted, flag field 
+ * @param flag_value: the value should be set to the flag 
+ */
+function del($table,$where,$purge=false,$flag_field=null,$flag_value='DELETED'){
+	//If the flag_field is null flag, default flag field is 'deleted' and the flag value is '1'
+	if(is_null($flag_field)){
+		$flag_field='deleted';
+		$flag_value=1;
+	}
+
+	//Query to flag the record as deleted
+	$query="UPDATE $table SET $flag_field=$flag_value WHERE $where";
+
+	//If purge is true delete the record completely from the table
+	if($purge){
+		$query="DELETE FROM $table  WHERE $where";
+	}
+	exec_query($query,Q_RET_NONE);
 }
 
 /*

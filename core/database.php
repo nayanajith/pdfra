@@ -308,9 +308,11 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_
 	 */
 	if(!is_null($who_field)){
 		if(preg_match('/INSERT|REPLACE/i',$query) > 0 ){
-			$find=array(')',')');
-			$replace=array(",`$who_field`)",",'".$_SESSION['user_id']."')");
-			$query=preg_replace($find,$replace,$query);
+         $find='/\)/';
+         $replace=",`$who_field`)";
+         $query=preg_replace($find,$replace,$query,1);
+         $replace=")'".$_SESSION['user_id']."',";
+         $query=strrev(preg_replace($find,$replace,strrev($query),1));
 		}elseif(preg_match('/UPDATE/i',$query) > 0 ){
 			$query=preg_replace('/ SET /i'," SET `$who_field`='".$_SESSION['user_id']."',",$query);
 		}

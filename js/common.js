@@ -512,7 +512,7 @@ function reload_sections(sections){
    for(var i in sections){
       //section id
       var section=dijit.byId(sections[i]);
-	   if(section.get('href')){
+	   if(section && section.get('href')){
          /*
          dojo.fadeOut({ 
             node: sections[i], 
@@ -1022,6 +1022,25 @@ function load_selected_value(field,value_to_load){
            }
          }
       });
+   }
+}
+
+//reset widget values to blank
+function reset_widget(key){
+   var widget=dijit.byId(key);
+   if(widget.store){
+      widget.set('value', 'NULL');
+   }else{
+      switch(widget.declaredClass){
+         case 'dijit.form.SimpleTextarea':
+            widget.set('value', '');
+            break;
+         case 'dojox.form.Uploader':
+            break;
+         default:
+            widget.set('value', null);
+            break;
+      }
    }
 }
 

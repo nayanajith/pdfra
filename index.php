@@ -148,7 +148,7 @@ if(array_key_exists('PATH_INFO', $_SERVER)){
    //If the user request for other than slogin page before login, he will be redirected to news page
    if(!isset($_SESSION['username']) &&  $_REQUEST['module'] != 'home'){
       $_REQUEST['module']  ='home';
-      $_REQUEST['page']    ='news';
+      $_REQUEST['page']    ='login';
       unset($_REQUEST['program']);
    }
 }

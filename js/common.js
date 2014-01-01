@@ -601,11 +601,19 @@ function reload_sections(sections){
    });
 }
 
+//Reload a given section
+function r_s(section){
+   reload_sections([section]);
+}
+
 function reload_dialog(){
    dijit.byId('DIALOG').show();
 }
 function reload_main_right(){
    reload_sections(['MAIN_RIGHT']);
+}
+function reload_main_top(){
+   reload_sections(['MAIN_TOP']);
 }
 function reload_main_bottom(){
    reload_sections(['MAIN_BOTTOM']);
@@ -646,6 +654,7 @@ function callback(callback_array,function_name,response){
                param.push(response);
                cb['func'].apply(undefined,param);
             }else{
+               console.info(cb['func']);
                cb['func'](cb['param'],response);
             }
          }else{

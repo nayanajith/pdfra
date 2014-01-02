@@ -288,18 +288,6 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_
       opendb($db);
    }
 
-   //If deleted not set to all query will be edited to return either deleted or non deleted  else return all records(bypass this iteration)
-   /*
-   if($deleted != 'all'   &&  preg_match('/SELECT/',$query) > 0 ){
-      foreach($deleted_filter as $key => $value){
-         $edited_query=preg_replace($key,$value,$query);
-         if($edited_query!=$query){
-            $query=$edited_query;
-            break;
-         }
-      }
-   }
-   */
 	$who_field='updated_by';
 
 	/*
@@ -307,17 +295,16 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_
 		UPDATE users SET last_login=CURRENT_TIMESTAMP,failed_logins=0 WHERE username='admin'
 	 */
 	if(!is_null($who_field)){
-		if(preg_match('/INSERT|REPLACE/i',$query) > 0 ){
+		if(preg_match('/^INSERT|^REPLACE/i',$query) > 0 ){
          $find='/\)/';
          $replace=",`$who_field`)";
          $query=preg_replace($find,$replace,$query,1);
          $replace=")'".$_SESSION['user_id']."',";
          $query=strrev(preg_replace($find,$replace,strrev($query),1));
-		}elseif(preg_match('/UPDATE/i',$query) > 0 ){
+		}elseif(preg_match('/^UPDATE/i',$query) > 0 ){
 			$query=preg_replace('/ SET /i'," SET `$who_field`='".$_SESSION['user_id']."',",$query);
 		}
 	}
-	log_msg($query);
 
    //Enable this to log all the queries
    if(!strstr($query,'INSERT INTO log'))log_msg('exec_query'.":".$db.":".$query,1,SQL_LOG);
@@ -429,7 +416,7 @@ function is_query_ok(){
  * @param flag_field: If flag as deleted, flag field 
  * @param flag_value: the value should be set to the flag 
  */
-function del($table,$where,$purge=false,$flag_field=null,$flag_value='DELETED'){
+function delete_query($table,$where,$purge=false,$flag_field=null,$flag_value='DELETED'){
 	//If the flag_field is null flag, default flag field is 'deleted' and the flag value is '1'
 	if(is_null($flag_field)){
 		$flag_field='deleted';
@@ -437,12 +424,13 @@ function del($table,$where,$purge=false,$flag_field=null,$flag_value='DELETED'){
 	}
 
 	//Query to flag the record as deleted
-	$query="UPDATE $table SET $flag_field=$flag_value WHERE $where";
+	$query="UPDATE $table SET $flag_field='$flag_value' WHERE $where";
 
 	//If purge is true delete the record completely from the table
 	if($purge){
 		$query="DELETE FROM $table  WHERE $where";
 	}
+
 	exec_query($query,Q_RET_NONE);
 }
 

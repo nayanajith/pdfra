@@ -1053,7 +1053,7 @@ EOE;
                }
             
                /*if the values is valid json then store clean string */
-               if(json_decode($value) != null ){
+               if(is_array(json_decode($value,true))){
                   $_REQUEST[$key]=$value;
                }
             
@@ -1194,7 +1194,7 @@ EOE;
                }
                
                /*if the values is valid json then store clean string */
-               if(json_decode($value) != null ){
+               if(is_array(json_decode($value,true))){
                   $_REQUEST[$key]=$value;
                }
                
@@ -1209,7 +1209,6 @@ EOE;
             $update_query  ="UPDATE ".$this->update_table." SET %s WHERE ".$this->primary_key."='".$_REQUEST[$this->primary_key]."'";
             $update_query  =sprintf($update_query,$values);
             $res           =exec_query($update_query,Q_RET_MYSQL_RES);
-
             $errors[]      =get_sql_error();
 
             /*report error/success */

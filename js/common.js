@@ -142,7 +142,8 @@ function show_xhr_dialog(url_,title,width,height,no_buttons){
             update_status_bar('OK',still_proc_msg);
             update_progress_bar(0);
          }else{
-            update_status_bar('ERROR','Error on submission!');
+            //update_status_bar('ERROR','Error on submission!');
+				console.warn(response);
             update_progress_bar(0);
          }
   	   }
@@ -172,7 +173,8 @@ function show_help_dialog(){
             update_status_bar('OK',still_proc_msg);
             update_progress_bar(0);
          }else{
-            update_status_bar('ERROR','Error on submission!');
+            //update_status_bar('ERROR','Error on submission!');
+				console.warn(response);
             update_progress_bar(0);
          }
   	   }
@@ -365,7 +367,8 @@ function request_html(target,source_array,action_) {
             update_status_bar('OK',still_proc_msg);
             update_progress_bar(0);
          }else{
-            update_status_bar('ERROR','Error on submission!');
+            //update_status_bar('ERROR','Error on submission!');
+				console.warn(response);
             update_progress_bar(0);
          }
       }
@@ -422,7 +425,8 @@ function submit_display_values(action){
                update_status_bar('OK',still_proc_msg);
                update_progress_bar(0);
             }else{
-               update_status_bar('ERROR','Error on submission!');
+               //update_status_bar('ERROR','Error on submission!');
+					console.warn(response);
                update_progress_bar(0);
             }
          }
@@ -503,7 +507,8 @@ function reload_sections(sections){
             update_status_bar('OK',still_proc_msg);
             update_progress_bar(0);
          }else{
-            update_status_bar('ERROR','Error on submission!');
+            //update_status_bar('ERROR','Error on submission!');
+				console.warn(response);
             update_progress_bar(0);
          }
       }
@@ -594,7 +599,8 @@ function reload_sections(sections){
             update_status_bar('OK',still_proc_msg);
             update_progress_bar(0);
          }else{
-            update_status_bar('ERROR','Error on submission!');
+				//update_status_bar('ERROR','Error on submission!');
+				console.warn(response);
             update_progress_bar(0);
          }
       }
@@ -774,7 +780,8 @@ function submit_form(action,param1,param2){
                update_status_bar('OK',still_proc_msg);
                update_progress_bar(0);
             }else{
-               update_status_bar('ERROR','Error on submission!');
+               //update_status_bar('ERROR','Error on submission!');
+					console.warn(response);
                update_progress_bar(0);
             }
 
@@ -828,7 +835,8 @@ function submit_form(action,param1,param2){
                   update_status_bar('OK',still_proc_msg);
                   update_progress_bar(0);
                }else{
-                  update_status_bar('ERROR','Error on submission!');
+                  //update_status_bar('ERROR','Error on submission!');
+						console.warn(response);
                   update_progress_bar(0);
                }
 
@@ -910,7 +918,8 @@ function xhr_generic(submit_form,action,handle_as){
             update_status_bar('OK',still_proc_msg);
             update_progress_bar(0);
          }else{
-            update_status_bar('ERROR','Error on submission!');
+            //update_status_bar('ERROR','Error on submission!');
+				console.warn(response);
             update_progress_bar(0);
          }
          //call the error callback function
@@ -1264,7 +1273,8 @@ function dialog_submit(arg_form,action){
                update_status_bar('OK',still_proc_msg);
                update_progress_bar(0);
             }else{
-               update_status_bar('ERROR','Error on submission!');
+               //update_status_bar('ERROR','Error on submission!');
+					console.warn(response);
                update_progress_bar(0);
             }
          }
@@ -1525,7 +1535,8 @@ function p_m_p(module,page,program){
                update_status_bar('OK',still_proc_msg);
                update_progress_bar(0);
             }else{
-               update_status_bar('ERROR','Error on submission!');
+               //update_status_bar('ERROR','Error on submission!');
+					console.warn(response);
                update_progress_bar(0);
             }
          }
@@ -1566,7 +1577,8 @@ function load_page(module,page,program){
                update_status_bar('OK',still_proc_msg);
                update_progress_bar(0);
             }else{
-               update_status_bar('ERROR','Error on submission!');
+               //update_status_bar('ERROR','Error on submission!');
+					console.warn(response);
                update_progress_bar(0);
             }
          }
@@ -1701,7 +1713,8 @@ function notify(){
             update_status_bar('OK',still_proc_msg);
             update_progress_bar(0);
          }else{
-            update_status_bar('ERROR','Error on submission!');
+            //update_status_bar('ERROR','Error on submission!');
+				console.warn(response);
             update_progress_bar(0);
          }
       }

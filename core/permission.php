@@ -11,7 +11,7 @@ function load_permission(){
       if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'switch_user'){
          log_msg('switch_user');
       }else{
-         return;
+         //return;
       }
    }
 
@@ -26,6 +26,7 @@ function load_permission(){
       return;
    }
 
+
    //There are towo levels of permissions,from users.permission feld and from permission table. If you set the users.permission parameter to ADMIN that user will have supper power
    if(isset($_SESSION['role_id']) && $_SESSION['role_id'] == 'SUPER'){
       return;
@@ -33,6 +34,7 @@ function load_permission(){
 
    //permission inherited from the users group
    if(isset($_SESSION['role_id'])){
+
       $_SESSION['permission']['GROUP']=exec_query("SELECT module,page,access_right FROM ".s_t('permission')." WHERE is_user=false && group_user_id='".$_SESSION['role_id']."' AND access_right IN ('WRITE','READ') ", Q_RET_ARRAY);
    }
 
@@ -54,7 +56,6 @@ Array (
 
 //load the permission
 load_permission();
-
 
 /*--------------------------permission ovrrides from /-------------------------------*/
 

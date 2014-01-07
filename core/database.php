@@ -294,7 +294,7 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_
 		INSERT INTO `base_data`(`base_value`,`base_class`,`base_key`)VALUES('0','VARIABLE','__DB_VERSION')
 		UPDATE users SET last_login=CURRENT_TIMESTAMP,failed_logins=0 WHERE username='admin'
 	 */
-	if(!is_null($who_field)){
+	if(!is_null($who_field) && isset($_SESSION['user_id'])){
 		if(preg_match('/^INSERT|^REPLACE/i',$query) > 0 ){
          $find='/\)/';
          $replace=",`$who_field`)";

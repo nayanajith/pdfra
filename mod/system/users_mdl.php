@@ -283,7 +283,7 @@ $GLOBALS['MODEL']=array(
    ),
    'GRIDS'=>array(
        'GRID'=>array(
-          'columns'      =>array('user_id'=>array('hidden'=>'true'),'username','email','ldap_user_id','role_id'),
+          'columns'      =>array('user_id'=>array('hidden'=>'true'),'username','email','ldap_user_id','role_id','status','last_login','last_logout'),
           'filter'       =>isset($_SESSION[PAGE]['FILTER'])?$_SESSION[PAGE]['FILTER']:null,
           'selector_id'  =>'toolbar__user_id',
           'ref_table'    =>s_t('users'),

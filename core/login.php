@@ -260,21 +260,35 @@ if (isset($_SESSION['username'])) {
          $SQL = "SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE ldap_user_id='$user' AND status != 'DISABLED'";
          $RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
 
+         //Connect to the ldap server and authenticate the user
+         $ldap    =    ldap_connect($GLOBALS['LDAP']['SERVER'],$GLOBALS['LDAP']['PORT']);
+         ldap_set_option($ldap,LDAP_OPT_PROTOCOL_VERSION,3);
+         ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+
          //If there is a user for the given ldap user id check the password from the ldap server
          if (isset($RESULT_ARR[0])) {
-        
-            //Connect to the ldap server and authenticate the user
-            $LDAPConnection    =    ldap_connect($GLOBALS['LDAP_SERVER'],$GLOBALS['LDAP_PORT']);
-            ldap_set_option($LDAPConnection,LDAP_OPT_PROTOCOL_VERSION,3);
-
             //If bind successful that means authenticated
-            if(!@ldap_bind($LDAPConnection,sprintf($GLOBALS['LDAP_BIND_RDN'],$user), $password)){
+            if(!ldap_bind($ldap,"CN=$user,".$GLOBALS['LDAP']['USER_RDN'], $password)){
                //If the ldap authentication faild make the RESULT=false so it will considered as un authorized
                $RESULT_ARR=null;
                $LOGIN=false;
             }else{
                $LOGIN=true;
+               ldap_unbind($ldap);
             }
+         }else{
+            //Insert user if not exists
+            ldap_bind($ldap, "CN=".$GLOBALS['LDAP']['USER'].",".$GLOBALS['LDAP']['ADMIN_RDN'], $GLOBALS['LDAP']['PASS']);
+            $attr = array('mail','displayName');
+            $result=ldap_search($ldap,$GLOBALS['LDAP']['USER_RDN'] , "(&(objectClass=person)(cn=$user))",$attr);
+            if(!is_null($result)){
+               $entries = ldap_get_entries($ldap, $result);
+               if($entries['count'] > 0){
+               exec_query("INSERT INTO ".$GLOBALS['TBL_LOGIN']['table']."(`username`,`first_name`,`ldap_user_id`,`role_id`,`email`,`status`,`note`)values('$user','".$entries[0]['displayname'][0]."','$user','USER','".$entries[0]['mail'][0]."','DISABLED','Auto registered')",Q_RET_NONE);
+               }
+            }
+
+               ldap_unbind($ldap);
          }
       break;
       case 'PASSWD':
@@ -303,15 +317,18 @@ if (isset($_SESSION['username'])) {
          }else{
             $RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
          }
-         if(isset($RESULT_ARR[0])){
-            $LOGIN=true;   
-            exec_query("UPDATE ".s_t('users')." SET last_login=CURRENT_TIMESTAMP,failed_logins=0 WHERE username='".$user."'", Q_RET_NONE);
-         }else{
-            exec_query("UPDATE ".s_t('users')." SET failed_logins=failed_logins+1 WHERE username='".$user."'", Q_RET_NONE);
-            $LOGIN=false;   
-            $RESULT_ARR=null;
-         }
+         
       break;
+      }
+
+      //Login/Logout attempts
+      if(isset($RESULT_ARR[0])){
+         $LOGIN=true;   
+         exec_query("UPDATE ".s_t('users')." SET last_login=CURRENT_TIMESTAMP,failed_logins=0 WHERE username='".$user."'", Q_RET_NONE);
+      }else{
+         exec_query("UPDATE ".s_t('users')." SET failed_logins=failed_logins+1 WHERE username='".$user."'", Q_RET_NONE);
+         $LOGIN=false;   
+         $RESULT_ARR=null;
       }
    }
    

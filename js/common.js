@@ -542,14 +542,14 @@ function reload_sections(sections){
             case 'MAIN_BOTTOM':
                var parent_node = section.getParent();
                section.destroy();
-               var bottom_pane = new dijit.layout.contentpane({
+               var bottom_pane = new dijit.layout.ContentPane({
                   'id':sections[i],
                    'region': 'bottom',
                    'gutters':false,
                    'style':layout[sections[i]].style,
                    'href':gen_url()+'section='+sections[i]
                }, sections[i]);
-               parent_node.addchild(bottom_pane);
+               parent_node.addChild(bottom_pane);
             break;
             case 'TOOLBAR':
                set_param_off();
@@ -625,7 +625,7 @@ function reload_main_bottom(){
    reload_sections(['MAIN_BOTTOM']);
 }
 function reload_main(){
-   reload_sections(['MAIN_TOP','MAIN_LEFT','MAIN_RIGHT','MAIN_BOTTOM']);
+   reload_sections(['MAIN_TOP','MAIN_BOTTOM','MAIN_LEFT','MAIN_RIGHT']);
 }
 function reload_toolbar(){
    reload_sections(['TOOLBAR']);
@@ -1528,7 +1528,7 @@ function p_m_p(module,page,program){
          handle: function(response){
          },
          load: function(response) {
-            reload_sections(['TOOLBAR','MAIN_TOP','MAIN_LEFT','MAIN_RIGHT','MAIN_BOTTOM']);
+            reload_sections(['TOOLBAR','MAIN_TOP','MAIN_BOTTOM','MAIN_LEFT','MAIN_RIGHT']);
          }, 
          error: function(response,ioArgs) {
             if(response=='Error: timeout exceeded'){

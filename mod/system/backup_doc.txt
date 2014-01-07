@@ -1,0 +1,13 @@
+#Following are the functions done by pressing each button
+##Create a backup
+This will create a compressed sql dump of the running database in mod/system/backup directory. The backup file will be named with database name and the data and time of the execution.
+
+##Delete backup
+Delete the backup(s) selected with checking the checkboxes in the backup list.
+
+##Restore backup
+Restore the selected database in the server with database name suffixed by the date and time of execution.
+
+##Activate/Deactivate Database
+After restoring a database select it in the list and press this button to activate or deactivate if already activated. 
+<br><font color='red'>NOTE:All subsequent changes will be applied to the active database</font> 

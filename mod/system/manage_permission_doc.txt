@@ -1,0 +1,3 @@
+Select the user or role (group) and assign module and page that can be accessed by. By default all modules and pages are denied. To enable one whole module, select the module to be write/read
+
+Write and Read works similarly here. 

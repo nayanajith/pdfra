@@ -252,8 +252,15 @@ if (isset($_SESSION['username'])) {
          }
       }
 
+   //Select the authenticatio mode based on user configuration
+   $AUTH_MOD=$GLOBALS['AUTH_MOD'];
+   $CFG    = exec_query("SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE username='$user'", Q_RET_ARRAY);
+   if(isset($CFG[0]) && isset($CFG[0]['auth_mod']) && !is_null($CFG[0]['auth_mod']) && $CFG[0]['auth_mod']!='AUTO'){
+      $AUTH_MOD=$CFG[0]['auth_mod'];
+   }
+
       //Check where the authentication from externel server
-      switch($GLOBALS['AUTH_MOD']){
+      switch($AUTH_MOD){
       case 'LDAP':
 
          //Getting user information for the given ldap user from the given login table
@@ -277,20 +284,29 @@ if (isset($_SESSION['username'])) {
                ldap_unbind($ldap);
             }
          }else{
-            //Insert user if not exists
-            ldap_bind($ldap, "CN=".$GLOBALS['LDAP']['USER'].",".$GLOBALS['LDAP']['ADMIN_RDN'], $GLOBALS['LDAP']['PASS']);
-            $attr = array('mail','displayName');
-            $result=ldap_search($ldap,$GLOBALS['LDAP']['USER_RDN'] , "(&(objectClass=person)(cn=$user))",$attr);
-            if(!is_null($result)){
-               $entries = ldap_get_entries($ldap, $result);
-               if($entries['count'] > 0){
-               exec_query("INSERT INTO ".$GLOBALS['TBL_LOGIN']['table']."(`username`,`first_name`,`ldap_user_id`,`role_id`,`email`,`status`,`note`)values('$user','".$entries[0]['displayname'][0]."','$user','USER','".$entries[0]['mail'][0]."','DISABLED','Auto registered')",Q_RET_NONE);
+            //If bind successful that means authenticated
+            if(ldap_bind($ldap,"CN=$user,".$GLOBALS['LDAP']['USER_RDN'], $password)){
+               //Insert user since the user does not exists
+               ldap_bind($ldap, "CN=".$GLOBALS['LDAP']['USER'].",".$GLOBALS['LDAP']['ADMIN_RDN'], $GLOBALS['LDAP']['PASS']);
+               $attr = array('mail','displayName');
+               $result=ldap_search($ldap,$GLOBALS['LDAP']['USER_RDN'] , "(&(objectClass=person)(cn=$user))",$attr);
+               if(!is_null($result)){
+                  $entries = ldap_get_entries($ldap, $result);
+                  if($entries['count'] > 0){
+                     exec_query("INSERT INTO ".$GLOBALS['TBL_LOGIN']['table']."(`username`,`first_name`,`ldap_user_id`,`role_id`,`email`,`status`,`note`)values('$user','".$entries[0]['displayname'][0]."','$user','USER','".$entries[0]['mail'][0]."','ENABLED','Auto registered')",Q_RET_NONE);
+                  }
                }
+
+               //After adding the ldap user  go through the authentication process
+               $RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
+               $LOGIN=true;
+               ldap_unbind($ldap);
             }
 
-               ldap_unbind($ldap);
+            //Unbind the ldap conneciton
+            ldap_unbind($ldap);
          }
-      break;
+         break;
       case 'PASSWD':
          //TODO:authenticate using system password file
       break;

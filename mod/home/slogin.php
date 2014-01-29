@@ -4,7 +4,7 @@ if (isset($_SESSION['username'])){
    //echo "Welcome ".$_SESSION['fullname'];
 }else{
    echo "
-<h3 style='color:red'>System Users Login</h3>
+<h3 >Please Login</h3>
 <br>
 <br>
 <center>";

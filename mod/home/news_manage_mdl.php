@@ -37,9 +37,9 @@ $GLOBALS['MODEL']=array(
          "store"=>"role_id_store",
 
          "ref_table"=>s_t('role'),
-         "ref_key"=>'group_name',
-         "order_by"=>'ORDER BY group_name DESC',
-         "vid"=>array('group_name')
+         "ref_key"=>'role_id',
+         "order_by"=>'ORDER BY role_id DESC',
+         "vid"=>array('role_id')
       ),
       "content"=>array(
          "dojoType"	=>"dijit.form.SimpleTextarea",

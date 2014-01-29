@@ -320,7 +320,7 @@ if(isset($_REQUEST['section'])){
                      ?>
                   </td>
                   <td width="40%"  align="center">
-                     <button dojoType="dijit.form.Button" style="font-size:14px;font-weight:bold">
+                     <button dojoType="dijit.form.Button" style="font-size:14px;font-weight:bold" onClick="p_m_p('home','news',null)">
                      <img src="<?php echo $GLOBALS['LOGO']; ?>" height=30px>
                      <?php echo $GLOBALS['TITLE']; ?>
                      </button>

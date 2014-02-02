@@ -1750,7 +1750,7 @@ function chksession(){
 }
 
 //initiate the session check timeout function polling
-<?php if(isset($_SESSION['username'])){echo 'p_f_add(chksession);';} ?>
+//<?php if(isset($_SESSION['username'])){echo 'p_f_add(chksession);';} ?>
 
 
 /**

@@ -98,7 +98,7 @@ include A_CORE."/permission.php";
 
 /*-----------------Check availability of the database-------------------------*/
 if(!opendb()){
-   echo "<div style='color:red' align='center' >Database does not available!</div>";
+   echo "<div style='color:red' align='center' >Database does not accessible!</div>";
    exit();
 }
 

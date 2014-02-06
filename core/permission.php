@@ -60,16 +60,49 @@ load_permission();
 /*--------------------------permission ovrrides from /-------------------------------*/
 
 
-//TODO:
-
+//Return the module access right
 function get_module_access_right($module){
+   $permission=$_SESSION['permission'];
+   $right='DENIED';
+   //checking for user right 
+   foreach($permission['USER'] as $arr)
+   {
+      if($arr['module'] == $module){
+         $right=$arr['access_right'];
+      }
+   }
 
+   //checking for group right
+   foreach($permission['GROUP'] as $arr)
+   {
+      if($arr['module'] == $module){
+         $right=$arr['access_right'];
+      }
+   }
+   return $right;
 }
 
+//Return the page access right
 function get_page_access_right($module, $page){
+   $permission=$_SESSION['permission'];
+   $right='DENIED';
+   //Checking for user right
+   foreach($permission['USER'] as $arr){
+      if($arr['module'] == $module && ($arr['page'] == $page || $arr['page'] == '*')){
+         $right=$arr['access_right'];
+      }
+   }
 
+   //Checking for group right 
+   foreach($permission['GROUP'] as $arr){
+      if($arr['module'] == $module && ($arr['page'] == $page || $arr['page'] == '*')){
+         $right=$arr['access_right'];
+      }
+   }
+   return $right;
 }
 
+//return if module is permitted(read,wirte) or not
 function is_module_permitted($module){
    //At the first place, if the user is an admin, provide supper power
    if(isset($_SESSION['role_id']) && $_SESSION['role_id']=='SUPER'){
@@ -96,6 +129,7 @@ function is_module_permitted($module){
    return false;
 }
 
+//return if page permitted (read,wirte) or not
 function is_page_permitted($module,$page){
    //At the first place, if the user is an admin, provide supper power
    if(isset($_SESSION['role_id']) && $_SESSION['role_id']=='SUPER'){

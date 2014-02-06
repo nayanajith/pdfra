@@ -133,7 +133,8 @@ function gen_permission_tree(){
       <td style='background-color:silver;font:inherit' align='right'>
       <div dojoType='dijit.form.Select' name='M#$mod_key' id='DM#$mod_key' value='DENIED' style='width:70px;font:inherit' >
          <option value='DENIED'><span style='color:red'>DENY</span></option>
-         <option value='READ'><span style='color:green'>ALLOW</span></option>
+         <option value='READ'><span style='color:green'>READ</span></option>
+         <option value='WRITE'><span style='color:blue'>WRITE</span></option>
       </div>
       </td>
       </tr>\n";
@@ -151,7 +152,8 @@ function gen_permission_tree(){
             <td style='background-color:whitesmoke;font:inherit' align='right'>
             <div dojoType='dijit.form.Select' name='P#".$mod_key."#".$page_key."' id='DP#".$mod_key."#".$page_key."' value='DENIED' style='width:70px;font:inherit' >
                <option value='DENIED'><span style='color:red'>DENY</span></option>
-               <option value='READ'><span style='color:green'>ALLOW</span></option>
+               <option value='READ'><span style='color:green'>READ</span></option>
+               <option value='WRITE'><span style='color:blue'>WRITE</span></option>
             </div>   
             </td>
             </tr>\n";

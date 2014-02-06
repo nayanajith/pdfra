@@ -143,6 +143,13 @@ $CALLBACKS=array(
    ),  
 );
 
+//For the read only users
+if(get_page_access_right(MODULE, PAGE) == 'READ'){
+   unset($TOOLBAR['add']);
+   unset($TOOLBAR['remove']);
+   unset($TOOLBAR['save']);
+} 
+
 //If the toolbar items not set for the given fields default will be added to the model.toolbar
 foreach($TOOLBAR as $key => $arr){
    if(isset($GLOBALS['MODEL']['TOOLBAR'])){

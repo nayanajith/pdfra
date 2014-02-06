@@ -107,7 +107,7 @@ class Query_read_store{
       if(is_null($this->order_by)){
          $this->order_by="ORDER BY $this->key";
       }
-      return "SELECT DISTINCT $this->key $this->fields FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
+      return "SELECT DISTINCT $this->key $this->fields,note FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
    }
 
 

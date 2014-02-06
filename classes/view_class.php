@@ -396,7 +396,11 @@ class View{
          /*all paremeters will be inserted to the options string*/
          foreach($field_array as $key => $value){
             if(!in_array($key,$bypass)){
-               $options.=$key."='$value'\n";
+               if(in_array($key,array('labelFunc'))){
+                  $options.=$key."=$value\n";
+               }else{
+                  $options.=$key."='$value'\n";
+               }
             }
          }
 

@@ -819,12 +819,12 @@ dojo.ready(function(){
             break;
             case 'query':
                d_r('dojox.data.JsonRestStore');
-               $html.="<span dojoType='dojox.data.QueryReadStore' requestMethod='post' clearOnClose='true' jsId='".$grid['store']."' url='".gen_url()."form=".$grid['store']."&data=json'></span>";
+               $html.="<span dojoType='dojox.data.QueryReadStore' doClientSorting='true' requestMethod='post' clearOnClose='true' jsId='".$grid['store']."' url='".gen_url()."form=".$grid['store']."&data=json'></span>";
             break;
             }
          }else{
             d_r('dojox.data.JsonRestStore');
-            $html.="<span dojoType='dojox.data.QueryReadStore' requestMethod='post' clearOnClose='true' jsId='".$grid['store']."' url='".gen_url()."form=".$grid['store']."&data=json'></span>";
+            $html.="<span dojoType='dojox.data.QueryReadStore' doClientSorting='true' requestMethod='post' clearOnClose='true' jsId='".$grid['store']."' url='".gen_url()."form=".$grid['store']."&data=json'></span>";
             //d_r('dojo.data.ItemFileWriteStore');
             //$html.="<span dojoType='dojo.data.ItemFileWriteStore' requestMethod='post' clearOnClose='true' jsId='".$grid['store']."' url='".gen_url()."form=".$grid['store']."&data=json'></span>";
          }
@@ -862,22 +862,23 @@ dojo.ready(function(){
 autoHeight="false"
 errorMessage="No records to display!"
 selectable="true"
+clientSort="true" 
+rowsPerPage="20" 
 plugins=\'{
     pagination: {
-        pageSizes: ["20", "50", "100", "200","all"],
+        pageSizes:["20", "50", "100", "200","all"],
         defaultPageSize:20,
-        description: true,
-        sizeSwitch: true,
-        pageStepper: '.$page_stepper.',
-        gotoButton: true,
-        maxPageStep: 4,
-        position: "bottom"
+        description:true,
+        sizeSwitch:true,
+        pageStepper:'.$page_stepper.',
+        gotoButton:true,
+        maxPageStep:4,
+        position:"bottom"
     },
    printer:true,
-   '.((defined('FILTER_FRONT') && FILTER_FRONT=='YES')?"filter:true,":"").'
-   exporter: true,
-   nestedSorting: true,
-      }
+   exporter:true,
+   nestedSorting:true,
+}
       \'';
 
          /*

@@ -29,7 +29,7 @@ class Query_read_store{
    )
 
    */
-   public function __construct($table,$key,$filter='',$order_by=null,$id=null,$default="-none-",$all_selector=null) {
+   public function __construct($table,$key,$filter='',$order_by=null,$id=null,$default="-none-",$all_selector=null,$ofields=null) {
       $this->key        =$key;   
       $this->table      =$table;
       $this->default    =$default;
@@ -39,6 +39,7 @@ class Query_read_store{
       $this->id         =$id;   
       $this->fields     =$id;   
       $this->searchAttr =$key;
+      $this->ofields    =$ofields;
       if(is_array($key)){
          $this->key_a        =$key;   
          if(key($key)===0){ //distinguish associative arrays
@@ -67,7 +68,18 @@ class Query_read_store{
       }else{
          $this->fields=",".$this->key." label";
       }
-      
+
+      //Add other fields to the query
+      if(!is_null($ofields)){
+         $comma=',';
+         if(is_array($ofields)){
+            foreach($ofields as $of){
+               $this->ofields.=$comma."`".$of."`";
+            }
+         }else{
+            $this->ofields=$comma."`".$ofields."`";
+         }
+      }
    }
       
    /*
@@ -107,7 +119,7 @@ class Query_read_store{
       if(is_null($this->order_by)){
          $this->order_by="ORDER BY $this->key";
       }
-      return "SELECT DISTINCT $this->key $this->fields,note FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
+      return "SELECT DISTINCT $this->key $this->fields $this->ofields FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
    }
 
 

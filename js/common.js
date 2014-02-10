@@ -1919,3 +1919,31 @@ function getTimeMillis(){
    var d= new Date();
    return Date.UTC(d.getYear(),d.getMonth(),d.getDate());
 }
+
+/**
+ * Set tooltip to each item in a filterint select (dropp down)
+ */
+var tooltip_field='note';
+var label_field='label';
+function set_tooltip(item, store){ 
+   console.info(item);
+   var label=store.getValue(item, label_field); 
+   var tooltip=store.getValue(item, tooltip_field); 
+   if(tooltip){
+      tooltip=tooltip.replace(/"/g, "''");
+      //return '<div onmouseout=dijit.hideTooltip(this) onmouseover=show_tooltip(this) title=\"'+tooltip+'\">'+label+'</div>';
+      return '<div title=\"'+tooltip+'\">'+label+'</div>';
+   }else{
+      return label;
+   }
+}
+
+/**
+ * Show the tooltip set by set_tooltip function 
+ */
+function show_tooltip(o){
+   var msg = dojo.attr(o,'title');
+   if(msg){
+      dijit.showTooltip(msg,o);
+   }
+}

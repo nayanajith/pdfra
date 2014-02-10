@@ -283,7 +283,8 @@ EOE;
          "label"        =>"Label",
          "onChange"     =>'s_p_c_add("ok",fill_form,this.value);set_param(this.id,this.value)',
          "searchAttr"   =>"label",
-         "pageSize"     =>"10",
+         "pageSize"     =>"100",
+         "maxHeight"    =>"400",
          "store"        =>"rid_store",
          "filter"       =>get_filter(),
          "ref_table"    =>m_p_t(''),
@@ -825,11 +826,16 @@ EOE;
             }
          }
 
+         //Other fields which should be included in the data ( used to display the tooltip )
+         $ofields  =null;
+         if(isset($field_array['ofields'])){
+            $ofields  =$field_array['ofields'];
+         }
 
          //header('Content-Type', 'application/json');
 			//TODO: add $group_by to the function
          include_once 'qread_store_class.php';
-         $query_read_store = new Query_read_store($table,$key_,$filter,$order_by,$key,$default,$all_selector);
+         $query_read_store = new Query_read_store($table,$key_,$filter,$order_by,$key,$default,$all_selector,$ofields);
          echo $query_read_store->gen_json_data();
       }
       /*

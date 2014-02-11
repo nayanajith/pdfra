@@ -1926,7 +1926,6 @@ function getTimeMillis(){
 var tooltip_field='note';
 var label_field='label';
 function set_tooltip(item, store){ 
-   console.info(item);
    var label=store.getValue(item, label_field); 
    var tooltip=store.getValue(item, tooltip_field); 
    if(tooltip){

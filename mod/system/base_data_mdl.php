@@ -30,6 +30,7 @@ $GLOBALS['MODEL']=array(
          "pageSize"=>"20",
          "tooltip"=>"Select the group from existing group list or enter a new group name.",
          "default"=>false,
+         "all_selector"=>false,
 
          "key_sql"=>"SELECT base_class FROM ".m_p_t('base_data')." WHERE base_class='%s'",
 

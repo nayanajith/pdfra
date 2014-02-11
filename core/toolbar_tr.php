@@ -1,6 +1,6 @@
-<div dojoType="dijit.form.DropDownButton" iconClass="notifyIcon" showLabel="true" id='notify_ddb' >
+<!--div dojoType="dijit.form.DropDownButton" iconClass="notifyIcon" showLabel="true" id='notify_ddb' >
   <span ></span>
-  <div 
+  <!--div 
    dojoType="dijit.TooltipDialog" 
    style="max-width:400px;overflow:wrap" 
    jsId='notify_ttd' 
@@ -8,9 +8,8 @@
    refreshOnShow=true 
    preventCache=true 
    href="<?php echo gen_url() ?>section=NOTIFY">
-      <!-- content will load dynamically -->
   </div>
-</div>
+</div-->
 
 <?php
 d_r("dijit.form.Button");
@@ -51,7 +50,7 @@ foreach ($GLOBALS['MODULES'] as $mod_key => $mod) {
 }
 ?>
 
-<div dojoType="dijit.form.DropDownButton" iconClass="GFIcon" showLabel="false">
+<!-- div dojoType="dijit.form.DropDownButton" iconClass="GFIcon" showLabel="false">
   <span>Quick Access</span>
   <div dojoType="dijit.TooltipDialog" style="width:250px;">
       <select 
@@ -67,4 +66,4 @@ foreach ($GLOBALS['MODULES'] as $mod_key => $mod) {
          <?php echo gen_select_inner($page_array,null,true) ?>
       </select>
   </div>
-</div>
+</div -->

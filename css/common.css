@@ -939,3 +939,8 @@ html, body {
        left: 0;
        #filter: "";
 }
+/*override grid header*/
+.dojoxGrid .dojoxGridSortNoWrap {
+       word-wrap:break-word;
+       white-space:normal;
+}

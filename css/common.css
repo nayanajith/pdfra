@@ -550,7 +550,7 @@ img {
 
 .help a{
    color:brown;
-   text-decoration:overline;
+   /*text-decoration:overline;*/
 }
 
 /*------------------------shadow and round corners----------------------------*/

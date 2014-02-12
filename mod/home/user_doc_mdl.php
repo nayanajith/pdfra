@@ -85,7 +85,7 @@ $GLOBALS['MODEL']=array(
 
          "ref_key"	=>'file_prefix',
          "ref_table"	=>s_t('role'),
-         "vid"			=>array('group_name'),
+         "vid"			=>array('role_id'),
       ),
       "add"=>array(
          "dojoType"=>"dijit.form.Button",

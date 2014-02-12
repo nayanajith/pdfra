@@ -19,7 +19,7 @@ if(isset($_REQUEST['fullscreen']) && $_REQUEST['fullscreen'] == 'true'){
    </head>
    <body class="<?php echo $GLOBALS['THEME']; ?>">
 
-<div class='web_bg bgTop'>
+<div class='web_bg bgTop' >
 <table width='100%' cellpadding=5 cellspacing=0 >
 <!--header-->
    <tr>
@@ -31,11 +31,15 @@ if(isset($_REQUEST['fullscreen']) && $_REQUEST['fullscreen'] == 'true'){
 </table>
 
 <?php
+   echo "<div class='help round' id='help' style='padding:10px;'>";
+}else{
+   echo "<div class='help round' id='help' style='height:500px;overflow:auto;padding:10px' >";
 }
+
 echo get_help();
 
 if(isset($_REQUEST['fullscreen']) && $_REQUEST['fullscreen'] == 'true'){
-   echo "</body></html>";
+   echo "</div></body></html>";
 }
 
 ?>

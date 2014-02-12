@@ -34,8 +34,7 @@ function get_help($module=null,$page=null){
       $module_label=$module_label['MODULE'];
    }
    
-   $help="<div class='help round' id='help' style='height:500px;overflow:auto;padding:10px' ><div>";
-   $help.="<div style='padding-top:10px;font-size:20px;font-wight:bold;border-bottom:1px solid silver' >User Guide for the [".$module_label." / ".$page_label."]</div>";
+   $help="<div style='padding-top:10px;font-size:20px;font-wight:bold;border-bottom:1px solid silver' >User Guide for the ".$module_label." / ".$page_label."</div>";
    include_once "markdown.php";
    $help_arr=exec_query("SELECT * FROM ".s_t('user_doc')." WHERE module_id='".$module."' AND page_id='".$page."'",Q_RET_ARRAY);
    foreach($help_arr as $key=>$row){
@@ -50,7 +49,6 @@ function get_help($module=null,$page=null){
       fclose($fh);
       $help.=Markdown($content);
    }
-   $help.="</div>";
    return $help;
 }
 

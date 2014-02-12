@@ -164,8 +164,8 @@ function show_help_dialog(){
             style: "width: 800px;"
          });
 
-         var button="<br/><center><button dojoType='dijit.form.Button' onClick=\"window.open(gen_url()+'help=true&fullscreen=true','help_window');help_Dialog.hide()\" >Show in Fullscreen</button><button dojoType='dijit.form.Button' onClick=\"help_Dialog.hide()\" >OK</button></center>";
-         help_Dialog.set("content", response+button);
+         var button="<div class='dijitDialogPaneActionBar'><button dojoType='dijit.form.Button' onClick=\"window.open(gen_url()+'help=true&fullscreen=true','help_window');help_Dialog.hide()\" >Show in Fullscreen</button><button dojoType='dijit.form.Button' onClick=\"help_Dialog.hide()\" >Close</button></div>";
+         help_Dialog.set("content",'<div>'+response+'</div>'+button);
          help_Dialog.show();
   	   },
   	   error : function(response, ioArgs) {

@@ -1946,3 +1946,15 @@ function show_tooltip(o){
       dijit.showTooltip(msg,o);
    }
 }
+
+/**
+ * Set on item click event which equal to onSelect 
+ */
+var label_field='label';
+var key_field  ='rid';
+var widget_id  =null;
+function set_onItemClick(item, store){ 
+   var label=store.getValue(item, label_field); 
+   var key=store.getValue(item, key_field); 
+   return "<div onClick='s_p_c_add(\"ok\",reload_tree,\""+key+"\");set_param(widget_id,"+key+")'>"+label+"</div>";
+}

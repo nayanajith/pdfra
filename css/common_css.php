@@ -37,4 +37,3 @@ $BodyBgBot  =$backgrounds[$theme][1];
 include "common.css";
 
 ?>
-

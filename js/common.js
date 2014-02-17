@@ -660,7 +660,6 @@ function callback(callback_array,function_name,response){
                param.push(response);
                cb['func'].apply(undefined,param);
             }else{
-               console.info(cb['func']);
                cb['func'](cb['param'],response);
             }
          }else{
@@ -1615,6 +1614,7 @@ function get_csv(){
 function load_grid_item(grid,event_key,selector_id,e){
    set_param_on();
    var selectedValue = grid.store.getValue(grid.getItem(e.rowIndex),event_key);
+   //fill_form(selectedValue);
    load_selected_value(selector_id,selectedValue);
 }
 
@@ -1738,9 +1738,9 @@ function chksession(){
       },
       load: function(response) {
          if(response.status_code=='OK'){
-            console.info("Session will be terminated in "+response.info+"s");
+            //console.info("Session will be terminated in "+response.info+"s");
          }else if(response.status_code=='ERROR'){
-            console.info(response.info);
+            //console.info(response.info);
             window.location=gen_url()+"logout=logout";
          }
       }, 
@@ -1950,11 +1950,11 @@ function show_tooltip(o){
 /**
  * Set on item click event which equal to onSelect 
  */
-var label_field='label';
-var key_field  ='rid';
-var widget_id  =null;
-function set_onItemClick(item, store){ 
-   var label=store.getValue(item, label_field); 
-   var key=store.getValue(item, key_field); 
-   return "<div onClick='s_p_c_add(\"ok\",reload_tree,\""+key+"\");set_param(widget_id,"+key+")'>"+label+"</div>";
+var on_select_label_field='label';
+var on_select_key_field  ='rid';
+var on_select_widget_id  =null;
+function onSelect(item, store){ 
+   var label=store.getValue(item, on_select_label_field); 
+   var key=store.getValue(item, on_select_key_field); 
+   return "<div onClick='s_p_c_add(\"ok\",reload_tree,\""+key+"\");set_param(on_select_widget_id,"+key+")'>"+label+"</div>";
 }

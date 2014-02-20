@@ -597,7 +597,7 @@ EOE;
                $table=$grid['ref_table'];
             }
          
-            $fields  =implode(",",$columns);
+            $fields  ="`".implode("`,`",$columns)."`";
             $query="SELECT $fields FROM ".$table.$filter_str.$group_by.$order_by.$limit;
          }else{
             $query   =$grid['sql'].$filter_str.$group_by.$order_by.$limit;
@@ -662,7 +662,7 @@ EOE;
             }
 
                   
-            $fields  =implode(",",$columns);
+            $fields  ="`".implode("`,`",$columns)."`";
          
             $query   ="SELECT $fields FROM ".$table.$filter_str.$group_by.$order_by.$limit;
          }else{
@@ -872,7 +872,7 @@ EOE;
                   //ISO standard time should be provided to dojo to create javascript Date object
                   $cols.=$comma."DATE_FORMAT(".$key.",GET_FORMAT(DATE,'ISO')) as $key";
                }else{
-                  $cols.=$comma.$key;
+                  $cols.=$comma."`".$key."`";
                }
                $comma=",";
             }
@@ -1022,7 +1022,7 @@ EOE;
 
             /*Trying to ignore auto incrementing fields and custom fields(custom fields were handled below)*/
             if( !(isset($arr['custom']) && $arr['custom'] == 'true') && !(isset($arr['disabled']) && $arr['disabled'] == 'true')){
-               $cols      .=$comma.$key;
+               $cols      .=$comma."`".$key."`";
             
                /*check for valid json strings to use as json strings in database*/
                if(isset($_REQUEST[$key])){
@@ -1072,7 +1072,7 @@ EOE;
             /*handle custom fields from form submission*/
             if(isset($arr['custom']) && $arr['custom'] == 'true' && !(isset($arr['disabled']) && $arr['disabled'] == 'true')){
                if(isset($_REQUEST[$key]) && $_REQUEST[$key] != ''){
-                  $cols      .=$comma.$key;
+                  $cols      .=$comma."`".$key."`";
                   /*apply md5 to the password fields*/
                   if(in_array(strtolower($key),$this->pwd_field_guess)){   
                      //$_REQUEST[$key]=md5($value);

@@ -2,7 +2,7 @@
 /*
 System Database tables
 */
-$schema_version=11;
+$schema_version=12;
          
 $system_table_schemas['program']="CREATE TABLE `program` (
   `rid`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -15,8 +15,10 @@ $system_table_schemas['program']="CREATE TABLE `program` (
   `gpv`              VARCHAR(500) NOT NULL,
   `table_prefix`     VARCHAR(100) NOT NULL,
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,			 
+  `created_at`			TIMESTAMP DEFAULT CURRENT_TIMESTAMP,			 
   `note`             VARCHAR(300) DEFAULT NULL,
   PRIMARY KEY (`rid`),
   UNIQUE KEY (`short_name`)
@@ -46,8 +48,10 @@ $system_table_schemas['users']="CREATE TABLE `users` (
   `failed_logins`    INT NOT NULL DEFAULT 0,
   `status`           VARCHAR(100),
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,			
+  `created_at`			TIMESTAMP DEFAULT CURRENT_TIMESTAMP,			 
   `note`             VARCHAR(300) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY (`username`)
@@ -61,9 +65,10 @@ $system_table_schemas['role']="CREATE TABLE `role`(
   `theme`            VARCHAR(10) NOT NULL COMMENT 'Theme for the group',
   `description`      VARCHAR(300) NOT NULL COMMENT 'Description about the group',
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at`        DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`rid`),
   UNIQUE KEY (`group_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -76,9 +81,10 @@ $system_table_schemas['permission']="CREATE TABLE `permission`(
   `page`             VARCHAR(100) NOT NULL,
   `is_user`          BOOLEAN NOT NULL,
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at`        DEFAULT CURRENT_TIMESTAMP,
   `access_right`     enum('DENIED','READ','WRITE') NOT NULL DEFAULT 'DENIED',
    PRIMARY KEY (`rid`),
    UNIQUE KEY (`group_user_id`,`module`,`page`)
@@ -87,7 +93,7 @@ $system_table_schemas['permission']="CREATE TABLE `permission`(
 $system_table_schemas['log']="CREATE TABLE `log` (
   `rid`              INT unsigned NOT NULL AUTO_INCREMENT,
   `proto`            VARCHAR(5) DEFAULT NULL,
-  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at`        DEFAULT CURRENT_TIMESTAMP,
   `user_id`          INT UNSIGNED NOT NULL,
   `ip`               VARCHAR(15) NOT NULL DEFAULT '',
   `module_id`        VARCHAR(50) NOT NULL DEFAULT '',
@@ -101,7 +107,8 @@ $system_table_schemas['log']="CREATE TABLE `log` (
   `agent`            TEXT DEFAULT NULL,
   `deleted`          BOOLEAN     DEFAULT false,
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
   `note`             VARCHAR(300) DEFAULT NULL,
   FOREIGN KEY       (`user_id`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -117,11 +124,12 @@ $system_table_schemas['filter']="CREATE TABLE `filter` (
   `filter_name`      VARCHAR(100) DEFAULT NULL,
   `filter`           TEXT,
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
   `note`             VARCHAR(300) DEFAULT NULL,
   `status`           VARCHAR(300) DEFAULT NULL,
-  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at`        DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY       (`user_id`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
    PRIMARY KEY (`rid`),
    UNIQUE KEY (`filter_name`,`program`,`module`,`page`)
@@ -135,9 +143,10 @@ $system_table_schemas['base_data']="CREATE TABLE `base_data` (
   `base_value1`     TEXT           NOT NULL,
   `status`          VARCHAR(100)   DEFAULT NULL,
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at`        DEFAULT CURRENT_TIMESTAMP,
    UNIQUE KEY (`base_class`,`base_key`),
    PRIMARY KEY (`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8"; 
@@ -150,9 +159,10 @@ $system_table_schemas['news']="CREATE TABLE `news`(
   `display_from`     DATE NOT NULL,
   `display_until`    DATE NOT NULL,
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at`        DEFAULT CURRENT_TIMESTAMP,
   /*FOREIGN KEY       (`role_id`) REFERENCES role(`role_id`) ON UPDATE CASCADE ON DELETE RESTRICT,*/
    PRIMARY KEY (`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -172,9 +182,10 @@ $system_table_schemas['db_backup']="CREATE TABLE `db_backup`(
   `active`           BOOLEAN DEFAULT FALSE,
   `state`            VARCHAR(50) DEFAULT NULL,
   `flag`					VARCHAR(20) DEFAULT NULL,
-  `updated_by`			INT UNSIGNED,		 
+  `updated_by`			INT UNSIGNED,
+	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `timestamp`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at`        DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY       (`upload_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
    FOREIGN KEY       (`backup_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
    FOREIGN KEY       (`delete_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -263,6 +274,11 @@ foreach(array_keys($system_table_schemas) as $key){
    $system_table_migrate[11][]="ALTER TABLE $key ADD `flag` VARCHAR(20) DEFAULT NULL";
 	$system_table_migrate[11][]="ALTER TABLE $key ADD `updated_by` INT UNSIGNED";
 	$system_table_migrate[11][]="ALTER TABLE $key ADD `updated_at` TIMESTAMP NULL";
+}
+
+foreach(array_keys($system_table_schemas) as $key){
+	$system_table_migrate[12][]="ALTER TABLE $key CHANGE timestamp created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;";
+	$system_table_migrate[12][]="ALTER TABLE $key ADD `created_by` INT UNSIGNED;";
 }
 
 ?>

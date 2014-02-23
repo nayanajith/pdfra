@@ -26,7 +26,7 @@ $GLOBALS['MODEL']=array(
          "label_pos"	=>"top",
          "value"=>""
       ),
-      "timestamp"=>array(
+      "updated_at"=>array(
          "length"	=>"100",
          "dojoType"	=>"dijit.form.ValidationTextBox",
          "required"	=>"false",
@@ -146,7 +146,7 @@ $GLOBALS['MODEL']=array(
        'GRID'=>array(
           'columns'      =>array(
              'rid'      =>array('hidden'=>'true'),
-             'timestamp',
+             'updated_at',
              'user_id',  
              'ip',       
              'module_id',   

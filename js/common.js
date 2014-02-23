@@ -266,6 +266,7 @@ function switch_user(value) {
 
 //wrapper for filter form callbacks
 function s_p_c_add(callback_name,callback_function,param){
+   if(halt_set_param)return false;
    add_callback(set_param_callback,callback_name,callback_function,param);
    return true;
 }
@@ -1802,10 +1803,56 @@ function clear_selection(table_id){
    });
 }
 
+//Override generic alert function
+var stausDialog;
+function alert(info){
+   /*Create dialog only if not initialized*/
+   if(typeof stausDialog === 'undefined') {
+      stausDialog = new dijit.Dialog({
+         title: "Status report",
+         style: "width: 400px;"
+      });
+   }
+
+   var button="<div class='dijitDialogPaneActionBar'><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();status_bar.innerHTML='Done.'\" >OK</button></div>";
+   stausDialog.set("content", info+button);
+   stausDialog.show();
+}
+
+function _while(inc,until){
+   if(inc>=until){
+      return;
+   }
+   var j=inc+1;
+   setTimeout(_while(j,until), 5000);
+}
+
+//Override generic confirm function
+/*
+function confirm(info){
+   //Create dialog only if not initialized
+   if(typeof stausDialog === 'undefined') {
+      stausDialog = new dijit.Dialog({
+         title: "Status report",
+         style: "width: 400px;"
+      });
+   }
+
+   var buttons="<div class='dijitDialogPaneActionBar'><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();status_bar.innerHTML='Cancel';stausDialog.state=false;\" >Cancel</button><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();status_bar.innerHTML='OK';stausDialog.state=true;\" >OK</button></div>";
+   stausDialog.set("content", info+buttons);
+   stausDialog.show();
+   while(stausDialog._isShown()){
+      _while(0,100);
+   }
+
+   console.info(stausDialog.state);
+   //return stausDialog.state;
+   return false;
+}
+*/
 
 /*Update status bar*/
 var max_status_length=100;
-var stausDialog;
 //If the public kayout used set the javascript variable to used with
 var pub=false;
 <?php if(in_array($_SESSION['LAYOUT'],array('pub'))){ ?>
@@ -1844,7 +1891,7 @@ function update_status_bar(status_code,info){
    /*If the message too lengthy show it as a dialog*/
    var status_bar2 = document.getElementById('status_bar2') ;
    var status_bar = document.getElementById('status_bar') ;
-   if(info.length < max_status_length){
+   if(info.length < max_status_length && status_code != 'ERROR'){
       //Update status bar 1 if status bar 2 is not defined
       status_bar.innerHTML=info;
       status_bar.title=orig_info;
@@ -1856,17 +1903,7 @@ function update_status_bar(status_code,info){
          status_bar2.title=orig_info;
       }
    }else{
-      /*Create dialog only if not initialized*/
-      if(typeof stausDialog === 'undefined') {
-         stausDialog = new dijit.Dialog({
-            title: "Status report",
-            style: "width: 400px;"
-         });
-      }
-   
-      var button="<br><center><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();status_bar.innerHTML='Done.'\" >OK</button></center>";
-      stausDialog.set("content", info+button);
-      stausDialog.show();
+      alert(info);
       status_bar.innerHTML='...etc';
    }
    <?php }else{ ?>
@@ -1950,11 +1987,12 @@ function show_tooltip(o){
 /**
  * Set on item click event which equal to onSelect 
  */
-var on_select_label_field='label';
-var on_select_key_field  ='rid';
-var on_select_widget_id  =null;
+var on_select_label_field  ='label';
+var on_select_key_field    ='rid';
+var on_select_widget_id    =null;
+var on_select_function     =null;
 function onSelect(item, store){ 
    var label=store.getValue(item, on_select_label_field); 
    var key=store.getValue(item, on_select_key_field); 
-   return "<div onClick='s_p_c_add(\"ok\",reload_tree,\""+key+"\");set_param(on_select_widget_id,"+key+")'>"+label+"</div>";
+   return "<div onClick='s_p_c_add(\"ok\",on_select_function,\""+key+"\");set_param(on_select_widget_id,"+key+")'>"+label+"</div>";
 }

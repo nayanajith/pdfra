@@ -4,7 +4,7 @@ $main_top.="<center><form dojoType='dijit.form.Form' id='main' jsId='main' name=
 
 $main_top.="<tr>
    <td>".get_label('proto')."</td><td>".get_field('proto')."      </td>
-   <td>".get_label('timestamp')."</td><td>".get_field('timestamp')."            </td>
+   <td>".get_label('updated_at')."</td><td>".get_field('updated_at')."            </td>
    <td>".get_label('user_id')."</td><td>".get_field('user_id')."    </td>
    <td>".get_label('ip')."</td><td>".get_field('ip')."    </td>
    </tr><tr>

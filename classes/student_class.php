@@ -634,7 +634,7 @@ public function getTranscript(){
     */
 
    public function is_marks_course_updated_after_gpa(){
-      $arr=exec_query("SELECT MAX(m.timestamp)<g.timestamp OR MAX(c.timestamp)>MAX(m.timestamp) updated FROM ".p_t('marks')." m,".p_t('gpa')." g,".p_t('course')." c where m.index_no='".$this->self['index_no']."' AND m.index_no=g.index_no",Q_RET_ARRAY);
+      $arr=exec_query("SELECT MAX(m.updated_at)<g.updated_atOR MAX(c.updated_at)>MAX(m.updated_at) updated FROM ".p_t('marks')." m,".p_t('gpa')." g,".p_t('course')." c where m.index_no='".$this->self['index_no']."' AND m.index_no=g.index_no",Q_RET_ARRAY);
 
       return $arr[0]['updated'];
    }

@@ -4,7 +4,7 @@ $super_table         ='log';
 $filter_super_table  ='filter';
 $key1                ='rid';
 $grid_array          =array('user_id','action');
-$grid_array_long     =array('user_id','timestamp','ip','module','page','action');
+$grid_array_long     =array('user_id','updated_at','ip','module','page','action');
 
 $table               =$super_table;
 $filter_table        =$filter_super_table;

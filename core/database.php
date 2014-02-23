@@ -265,7 +265,7 @@ Execute query
 @param array_key: If this parameter set, this key will be used as the key when returning array
 @param deleted: if deleted is true, it will only return the deleted redcords. if deleted=all, it will return all records, if deleted is null it will return only non deleted
 */
-function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_connect=null,$log=false,$who_field=null){
+function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_connect=null,$log=false,$updated_by=null){
    global $num_rows;
    global $aff_rows;
    global $query_ok;
@@ -288,21 +288,23 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_
       opendb($db);
    }
 
-	$who_field='updated_by';
+	$created_by='created_by';
+	$updated_by='updated_by';
+	$updated_at='updated_at';
 
 	/*
 		INSERT INTO `base_data`(`base_value`,`base_class`,`base_key`)VALUES('0','VARIABLE','__DB_VERSION')
 		UPDATE users SET last_login=CURRENT_TIMESTAMP,failed_logins=0 WHERE username='admin'
 	 */
-	if(!is_null($who_field) && isset($_SESSION['user_id'])){
+	if(isset($_SESSION['user_id'])){
 		if(preg_match('/^INSERT|^REPLACE/i',$query) > 0 ){
          $find='/\)/';
-         $replace=",`$who_field`)";
+         $replace=",`$created_by`)";
          $query=preg_replace($find,$replace,$query,1);
          $replace=")'".$_SESSION['user_id']."',";
          $query=strrev(preg_replace($find,$replace,strrev($query),1));
 		}elseif(preg_match('/^UPDATE/i',$query) > 0 ){
-			$query=preg_replace('/ SET /i'," SET `$who_field`='".$_SESSION['user_id']."',",$query);
+			$query=preg_replace('/ SET /i'," SET `$updated_by`='".$_SESSION['user_id']."',`$updated_at`=NOW(),",$query);
 		}
 	}
 

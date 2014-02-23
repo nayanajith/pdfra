@@ -258,13 +258,15 @@ class Model{
          $grids=<<<EOE
    'GRIDS'=>array(
       'GRID'=>array(
-         'columns'      =>array('rid'=>array('hidden'=>'true'),'timestamp'=>array('width'=>'50')),
+         'columns'      =>array(
+":REPLACE:"
+         ),
          'filter'       =>get_filter(),
          'selector_id'  =>'toolbar__rid',
          'ref_table'    =>m_p_t(''),
          'event_key'    =>'rid',
-         'order_by'     =>'ORDER BY timestamp DESC',
-         'group_by'     =>'GROUP BY timestamp',
+         'order_by'     =>'ORDER BY updated_at DESC',
+         'group_by'     =>'GROUP BY updated_at ',
          'dojoType'     =>'dojox.grid.EnhancedGrid',
          'query'        =>'{ "rid": "*" }',
          'clientSort'   =>'true',
@@ -289,7 +291,7 @@ EOE;
          "filter"       =>get_filter(),
          "ref_table"    =>m_p_t(''),
          "ref_key"      =>'rid',
-         "order_by"     =>'ORDER BY timestamp DESC',
+         "order_by"     =>'ORDER BY updated_at DESC',
          "vid"          =>array('rid'),
       ),  
 EOE;
@@ -367,8 +369,10 @@ EOE;
             //write in to form related fields which reflect the form
             fwrite($file_handler, tab(1)."'FORM'=>array(");
 
+            $grid_fields="";
             $comma1="";
             foreach($this->form as $field => $arr){
+               $grid_fields.="\t\t\t\t".$comma1."'$field'=>array('hidden'=>'false')\n";
                $comma2="";
                fwrite($file_handler, $comma1."\n".tab(2)."\"".$field."\"=>array(");
                foreach($arr as $key => $value){
@@ -382,7 +386,8 @@ EOE;
 
             
             fwrite($file_handler, "//---------------------GRID CONFIGURATION-----------------------\n");
-            fwrite($file_handler, $grids."\n");
+            fwrite($file_handler, preg_replace('/":REPLACE:"/',$grid_fields,$grids,1));
+            fwrite($file_handler, "\n");
             //write the toolbar related fields
             fwrite($file_handler, "//--------------FIELDS TO BE INCLUDED IN TOOLBAR----------------\n");
             fwrite($file_handler, tab(1)."'TOOLBAR'=>array(\n".$common_toolbar_buttons."\n".tab(1)."),\n");

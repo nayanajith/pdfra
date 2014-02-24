@@ -1984,15 +1984,4 @@ function show_tooltip(o){
    }
 }
 
-/**
- * Set on item click event which equal to onSelect 
- */
-var on_select_label_field  ='label';
-var on_select_key_field    ='rid';
-var on_select_widget_id    =null;
-var on_select_function     =null;
-function onSelect(item, store){ 
-   var label=store.getValue(item, on_select_label_field); 
-   var key=store.getValue(item, on_select_key_field); 
-   return "<div onClick='s_p_c_add(\"ok\",on_select_function,\""+key+"\");set_param(on_select_widget_id,"+key+")'>"+label+"</div>";
-}
+

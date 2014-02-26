@@ -176,7 +176,9 @@ function after_login() {
    $user_changer="";
    if(isset($_SESSION['SUPER_USER']) && $_SESSION['SUPER_USER']){
       $_SESSION['fullname']='a <span style="color:red">Super user</span>';
+      log_off();
       $arr=exec_query('SELECT username,user_id,role_id FROM '.s_t('users'),Q_RET_ARRAY,null,'user_id');
+      log_on();
       $inner="";
       foreach($arr as $user_id => $row){
          $inner.="<option value='$user_id'>".$row['username']." (".$row['role_id'].")</option>";
@@ -185,7 +187,9 @@ function after_login() {
       $user_changer="Switch user to: <select dojoType='dijit.form.FilteringSelect' value='".$_SESSION['user_id']."' style='width:180px' id='switch_user' onMouseOver='halt_page_reloading=false' onChange='switch_user(this.value);reload_page()'>$inner</select>";
    }elseif(isset($_SESSION['ADMIN_USER']) && $_SESSION['ADMIN_USER']){
       $_SESSION['fullname']='an <span style="color:red">Admin user</span>';
+      log_off();
       $arr=exec_query('SELECT username,user_id,role_id FROM '.s_t('users'),Q_RET_ARRAY,null,'user_id');
+      log_on();
       $inner="";
       foreach($arr as $user_id => $row){
          if($row['role_id'] == 'SUPER')continue;

@@ -1557,10 +1557,17 @@ function walk_style_text(&$item,$key,$var=null){
 /*
  * Log a message in log file 
  */
+$GLOBALS['LOG_OFF']=false;
+function log_off(){
+   $GLOBALS['LOG_OFF']=true;
+}
+function log_on(){
+   $GLOBALS['LOG_OFF']=false;
+}
 
 function log_msg($msg=null,$level=null,$file=null){
 
-   if(!defined('LOGS_ENABLED')){
+   if(!defined('LOGS_ENABLED') || $GLOBALS['LOG_OFF']){
       return;
    }
 

@@ -50,7 +50,7 @@ class View{
          $model=sprintf($this->model,$group_prefix);
          $view=sprintf($this->view,$group_prefix);
 
-         log_msg($view);
+         //log_msg($view);
 
         //Setting group wise view file if available else drop to default 
         if(file_exists($view)){

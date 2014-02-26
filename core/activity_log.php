@@ -20,7 +20,9 @@ function act_log($table=null,$info=null){
       'info'      =>($info!=null)?$info:""
    );
 
+   log_off();
    exec_query("INSERT INTO `".$table."`(`".implode("`,`",array_keys($log_array))."`) VALUES(\"".implode("\",\"",array_values($log_array))."\")",Q_RET_NONE);
+   log_on();
 }
 
 if(isset($_REQUEST['action'])){

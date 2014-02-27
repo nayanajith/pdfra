@@ -819,7 +819,7 @@ dojo.ready(function(){
             switch($grid['store_type']){
             case 'csv':
                d_r('dojox.data.CsvStore');
-               $html.="<span dojoType='dojox.data.CsvStore' clearOnClose='true' jsId='".$grid['store']."' url='".gen_url()."&form=".$grid['store']."&data=csv'></span>";
+               $html.="<span dojoType='dojox.data.CsvStore'  doClientSorting='true' clearOnClose='true' jsId='".$grid['store']."' url='".gen_url()."&form=".$grid['store']."&data=csv'></span>";
             break;
             case 'query':
                d_r('dojox.data.JsonRestStore');

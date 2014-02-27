@@ -284,7 +284,7 @@ var set_param_callback={
 /**
  * Set session parameters using XHR requests in backend
  */
-function set_param(key,value,label) {
+function set_param(key,value) {
    if(halt_set_param)return;
 
    var s_p_c=set_param_callback;
@@ -298,12 +298,9 @@ function set_param(key,value,label) {
    //when key is also a variable you have to tweak it externally
    contentArr['param']  =key;
    contentArr[key]      =value;
-   contentArr[key+'_label']    =label;
 
-   //If label is not set, set the value as the label 
-   if(!label){
-      contentArr[key+'_label']    =value;
-   }
+   //Get the label of the key
+   contentArr[key+'_label']  =dijit.byId(key).store._itemsByIdentity[value].label;
 
    dojo.xhrPost({
         url      : url,

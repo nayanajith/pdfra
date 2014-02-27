@@ -31,7 +31,7 @@ $GLOBALS['MODEL']=array(
          "label"=>"Module",
          "label_pos"=>"left",
          "onMouseOver"=>'reloading_on()',
-         "onChange"=>'s_p_c_add("ok",reload_page,null);set_param(this.id,this.value,this.displayedValue)',
+         "onChange"=>'s_p_c_add("ok",reload_page,null);set_param(this.id,this.value)',
          "inner"=>$schema_module_inner,
       ),
       "create"=>array(

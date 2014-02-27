@@ -89,7 +89,7 @@ if(isset($_REQUEST['form'])){
                call_user_func($action);
             }else{
                //If no function set then return the parameter is set message
-               return_status_json('OK',"Set ".$param." as ".$_REQUEST[$_REQUEST['param']."_label"]);
+               return_status_json('OK',"Set ".$param." as ".$_REQUEST[$_REQUEST['param']]);
             }
 
          break;

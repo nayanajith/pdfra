@@ -97,7 +97,7 @@ $GLOBALS['MODEL']=array(
          "label"=>"Select News",
          "label_pos"=>"left",
 
-         "onChange"=>'f_f_c_add("ok",write_editor);s_p_c_add("ok",fill_form,this.value);set_param(this.id,this.value)',
+         "onChange"=>'f_f_c_add("ok",write_editor);s_p_c_add("ok",fill_form,this.value);set_param(this.id,this.value,this.displayedValue)',
          "searchAttr"=>"label",
          "pageSize"=>"10",
          "store"=>"rid_store",

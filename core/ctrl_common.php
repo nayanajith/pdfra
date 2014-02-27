@@ -67,12 +67,13 @@ if(isset($_REQUEST['form'])){
             }
             if(isset($_REQUEST['param']) && isset($_REQUEST[$_REQUEST['param']]) && $_REQUEST[$_REQUEST['param']] == '_ALL_'){
                del_param($param);
+               del_param($param."_label");
                return_status_json('OK',"Reset ".$_REQUEST['param']);
             }elseif(isset($_REQUEST[$_REQUEST['param']])){
             //Set session variable corresponding to the value changed in front end
                set_param($param,$_REQUEST[$_REQUEST['param']]);
+               set_param($param."_label",$_REQUEST[$_REQUEST['param']."_label"]);
                log_msg("Set ".$param." as ".$_REQUEST[$_REQUEST['param']."_label"]);
-               //return_status_json('OK',"Set ".$param." as ".$_REQUEST[$_REQUEST['param']]);
             }
 
             //Callback the php function if set in the MODEL

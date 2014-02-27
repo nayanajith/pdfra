@@ -284,7 +284,7 @@ var set_param_callback={
 /**
  * Set session parameters using XHR requests in backend
  */
-function set_param(key,value) {
+function set_param(key,value,label) {
    if(halt_set_param)return;
 
    var s_p_c=set_param_callback;
@@ -298,6 +298,12 @@ function set_param(key,value) {
    //when key is also a variable you have to tweak it externally
    contentArr['param']  =key;
    contentArr[key]      =value;
+   contentArr[key+'_label']    =label;
+
+   //If label is not set, set the value as the label 
+   if(!label){
+      contentArr[key+'_label']    =value;
+   }
 
    dojo.xhrPost({
         url      : url,
@@ -1983,5 +1989,3 @@ function show_tooltip(o){
       dijit.showTooltip(msg,o);
    }
 }
-
-

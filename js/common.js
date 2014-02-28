@@ -298,9 +298,14 @@ function set_param(key,value) {
    //when key is also a variable you have to tweak it externally
    contentArr['param']  =key;
    contentArr[key]      =value;
+   contentArr['label']  =value;
 
-   //Get the label of the key
-   contentArr[key+'_label']  =dijit.byId(key).store._itemsByIdentity[value].label;
+   //Get the label from the stor if available
+   if(dijit.byId(key).store){
+     if(dijit.byId(key).store._itemsByIdentity !== undefined){
+      contentArr['label']  =dijit.byId(key).store._itemsByIdentity[value].label;
+     }
+   }
 
    dojo.xhrPost({
         url      : url,
@@ -1189,7 +1194,8 @@ function fill_form(rid,response,form) {
                         var path=document.getElementById(key+'_path').value;
                         //document.getElementById(key+'_info').innerHTML="File exists: <a href='"+path+"/"+response[key]+"'>"+response[key]+"</a>";  
                         var src=path+"/"+response[key];
-                        document.getElementById(key+'_info').innerHTML="File exists: <a href='"+src+"'>"+response[key]+"</a><br><img src='"+src+"' width='128px'>"; 
+                        //document.getElementById(key+'_info').innerHTML="File exists: <a href='"+src+"'>"+response[key]+"</a><br><img src='"+src+"' width='128px'>"; 
+                        document.getElementById(key+'_info').innerHTML="File exists: <a href='"+src+"'>"+response[key]+"</a><br>"; 
                      break;
                      default:
                         dijit.byId(key).set('value',response[key]); 

@@ -72,8 +72,8 @@ if(isset($_REQUEST['form'])){
             }elseif(isset($_REQUEST[$_REQUEST['param']])){
             //Set session variable corresponding to the value changed in front end
                set_param($param,$_REQUEST[$_REQUEST['param']]);
-               set_param($param."_label",$_REQUEST[$_REQUEST['param']."_label"]);
-               log_msg("Set ".$param." as ".$_REQUEST[$_REQUEST['param']."_label"]);
+               set_param($param."_label",$_REQUEST["label"]);
+               log_msg("Set ".$param." as ".$_REQUEST["label"]);
             }
 
             //Callback the php function if set in the MODEL
@@ -89,7 +89,7 @@ if(isset($_REQUEST['form'])){
                call_user_func($action);
             }else{
                //If no function set then return the parameter is set message
-               return_status_json('OK',"Set ".$param." as ".$_REQUEST[$_REQUEST['param']]);
+               return_status_json('OK',"Set ".$param." as ".$_REQUEST['label']);
             }
 
          break;

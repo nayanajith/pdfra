@@ -141,7 +141,7 @@ class View{
        "dojox.form.Uploader"          =>"function:gen_uploader_control",   
     );
 
-   public function gen_uploader_control($id,$value,$w_path,$label,$width=null){
+   public function gen_uploader_control($id,$value,$w_path,$label,$width=null,$field_array){
       //Set custom width if set
       if(is_null($width)){
          $width='';
@@ -149,14 +149,38 @@ class View{
          $width="width:".$width."px;";
       }
 
+      //data-dojo-props='onComplete:function(arr){alert(arr)},onUpload:function(arr){alert(arr)}'
       return "<form method='post' action='?form=main&action=up_file&file_id=$id' enctype='multipart/form-data' style='border:1px dotted silver;$width'>
             <div id='".$id."_info' ></div>
             <input name='".$id."_rid' id='".$id."_rid' type='hidden' value='$value'/>
             <input id='".$id."_path' type='hidden' value='$w_path'/>
             <input 
-            name='$id' type='file' dojoType='dojox.form.Uploader' 
-            label='Select $label' id='$id' class='browseButton' multiple='false'
-            data-dojo-props='onComplete:function(arr){console.log(arr)},onUpload:function(arr){console.log(arr)}'
+            name='$id' 
+            type='file' 
+            dojoType='dojox.form.Uploader' 
+            label='Select $label' 
+            id='$id' 
+            class='browseButton' 
+            multiple='false'
+            accept=\"'".implode("','",array_values($field_array['accept']))."'\"
+            data-dojo-props='
+            onChange:function(arr){
+               var accepted_typs=[\"".implode('","',array_values($field_array['accept']))."\"];
+               dojo.forEach(arr, function(d){
+                  if(accepted_typs.indexOf(d.type) == -1){
+                     alert(\"Only accept ".implode(", ",array_keys($field_array['accept']))." files\");
+                  }
+               });
+            },
+            onProgress:function(arr){
+            },
+            onComplete:function(arr){
+               if(arr.error){
+                  alert(arr.error);
+               }else{
+                  alert(\"File uploaded successfully!\");
+               }
+            }'
             />
             <input type='submit' label='Upload' dojoType='dijit.form.Button' />
             <div dojoType='dojox.form.uploader.FileList' uploaderId='$id'></div>
@@ -186,7 +210,8 @@ class View{
       'path',
       'w_path',
       'data_function',
-      'callback',
+      'file_name',
+      'accept',
    );
 
 
@@ -285,7 +310,7 @@ class View{
             if(isset($field_array['width'])){
                $up_width=$field_array['width'];
             }
-            $custom_arr['field']=$this->gen_uploader_control($field,$fill,$field_array['w_path'],$field_array['label'],$up_width).$tooltip;
+            $custom_arr['field']=$this->gen_uploader_control($field,$fill,$field_array['w_path'],$field_array['label'],$up_width,$field_array).$tooltip;
             $custom_arr['label']="<label for='$field' >".$field_array['label']."$required</label>";
          }else{
 
@@ -415,7 +440,7 @@ class View{
             if(isset($field_array['width'])){
                $up_width=$field_array['width'];
             }
-            $custom_arr['field']=$this->gen_uploader_control($field,$fill,$field_array['w_path'],$field_array['label'],$up_width).$tooltip;
+            $custom_arr['field']=$this->gen_uploader_control($field,$fill,$field_array['w_path'],$field_array['label'],$up_width,$field_array).$tooltip;
             $custom_arr['label']="<label for='$field' >".$field_array['label']."$required</label>";
          }else{
 

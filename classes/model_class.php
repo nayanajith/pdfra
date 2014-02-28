@@ -1298,6 +1298,22 @@ EOE;
                 )
 
         )
+
+      modlel array:
+
+      "file"=>array(
+         "length"       =>"350",
+         "dojoType"     =>"dojox.form.Uploader",
+         "required"     =>"false",
+         "w_path"       =>W_FILES,
+         "path"         =>FILES,
+         "file_name"    =>get_param('file_name'),
+         "overwrite"    =>true,
+         "accept"       =>array('.xls'=>'application/vnd.ms-excel','.xlsx'=>'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+         "max_size"     =>1000000,
+         "label"        =>"Upload spec",
+      ),  
+
  
       */
       public function upload_file(){
@@ -1307,42 +1323,54 @@ EOE;
 
             $mod_arr=$this->form[$fid];
             $up_arr=$_FILES[$fid."s"];
+            log_msg($up_arr);
 
-            if(in_array(strtolower($up_arr["type"][0]),$mod_arr['valid_types']) && $up_arr["size"][0] <= $mod_arr['max_size'] && $up_arr["error"][0] <= 0){
-               $type=pathinfo($up_arr["name"][0],PATHINFO_EXTENSION);
-               $f_name=$fid."_".$rid.".".$type;
-               $w_path=$mod_arr['w_path']."/".$f_name;
-               $save_path=$mod_arr['path']."/".$f_name;
+            //FIle extension 
+            $type=pathinfo($up_arr["name"][0],PATHINFO_EXTENSION);
 
-               $msg="file=".$w_path.",name=".$f_name.",width=320,height=240,type=".$type;
-            
+            //Auto generated file name
+            $f_name=$fid."_".$rid.".".$type;
+
+            //Uset manual filename if it is sate
+            if(isset($mod_arr['file_name']) && $mod_arr['file_name'] !=''){
+               $f_name=$mod_arr['file_name'].".".$type;
+            }
+
+            $w_path=$mod_arr['w_path']."/".$f_name;
+            $save_path=$mod_arr['path']."/".$f_name;
+
+            $msg=array('file'=>$w_path,'name'=>$f_name,'width'=>320,'height'=>240,'type'=>$type);
+
+            if(in_array(strtolower($up_arr["type"][0]),array_values($mod_arr['accept'])) && $up_arr["size"][0] <= $mod_arr['max_size'] && $up_arr["error"][0] <= 0){
                if(file_exists($save_path)){
                   if(isset($mod_arr['overwrite']) && $mod_arr['overwrite'] == true){
                      unlink($save_path);
                      move_uploaded_file($up_arr["tmp_name"][0],$save_path);
                      exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                      log_msg('File exists, overwritten!');
-                     echo $msg;
+                     echo json_encode($msg);
                      return;
                   }else{
                      log_msg('File exists, not deleted!');
-                     echo $msg.",error=File exists, not deleted";
+                     $msg['error']='File exists, not deleted';
+                     echo json_encode($msg);
                      return;
                   }
                }else{
                   move_uploaded_file($up_arr["tmp_name"][0],$save_path);
                   exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                   log_msg('File uploaded!');
-                  echo $msg;
+                  echo json_encode($msg);
                   return;
                }
             }else{
                log_msg('File Type or size error!');
-               echo $msg.",error=Type or size error";
+               $msg['error']='Type or size error';
+               echo json_encode($msg);
                return;
             }
          }else{
-            echo "error='Prerequisit error'";
+            echo '{"error":"Prerequisit error"}';
          }
       }
 

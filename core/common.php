@@ -1296,6 +1296,7 @@ $customIcons=array(
 function get_icon_class($name){
    global $dijitEditorIcons;
    global $dijitIcons;
+   global $customIcons;
    $name=ucfirst($name); 
    if(array_search($name,$dijitIcons)){
       return 'dijitIcon dijitIcon'.$name;

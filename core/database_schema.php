@@ -59,18 +59,18 @@ $system_table_schemas['users']="CREATE TABLE `users` (
 
 $system_table_schemas['role']="CREATE TABLE `role`(
   `rid`              INT unsigned NOT NULL AUTO_INCREMENT,
-  `role_id`       VARCHAR(100) NOT NULL COMMENT 'A short name to identify the group',
+  `role_id`          VARCHAR(100) NOT NULL COMMENT 'A short name to identify the group',
   `file_prefix`      VARCHAR(10) NOT NULL COMMENT 'The prefix for the group related files',
   `layout`           VARCHAR(10) NOT NULL COMMENT 'The page layout for the group',
   `theme`            VARCHAR(10) NOT NULL COMMENT 'Theme for the group',
   `description`      VARCHAR(300) NOT NULL COMMENT 'Description about the group',
   `flag`					VARCHAR(20) DEFAULT NULL,
   `updated_by`			INT UNSIGNED,
-	`created_by`		INT UNSIGNED,
+  `created_by`		   INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `created_at`        DEFAULT CURRENT_TIMESTAMP,
+  `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`rid`),
-  UNIQUE KEY (`group_name`)
+  UNIQUE KEY (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 
@@ -84,7 +84,7 @@ $system_table_schemas['permission']="CREATE TABLE `permission`(
   `updated_by`			INT UNSIGNED,
 	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `created_at`        DEFAULT CURRENT_TIMESTAMP,
+  `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `access_right`     enum('DENIED','READ','WRITE') NOT NULL DEFAULT 'DENIED',
    PRIMARY KEY (`rid`),
    UNIQUE KEY (`group_user_id`,`module`,`page`)
@@ -93,7 +93,7 @@ $system_table_schemas['permission']="CREATE TABLE `permission`(
 $system_table_schemas['log']="CREATE TABLE `log` (
   `rid`              INT unsigned NOT NULL AUTO_INCREMENT,
   `proto`            VARCHAR(5) DEFAULT NULL,
-  `created_at`        DEFAULT CURRENT_TIMESTAMP,
+  `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `user_id`          INT UNSIGNED NOT NULL,
   `ip`               VARCHAR(15) NOT NULL DEFAULT '',
   `module_id`        VARCHAR(50) NOT NULL DEFAULT '',
@@ -129,7 +129,7 @@ $system_table_schemas['filter']="CREATE TABLE `filter` (
   `updated_at`			TIMESTAMP NULL,
   `note`             VARCHAR(300) DEFAULT NULL,
   `status`           VARCHAR(300) DEFAULT NULL,
-  `created_at`        DEFAULT CURRENT_TIMESTAMP,
+  `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY       (`user_id`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
    PRIMARY KEY (`rid`),
    UNIQUE KEY (`filter_name`,`program`,`module`,`page`)
@@ -146,7 +146,7 @@ $system_table_schemas['base_data']="CREATE TABLE `base_data` (
   `updated_by`			INT UNSIGNED,
 	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `created_at`        DEFAULT CURRENT_TIMESTAMP,
+  `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    UNIQUE KEY (`base_class`,`base_key`),
    PRIMARY KEY (`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8"; 
@@ -162,7 +162,7 @@ $system_table_schemas['news']="CREATE TABLE `news`(
   `updated_by`			INT UNSIGNED,
 	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `created_at`        DEFAULT CURRENT_TIMESTAMP,
+  `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   /*FOREIGN KEY       (`role_id`) REFERENCES role(`role_id`) ON UPDATE CASCADE ON DELETE RESTRICT,*/
    PRIMARY KEY (`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -185,7 +185,7 @@ $system_table_schemas['db_backup']="CREATE TABLE `db_backup`(
   `updated_by`			INT UNSIGNED,
 	`created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
-  `created_at`        DEFAULT CURRENT_TIMESTAMP,
+  `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY       (`upload_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
    FOREIGN KEY       (`backup_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
    FOREIGN KEY       (`delete_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,

@@ -152,7 +152,7 @@ function table_creation_form(){
       //Iterate through the system table schema and check the availability of each table in database
       foreach($schemas as $key => $value){
          $html.= "<tr>";
-         
+
          //check for the availability of the table in database
          if(array_search($key,$tables)===false){
             //database creation sql will be make available to the user, by default it is collapse but the user can expand and investigate the sql
@@ -231,7 +231,7 @@ function create_recreate_tables(){
          case 'create':
             $schemas=$system_table_schemas;
             //creating the table
-            exec_query($schemas[$table],Q_RET_NONE);
+            exec_multy_query("SET FOREIGN_KEY_CHECKS = 0;".$schemas[$table],Q_RET_NONE);
             //gather the sql execute state(errors)
             $error=get_sql_error();
             if($error != false){
@@ -240,7 +240,7 @@ function create_recreate_tables(){
             }else{
                $info.="Table $table creation: successfull<br/>";
             }
-         break;
+            break;
          case 'recreate':
             //first drop (backup if the tale contain any data) table
             drop_tables(array($table=>$table));
@@ -253,7 +253,7 @@ function create_recreate_tables(){
             }
             //create table
             $schemas=$system_table_schemas;
-            exec_query($schemas[$table],Q_RET_NONE);
+            exec_multy_query("SET FOREIGN_KEY_CHECKS = 0;".$schemas[$table],Q_RET_NONE);
             $error=get_sql_error();
             if($error != false){
                $status  ="ERROR";
@@ -261,7 +261,7 @@ function create_recreate_tables(){
             }else{
                $info.="Table $table creation: successfull<br/>";
             }
-         break;
+            break;
          case 'p_create':
             $schemas=$program_table_schemas;
             //program table prefix rallback
@@ -271,7 +271,7 @@ function create_recreate_tables(){
             }
 
             //creating the table
-            exec_query($schemas[$table],Q_RET_NONE);
+            exec_multy_query("SET FOREIGN_KEY_CHECKS = 0;".$schemas[$table],Q_RET_NONE);
             $error=get_sql_error();
             if($error != false){
                $status  ="ERROR";
@@ -279,7 +279,7 @@ function create_recreate_tables(){
             }else{
                $info.="Table $table creation: successfull <br/>";
             }
-         break;
+            break;
          case 'p_recreate':
             //drop table
             drop_tables(array($table));
@@ -298,7 +298,7 @@ function create_recreate_tables(){
                $table=preg_replace("/".$schema_prefix."_/","%s",$table,1);
             }
 
-            exec_query($schemas[$table],Q_RET_NONE);
+            exec_multy_query("SET FOREIGN_KEY_CHECKS = 0;".$schemas[$table],Q_RET_NONE);
             $error=get_sql_error();
             if($error != false){
                $status  ="ERROR";
@@ -306,10 +306,10 @@ function create_recreate_tables(){
             }else{
                $info.="Table $table creation: successfull <br/>";
             }
-         break;
+            break;
          default:
             $status='ERROR';
-         break;
+            break;
          }
       }
    }
@@ -348,24 +348,26 @@ function migrate_db(){
             if(is_array($migrate[$version])){
                foreach($migrate[$version] as $key => $value){
                   exec_multy_query($value,Q_RET_NONE);
-                  if(get_sql_error() != false){
+                  $error=get_sql_error();
+                  if($error != false){
                      $status  ="ERROR";
-                     $info.="[$version][$key] migration ".get_sql_error().";";
+                     $info.="[$version][$key] migration ".$error."<br/>";
                   }else{
-                     $info.="[$version][$key] migration successfull;";
+                     $info.="[$version][$key] migration successfull<br/>";
                   }
                }
             }else{
                //if the migration is a single step procedure then this..
                exec_multy_query($migrate[$version],Q_RET_NONE);
-               if(get_sql_error() != false){
+               $error=get_sql_error();
+               if($error != false){
                   $status  ="ERROR";
-                  $info.="[$version] migration ".get_sql_error().";";
+                  $info.="[$version] migration ".$error."<br/>";
                }else{
-                  $info.="[$version] migration successfull;";
+                  $info.="[$version] migration successfull<br/>";
                }
             }
-         break;
+            break;
          case 'p_migrate':
             //Program database migration is done separately
             //ti is also consists of similar functionality as the system db migration 
@@ -380,11 +382,12 @@ function migrate_db(){
                   }
 
                   exec_multy_query($value,Q_RET_NONE);
-                  if(get_sql_error() != false){
+                  $error=get_sql_error();
+                  if($error != false){
                      $status  ="ERROR";
-                     $info.="[$version][$key] migration ".get_sql_error().";";
+                     $info.="[$version][$key] migration ".$error."<br/>";
                   }else{
-                     $info.="[$version][$key] migration successfull;";
+                     $info.="[$version][$key] migration successfull<br/>";
                   }
                }
             }else{
@@ -395,17 +398,18 @@ function migrate_db(){
                   $value=str_replace('%s',$schema_prefix."_",$value);
                }
                exec_multy_query($value,Q_RET_NONE);
-               if(get_sql_error() != false){
+               $error=get_sql_error();
+               if($error != false){
                   $status  ="ERROR";
-                  $info.="[$version] migration ".get_sql_error().";";
+                  $info.="[$version] migration ".$error."<br/>";
                }else{
-                  $info.="[$version] migration successfull;";
+                  $info.="[$version] migration successfull<br/>";
                }
             }
-         break;
+            break;
          default:
             $status="ERROR";
-         break;
+            break;
          }
       }
    }

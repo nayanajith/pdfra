@@ -1365,7 +1365,7 @@ EOE;
                }
             }else{
                log_msg('File Type or size error!');
-               $msg['error']='Type or size error';
+               $msg['error']='<font color="red">File Type is note acceptable  or file size is out of range!</font>';
                echo json_encode($msg);
                return;
             }

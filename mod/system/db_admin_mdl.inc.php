@@ -233,30 +233,33 @@ function create_recreate_tables(){
             //creating the table
             exec_query($schemas[$table],Q_RET_NONE);
             //gather the sql execute state(errors)
-            if(get_sql_error() != false){
+            $error=get_sql_error();
+            if($error != false){
                $status  ="ERROR";
-               $info.="Table $table creation ".get_sql_error().";";
+               $info.="Table $table creation: $error <br/>";
             }else{
-               $info.="Table $table creation successfull;";
+               $info.="Table $table creation: successfull<br/>";
             }
          break;
          case 'recreate':
             //first drop (backup if the tale contain any data) table
             drop_tables(array($table=>$table));
-            if(get_sql_error() != false){
+            $error=get_sql_error();
+            if($error != false){
                $status  ="ERROR";
-               $info.="Table $table dropping ".get_sql_error().";";
+               $info.="Table $table dropping: $error <br/>";
             }else{
-               $info.="Table $table dropping successfull;";
+               $info.="Table $table dropping: successfull <br/>";
             }
             //create table
             $schemas=$system_table_schemas;
             exec_query($schemas[$table],Q_RET_NONE);
-            if(get_sql_error() != false){
+            $error=get_sql_error();
+            if($error != false){
                $status  ="ERROR";
-               $info.="Table $table creation ".get_sql_error()."<br>";
+               $info.="Table $table creation: $error <br/>";
             }else{
-               $info.="Table $table creation successfull;";
+               $info.="Table $table creation: successfull<br/>";
             }
          break;
          case 'p_create':
@@ -269,21 +272,23 @@ function create_recreate_tables(){
 
             //creating the table
             exec_query($schemas[$table],Q_RET_NONE);
-            if(get_sql_error() != false){
+            $error=get_sql_error();
+            if($error != false){
                $status  ="ERROR";
-               $info.="Table $table creation ".get_sql_error().";";
+               $info.="Table $table creation: $error <br/>";
             }else{
-               $info.="Table $table creation successfull;";
+               $info.="Table $table creation: successfull <br/>";
             }
          break;
          case 'p_recreate':
             //drop table
             drop_tables(array($table));
-            if(get_sql_error() != false){
+            $error=get_sql_error();
+            if($error != false){
                $status  ="ERROR";
-               $info.="Table $table dropping ".get_sql_error().";";
+               $info.="Table $table dropping: $error <br/>";
             }else{
-               $info.="Table $table dropping successfull;";
+               $info.="Table $table dropping: successfull <br/>";
             }
             //create table
 
@@ -294,11 +299,12 @@ function create_recreate_tables(){
             }
 
             exec_query($schemas[$table],Q_RET_NONE);
-            if(get_sql_error() != false){
+            $error=get_sql_error();
+            if($error != false){
                $status  ="ERROR";
-               $info.="Table $table creation ".get_sql_error()."<br>";
+               $info.="Table $table creation: $error <br/>";
             }else{
-               $info.="Table $table creation successfull;";
+               $info.="Table $table creation: successfull <br/>";
             }
          break;
          default:

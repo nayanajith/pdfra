@@ -1648,7 +1648,13 @@ function log_msg($msg=null,$level=null,$file=null){
       @print_r($msg);
       $msg = @ob_get_contents();
       @ob_end_clean();
+   }elseif(is_object($msg)){
+      @ob_start();
+      @var_dump($msg);
+      $msg = @ob_get_contents();
+      @ob_end_clean();
    }
+
 
    fwrite($file_handler, "[$date_time]$bt :$msg\n");
    fclose($file_handler);

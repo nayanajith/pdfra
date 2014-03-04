@@ -301,7 +301,7 @@ function set_param(key,value) {
    contentArr['label']  =value;
 
    //Get the label from the stor if available
-   if(dijit.byId(key).store){
+   if(dijit.byId(key) !== undefined && dijit.byId(key).store){
      if(dijit.byId(key).store._itemsByIdentity !== undefined){
       contentArr['label']  =dijit.byId(key).store._itemsByIdentity[value].label;
      }
@@ -1814,7 +1814,23 @@ function clear_selection(table_id){
 
 //Override generic alert function
 var stausDialog;
-function alert(info){
+function alert(info,type){
+   var bg="background-color:LightGreen";
+   if(type){
+      switch(type.toLowerCase()){
+         case 'e':
+         case 'error':
+            bg="background-color:DarkSalmon";
+            break;
+         case 'w':
+         case 'warning':
+            bg="background-color:Khaki";
+            break;
+         default:
+            bg="background-color:LightGreen";
+            break;
+      }
+   }
    /*Create dialog only if not initialized*/
    if(typeof stausDialog === 'undefined') {
       stausDialog = new dijit.Dialog({
@@ -1823,7 +1839,7 @@ function alert(info){
       });
    }
 
-   var button="<div class='dijitDialogPaneActionBar'><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();status_bar.innerHTML='Done.'\" >OK</button></div>";
+   var button="<div class='dijitDialogPaneActionBar' style='"+bg+"' ><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide();status_bar.innerHTML='Done.'\" >OK</button></div>";
    stausDialog.set("content", info+button);
    stausDialog.show();
 }
@@ -1912,21 +1928,11 @@ function update_status_bar(status_code,info){
          status_bar2.title=orig_info;
       }
    }else{
-      alert(info);
+      alert(info,status_code);
       status_bar.innerHTML='...etc';
    }
    <?php }else{ ?>
-      /*Create dialog only if not initialized*/
-      if(typeof stausDialog === 'undefined') {
-         stausDialog = new dijit.Dialog({
-            title: "Status report",
-            style: "width: 400px;"
-         });
-      }
-   
-      var button="<br><center><button dojoType='dijit.form.Button' onClick=\"stausDialog.hide()\" >OK</button></center>";
-      stausDialog.attr("content", info+button);
-      stausDialog.show();
+      alert(info,status_code);
    <?php } ?>
 }
 

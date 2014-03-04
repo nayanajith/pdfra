@@ -168,7 +168,7 @@ class View{
                var accepted_typs=[\"".implode('","',array_values($field_array['accept']))."\"];
                dojo.forEach(arr, function(d){
                   if(accepted_typs.indexOf(d.type) == -1){
-                     alert(\"Only accept ".implode(", ",array_keys($field_array['accept']))." files\");
+                     alert(\"Only ".implode(", ",array_keys($field_array['accept']))." file-type(s) supported!\",\"e\");
                   }
                });
             },
@@ -176,7 +176,7 @@ class View{
             },
             onComplete:function(arr){
                if(arr.error){
-                  alert(arr.error);
+                  alert(arr.error,\"e\");
                }else{
                   alert(\"File uploaded successfully!\");
                }

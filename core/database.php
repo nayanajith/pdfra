@@ -594,7 +594,7 @@ function drop_tables($tables){
    $state=true;
    foreach($tables as $key=>$name){
       if(is_view($name)){
-         if(exec_query("DROP VIEW ".$name,Q_RET_MYSQL_RES)){
+         if(exec_query("SET FOREIGN_KEY_CHECKS = 0;DROP VIEW ".$name,Q_RET_MYSQL_RES)){
             log_msg('drop_view'.$name,null,SQL_LOG);
          }else{
             log_msg(get_sql_error(),null,SQL_LOG);
@@ -612,7 +612,7 @@ function drop_tables($tables){
                $state=false;
             }
          }else{
-            if(exec_query("DROP TABLE ".$name,Q_RET_MYSQL_RES)){
+            if(exec_query("SET FOREIGN_KEY_CHECKS = 0;DROP TABLE ".$name,Q_RET_MYSQL_RES)){
                log_msg('drop_tables'.$name,null,SQL_LOG);
             }else{
                log_msg(get_sql_error(),null,SQL_LOG);

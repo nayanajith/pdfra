@@ -60,6 +60,9 @@ function reloading_off(){
 function set_param_on(){
    halt_set_param=false;
 }
+function sp_on(){
+   set_param_on();
+}
 
 /**
  * parameter setting is enabled under users request
@@ -67,6 +70,11 @@ function set_param_on(){
 function set_param_off(){
    halt_set_param=true;
 }
+function sp_off(){
+   set_param_off();
+}
+
+
 
 
 
@@ -326,6 +334,10 @@ function set_param(key,value) {
          }
    });
 }   
+
+function sp(key,value){
+   return set_param(key,value);
+}
 
 /**
 request html from the backend

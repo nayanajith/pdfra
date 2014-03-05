@@ -246,9 +246,14 @@ function show_dialog(){
                   <td class=f_label><label for=db_password >Database Password</label></td>
                   <td class=field><input id=db_password  name=db_password type=password dojoType="dijit.form.ValidationTextBox" required='true' ></td>
                </tr>
+               <tr>
                   <td class=f_label><label for=verify_password >Verify Password</label></td>
                   <td class=field><input id=verify_password type=password dojoType="dijit.form.ValidationTextBox" required='true' ></td>
                </tr>
+               <!--tr>
+                  <td class=f_label><label for=db_prefix>Database Prefix</label></td>
+                  <td class=field><input id=db_prefix name=db_prefix type=text dojoType="dijit.form.ValidationTextBox" required='true' ></td>
+               </tr-->
                <tr><td colspan=2><hr></td></tr>
                <tr>
                   <td align='center' colspan='2'>

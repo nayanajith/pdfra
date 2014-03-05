@@ -80,6 +80,9 @@ function get_doc_file($module=null,$page=null){
 function set_param($key,$value){
    $_SESSION[MODULE][PAGE][$key]=$value;
 }
+function sp($key){
+   se_param($key);
+}
 
 /**
  * Store session variable relative to the MODULE and PAGE
@@ -92,6 +95,10 @@ function get_param($key){
    }
 }
 
+function gp($key){
+   return get_param($key);
+}
+
 /**
  * Delete session variable relative to the MODULE and PAGE
  */
@@ -102,6 +109,10 @@ function del_param($key){
    }else{
       return false;
    }
+}
+
+function dp($key){
+   return del_param($key);
 }
 
 /**

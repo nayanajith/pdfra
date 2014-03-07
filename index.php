@@ -65,7 +65,7 @@ include A_CORE."/common.php";
 ini_set('error_log',ERROR_LOG);
 
 /*--------------------------return session status-----------------------------*/
-$SESSION_DURATION=1800;//1800s => 30m
+$SESSION_DURATION=18000;//1800s => 30m
 if(isset($_REQUEST['chksession'])){
    if(isset($_SESSION['username'])){
       if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $SESSION_DURATION)){

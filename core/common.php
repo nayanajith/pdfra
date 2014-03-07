@@ -80,8 +80,8 @@ function get_doc_file($module=null,$page=null){
 function set_param($key,$value){
    $_SESSION[MODULE][PAGE][$key]=$value;
 }
-function sp($key){
-   se_param($key);
+function sp($key,$value){
+   set_param($key,$value);
 }
 
 /**

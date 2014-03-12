@@ -167,7 +167,7 @@ class View{
             onChange:function(arr){
                var accepted_typs=[\"".implode('","',array_values($field_array['accept']))."\"];
                dojo.forEach(arr, function(d){
-                  console.info(d.type);
+                  console.info(d);
                   if(accepted_typs.indexOf(d.type) == -1){
                      alert(\"Only ".implode(", ",array_keys($field_array['accept']))." file-type(s) supported!\",\"e\");
                   }

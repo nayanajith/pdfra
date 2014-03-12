@@ -1321,6 +1321,7 @@ EOE;
             $fid=$_REQUEST['file_id'];
             $rid=$_REQUEST[$_REQUEST['file_id']."_rid"];
 
+            log_msg($GLOBALS['PAGE']);
             $mod_arr=$this->form[$fid];
             $up_arr=$_FILES[$fid."s"];
             log_msg($up_arr);

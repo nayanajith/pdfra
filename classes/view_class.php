@@ -150,7 +150,7 @@ class View{
       }
 
       //data-dojo-props='onComplete:function(arr){alert(arr)},onUpload:function(arr){alert(arr)}'
-      return "<form method='post' action='?form=main&action=up_file&file_id=$id' enctype='multipart/form-data' style='border:1px dotted silver;$width'>
+      return "<form method='post' action='".gen_url()."form=main&action=up_file&file_id=$id' enctype='multipart/form-data' style='border:1px dotted silver;$width'>
             <div id='".$id."_info' ></div>
             <input name='".$id."_rid' id='".$id."_rid' type='hidden' value='$value'/>
             <input id='".$id."_path' type='hidden' value='$w_path'/>
@@ -179,6 +179,7 @@ class View{
                if(arr.error){
                   alert(arr.error,\"e\");
                }else{
+                  hide_xhr_dialog();
                   alert(\"File uploaded successfully!\");
                }
             }'

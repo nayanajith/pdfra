@@ -141,7 +141,6 @@ if(array_key_exists('PATH_INFO', $_SERVER)){
             }
          }
       }
-
       $_REQUEST['program'] =$res[3];
    }
 
@@ -180,12 +179,17 @@ if (!isset($module)){
    if (isset($_REQUEST['module']) && is_module_permitted($_REQUEST['module'])){
       $module = $_REQUEST['module'];
       //Module will keep in session to allow user to send requests without provideing module
-      $_SESSION['MODULE']=$module;
+      if(!isset($_REQUEST['p_m_p'])||$_REQUEST['p_m_p'] == 'true'){
+         $_SESSION['MODULE']=$module;
+      }
 /*---------------------------validate page request----------------------------*/
       if (isset($_REQUEST['page']) && is_page_permitted($module,$_REQUEST['page'])){
          $page = $_REQUEST['page'];
          //Page will keep in session to allow userto send requests without provindeing module
-         $_SESSION['PAGE']=$page;
+
+         if(!isset($_REQUEST['p_m_p'])||$_REQUEST['p_m_p'] == 'true'){
+            $_SESSION['PAGE']=$page;
+         }
       }else{
          $page = '';
       }

@@ -73,26 +73,40 @@ function get_doc_file($module=null,$page=null){
    }
 }
 
+/**
+ * Return a session variable values set by set_param() frontend function (javascript) 
+ */
+function set_g_param($module,$page,$key,$value){
+   $_SESSION[$module][$page][$key]=$value;
+}
 
 /**
  * Return a session variable values set by set_param() frontend function (javascript) 
  */
 function set_param($key,$value){
-   $_SESSION[MODULE][PAGE][$key]=$value;
+   set_g_param(MODULE,PAGE,$key,$value);
 }
 function sp($key,$value){
    set_param($key,$value);
 }
 
 /**
- * Store session variable relative to the MODULE and PAGE
+ * Retrieve session variable relative to a MODULE and PAGE
  */
-function get_param($key){
-   if(isset($_SESSION[MODULE][PAGE][$key])){
-      return $_SESSION[MODULE][PAGE][$key];
+function get_g_param($module,$page,$key){
+   if(isset($_SESSION[$module][$page][$key])){
+      return $_SESSION[$module][$page][$key];
    }else{
       return null;
    }
+}
+
+
+/**
+ * Retrieve session variable relative to current MODULE and PAGE
+ */
+function get_param($key){
+   return get_g_param(MODULE,PAGE,$key);
 }
 
 function gp($key){
@@ -319,7 +333,7 @@ function module_program_table($key){
  * Return page name for a page_id
  */
 function page_name($page_id){
-   $page_name=$GLOBALS['MENU_ARRAY'][$page_id];
+   $page_name=@$GLOBALS['MENU_ARRAY'][$page_id];
    if(is_array($page_name) && isset($page_name['label'])){
       $page_name=$page_name['label'];
    }
@@ -1426,7 +1440,7 @@ default -> base url with module, page and program
 2 -> with all current key,value pairs 
 */
 define('NO_FILTER','3');
-function gen_url($module=null,$page=null,$program=null){
+function gen_url($module=null,$page=null,$program=null,$short=false){
    if(is_null($program) && PROGRAM != "" )$program=PROGRAM;
    if(is_null($module))$module=MODULE;
    if(is_null($page))$page=PAGE;
@@ -1437,13 +1451,17 @@ function gen_url($module=null,$page=null,$program=null){
       $program="";
    }
 
-   $ctrl_addr="";
-   if(isset($_REQUEST['ctrl_redir'])){
-      $ctrl_addr="ctrl_addr=".$_REQUEST['ctrl_redir'];
+   //Temporarty set program module page
+   $p_m_p="";
+   if(isset($_REQUEST['p_m_p']) && $_REQUEST['p_m_p'] == 'false'){
+      $p_m_p="p_m_p=false&";
    }
 
-   //return W_ROOT."/".$GLOBALS['PAGE_GEN']."/".$module."/".$page.$program."?";
-   return W_ROOT."/".$GLOBALS['PAGE_GEN']."?".$ctrl_addr;
+   if($short){
+      return W_ROOT."/".$GLOBALS['PAGE_GEN']."?";
+   }else{
+      return W_ROOT."/".$GLOBALS['PAGE_GEN']."/".$module."/".$page.$program."?".$p_m_p;
+   }
 }
 
 

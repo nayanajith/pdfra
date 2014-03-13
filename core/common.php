@@ -1313,6 +1313,7 @@ $customIcons=array(
    "notifyIconRed",
    "arrowDown",
    "arrowUp",
+   "testIcon",
 );
 
 /**
@@ -1323,11 +1324,12 @@ function get_icon_class($name){
    global $dijitIcons;
    global $customIcons;
    $name=ucfirst($name); 
-   if(array_search($name,$dijitIcons)){
+   log_msg($name);
+   if(isset($dijitIcons[$name])){
       return 'dijitIcon dijitIcon'.$name;
-   }elseif(array_search($name,$dijitEditorIcons)){
+   }elseif(isset($dijitEditorIcons[$name])){
       return 'dijitEditorIcon dijitEditorIcon'.$name;   
-   }elseif(array_search($name,$customIcons)){
+   }elseif(isset($customIcons[$name])){
       return $name;   
    }else{
       return 'dijitIcon dijitIconFunction';   

@@ -1544,7 +1544,7 @@ function p_m_p(module,page,program){
    if('<?php echo $_SESSION['LAYOUT'] ?>'=='app2'){
       dojo.xhrPost({
          url      : page_gen+'/'+module+'/'+page+program_, 
-         content  : {data:'true',action:'p_m_p'},
+         content  : {data:'true',p_m_p:'true'},
          handleAs :'text',
          handle: function(response){
          },

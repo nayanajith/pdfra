@@ -72,10 +72,19 @@ img {
    font-family:'Droid Sans Mono',curior,mono;
 }
 /*-------------------------------custom icons---------------------------*/
-.testIcon {
-   background-image: url("<?php echo IMG.'/icons/icons.png'; ?>"); 
-   background-position: -20px -20px;
+.uploadIcon,.exportIcon{
+   background-image: url("<?php echo IMG.'/icons1.png'; ?>"); 
+   background-repeat: no-repeat;
+	height:16px;
+	width:16px;
 }
+.uploadIcon {
+   background-position: -64px -304px;
+}
+.exportIcon {
+   background-position: -64px -304px;
+}
+
 .GFIcon {
    background-image: url("<?php echo IMG.'/icons/06-magnify.png'; ?>"); 
    background-repeat: no-repeat;

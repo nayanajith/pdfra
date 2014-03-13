@@ -179,7 +179,7 @@ if (!isset($module)){
    if (isset($_REQUEST['module']) && is_module_permitted($_REQUEST['module'])){
       $module = $_REQUEST['module'];
       //Module will keep in session to allow user to send requests without provideing module
-      if(!isset($_REQUEST['p_m_p'])||$_REQUEST['p_m_p'] == 'true'){
+      if(isset($_REQUEST['p_m_p'])&&$_REQUEST['p_m_p'] == 'true'){
          $_SESSION['MODULE']=$module;
       }
 /*---------------------------validate page request----------------------------*/
@@ -187,7 +187,7 @@ if (!isset($module)){
          $page = $_REQUEST['page'];
          //Page will keep in session to allow userto send requests without provindeing module
 
-         if(!isset($_REQUEST['p_m_p'])||$_REQUEST['p_m_p'] == 'true'){
+         if(isset($_REQUEST['p_m_p'])&&$_REQUEST['p_m_p'] == 'true'){
             $_SESSION['PAGE']=$page;
          }
       }else{
@@ -252,7 +252,7 @@ define('PROGRAM'   , $program);
 
 
 /*------The reqeuest is just program,module and page change request-----------*/
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'p_m_p'){
+if(isset($_REQUEST['p_m_p']) && $_REQUEST['p_m_p'] == 'true'){
    if(isset($_SESSION['PROGRAM'])){
       echo "{'program':'".$_SESSION['PROGRAM']."','module':'".$_SESSION['MODULE']."','page':'".$_SESSION['PAGE']."'}"; 
    }else{

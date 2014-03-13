@@ -1220,116 +1220,113 @@ function d_r($module,$dynamic=false){
    dojo_require($module,$dynamic);
 }
 
-//dojo have set of icons which can used with buttons and so on
-$dijitIcons=array(
-   "Save",
-   "Print",
-   "Cut",
-   "Copy",
-   "Clear",
-   "Delete",
-   "Undo",
-   "Edit",
-   "NewTask",
-   "EditTask",
-   "EditProperty",
-   "Task",
-   "Filter",
-   "Configure",
-   "Search",
-   "Application",
-   "Bookmark",
-   "Chart",
-   "Connector",
-   "Database",
-   "Documents",
-   "Mail",
-   "File",
-   "Function",
-   "Key",
-   "Package",
-   "Sample",
-   "Table",
-   "Users",
-   "FolderClosed",
-   "FolderOpen"
-);
-
-//Editor icons
-$dijitEditorIcons=array(
-   "Sep",
-   "Save",
-   "Print",
-   "Cut",
-   "Copy",
-   "Paste",
-   "Delete",
-   "Cancel",
-   "Undo",
-   "Redo",
-   "SelectAll",
-   "Bold",
-   "Italic",
-   "Underline",
-   "Strikethrough",
-   "Superscript",
-   "Subscript",
-   "JustifyCenter",
-   "JustifyFull",
-   "JustifyLeft",
-   "JustifyRight",
-   "Indent",
-   "Outdent",
-   "ListBulletIndent",
-   "ListBulletOutdent",
-   "ListNumIndent",
-   "ListNumOutdent",
-   "TabIndent",
-   "LeftToRight",
-   "RightToLeft",
-   "ToggleDir",
-   "BackColor",
-   "ForeColor",
-   "HiliteColor",
-   "NewPage",
-   "InsertImage",
-   "InsertTable",
-   "Space",
-   "InsertHorizontalRule",
-   "InsertOrderedList",
-   "InsertUnorderedList",
-   "CreateLink",
-   "Unlink",
-   "ViewSource",
-   "RemoveFormat",
-   "FullScreen",
-   "Wikiword"
-);
-
-$customIcons=array(
-   "GFIcon",
-   "homeIcon",
-   "notifyIcon",
-   "notifyIconRed",
-   "arrowDown",
-   "arrowUp",
-   "testIcon",
-);
-
 /**
  * return the css classes which represent the relevent button icon
  */
 function get_icon_class($name){
-   global $dijitEditorIcons;
-   global $dijitIcons;
-   global $customIcons;
-   $name=ucfirst($name); 
-   log_msg($name);
-   if(isset($dijitIcons[$name])){
+	//dojo have set of icons which can used with buttons and so on
+	$dijitIcons=array(
+		"Save",
+		"Print",
+		"Cut",
+		"Copy",
+		"Clear",
+		"Delete",
+		"Undo",
+		"Edit",
+		"NewTask",
+		"EditTask",
+		"EditProperty",
+		"Task",
+		"Filter",
+		"Configure",
+		"Search",
+		"Application",
+		"Bookmark",
+		"Chart",
+		"Connector",
+		"Database",
+		"Documents",
+		"Mail",
+		"File",
+		"Function",
+		"Key",
+		"Package",
+		"Sample",
+		"Table",
+		"Users",
+		"FolderClosed",
+		"FolderOpen"
+	);
+
+	//Editor icons
+	$dijitEditorIcons=array(
+		"Sep",
+		"Save",
+		"Print",
+		"Cut",
+		"Copy",
+		"Paste",
+		"Delete",
+		"Cancel",
+		"Undo",
+		"Redo",
+		"SelectAll",
+		"Bold",
+		"Italic",
+		"Underline",
+		"Strikethrough",
+		"Superscript",
+		"Subscript",
+		"JustifyCenter",
+		"JustifyFull",
+		"JustifyLeft",
+		"JustifyRight",
+		"Indent",
+		"Outdent",
+		"ListBulletIndent",
+		"ListBulletOutdent",
+		"ListNumIndent",
+		"ListNumOutdent",
+		"TabIndent",
+		"LeftToRight",
+		"RightToLeft",
+		"ToggleDir",
+		"BackColor",
+		"ForeColor",
+		"HiliteColor",
+		"NewPage",
+		"InsertImage",
+		"InsertTable",
+		"Space",
+		"InsertHorizontalRule",
+		"InsertOrderedList",
+		"InsertUnorderedList",
+		"CreateLink",
+		"Unlink",
+		"ViewSource",
+		"RemoveFormat",
+		"FullScreen",
+		"Wikiword"
+	);
+
+	$customIcons=array(
+		"GFIcon",
+		"homeIcon",
+		"notifyIcon",
+		"notifyIconRed",
+		"arrowDown",
+		"arrowUp",
+		"uploadIcon",
+		"exportIcon",
+	);
+
+   //$name=ucfirst($name); 
+   if(in_array($name,$dijitIcons)){
       return 'dijitIcon dijitIcon'.$name;
-   }elseif(isset($dijitEditorIcons[$name])){
+   }elseif(in_array($name,$dijitEditorIcons)){
       return 'dijitEditorIcon dijitEditorIcon'.$name;   
-   }elseif(isset($customIcons[$name])){
+   }elseif(in_array($name,$customIcons)){
       return $name;   
    }else{
       return 'dijitIcon dijitIconFunction';   
@@ -1442,7 +1439,7 @@ default -> base url with module, page and program
 2 -> with all current key,value pairs 
 */
 define('NO_FILTER','3');
-function gen_url($module=null,$page=null,$program=null,$short=false){
+function gen_url($module=null,$page=null,$program=null,$short=true){
    if(is_null($program) && PROGRAM != "" )$program=PROGRAM;
    if(is_null($module))$module=MODULE;
    if(is_null($page))$page=PAGE;
@@ -1460,7 +1457,7 @@ function gen_url($module=null,$page=null,$program=null,$short=false){
    }
 
    if($short){
-      return W_ROOT."/".$GLOBALS['PAGE_GEN']."?";
+      return W_ROOT."/".$GLOBALS['PAGE_GEN']."?".$p_m_p;
    }else{
       return W_ROOT."/".$GLOBALS['PAGE_GEN']."/".$module."/".$page.$program."?".$p_m_p;
    }

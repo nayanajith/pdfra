@@ -150,7 +150,7 @@ class View{
       }
 
       //data-dojo-props='onComplete:function(arr){alert(arr)},onUpload:function(arr){alert(arr)}'
-      return "<form method='post' action='".gen_url()."form=main&action=up_file&file_id=$id' enctype='multipart/form-data' style='border:1px dotted silver;$width'>
+      return "<form method='post' action='".gen_url(false)."form=main&action=up_file&file_id=$id' enctype='multipart/form-data' style='border:1px dotted silver;$width'>
             <div id='".$id."_info' ></div>
             <input name='".$id."_rid' id='".$id."_rid' type='hidden' value='$value'/>
             <input id='".$id."_path' type='hidden' value='$w_path'/>
@@ -165,11 +165,11 @@ class View{
             accept=\"'".implode("','",array_values($field_array['accept']))."'\"
             data-dojo-props='
             onChange:function(arr){
-               var accepted_typs=[\"".implode('","',array_values($field_array['accept']))."\"];
+               var accepted_typs=[\"".implode('","',array_keys($field_array['accept']))."\"];
                dojo.forEach(arr, function(d){
                   console.info(d);
                   if(accepted_typs.indexOf(d.type) == -1){
-                     alert(\"Only ".implode(", ",array_keys($field_array['accept']))." file-type(s) supported!\",\"e\");
+                     alert(\"Only ".implode(", ",array_values($field_array['accept']))." file-type(s) supported!\",\"e\");
                   }
                });
             },
@@ -194,7 +194,6 @@ class View{
       'default',
 	 	'isolate',
 	 	'inner',
-	 	'iconClass',
 	 	'label',
 	 	'section',
 	 	'style',
@@ -589,7 +588,7 @@ class View{
 
 
       $csv_inner="
-<span>CSV</span>
+<span>Export as CSV</span>
 <div dojoType='dijit.TooltipDialog' align='center'>
 <b>Select the fields you want to include in the CSV</b>
 <table  id='csv__table'>";

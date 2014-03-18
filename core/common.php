@@ -1223,6 +1223,39 @@ function d_r($module,$dynamic=false){
 /**
  * return the css classes which represent the relevent button icon
  */
+$GLOBALS['customIcons']=array(
+   "GFIcon"          =>array(IMG.'/icons/06-magnify.png'),
+   "homeIcon"        =>array(IMG.'/icons/53-house.png'),
+   "notifyIcon"      =>array(IMG.'/icons/08-chat.png'),
+   "notifyIconRed"   =>array(IMG.'/icons/08-chat-red.png'),
+   "arrowDown"       =>array(JS.'/dijit/themes/'.$GLOBALS['THEME'].'/form/images/buttonArrows.png','-51px 53%'),
+   "arrowUp"         =>array(JS.'/dijit/themes/'.$GLOBALS['THEME'].'/form/images/buttonArrows.png','-0px 53%'),
+   //"fileIcon"        =>array(IMG.'/icons1.png','-480px -400px'),
+   "fileIcon"        =>array(IMG.'/icons1.png','-384px -16px'),
+   "uploadIcon"      =>array(IMG.'/icons1.png','-480px -288px'),
+   //"exportIcon"      =>array(IMG.'/icons1.png','-64px -304px'),
+   "exportIcon"      =>array(IMG.'/icons1.png','-480px -304px'),
+   "versionIcon"     =>array(IMG.'/icons1.png','-176px -48px'),
+   "newVersionIcon"  =>array(IMG.'/icons1.png','-176px -32px'),
+   "deleteVersionIcon"=>array(IMG.'/icons1.png','-176px -16px'),
+   "sheetIcon"       =>array(IMG.'/icons1.png','-160px -176px'),
+   "newSheetIcon"    =>array(IMG.'/icons1.png','-144px -176px'),
+   "deleteSheetIcon" =>array(IMG.'/icons1.png','-128px -176px'),
+   "dbProcessIcon"   =>array(IMG.'/icons1.png','-416px -112px'),
+   "dbMigrateIcon"   =>array(IMG.'/icons1.png','-416px -32px'),
+   "pdfIcon"         =>array(IMG.'/icons1.png','-304px -144px'),
+   "xlsIcon"         =>array(IMG.'/icons1.png','-144px -288px'),
+   "htmlIcon"        =>array(IMG.'/icons1.png','-304px -48px'),
+   "gridIcon"        =>array(IMG.'/icons1.png','-160px -176px'),
+   "reloadGridIcon"  =>array(IMG.'/icons1.png','-176px -160px'),
+   "gridConvIcon"    =>array(IMG.'/icons1.png','-176px -144px'),
+   "addFilterIcon"   =>array(IMG.'/icons1.png','-336px -208px'),
+   "showFilterIcon"  =>array(IMG.'/icons1.png','-336px -224px'),
+   "addRecordIcon"   =>array(IMG.'/icons1.png','-96px -208px'),
+   "deleteRecordIcon"=>array(IMG.'/icons1.png','-80px -208px'),
+   "saveRecordIcon"  =>array(IMG.'/icons1.png','-112px -208px'),
+);
+
 function get_icon_class($name){
 	//dojo have set of icons which can used with buttons and so on
 	$dijitIcons=array(
@@ -1310,23 +1343,13 @@ function get_icon_class($name){
 		"Wikiword"
 	);
 
-	$customIcons=array(
-		"GFIcon",
-		"homeIcon",
-		"notifyIcon",
-		"notifyIconRed",
-		"arrowDown",
-		"arrowUp",
-		"uploadIcon",
-		"exportIcon",
-	);
 
    //$name=ucfirst($name); 
    if(in_array($name,$dijitIcons)){
       return 'dijitIcon dijitIcon'.$name;
    }elseif(in_array($name,$dijitEditorIcons)){
       return 'dijitEditorIcon dijitEditorIcon'.$name;   
-   }elseif(in_array($name,$customIcons)){
+   }elseif(in_array($name,array_keys($GLOBALS['customIcons']))){
       return $name;   
    }else{
       return 'dijitIcon dijitIconFunction';   
@@ -1439,7 +1462,7 @@ default -> base url with module, page and program
 2 -> with all current key,value pairs 
 */
 define('NO_FILTER','3');
-function gen_url($module=null,$page=null,$program=null,$short=true){
+function gen_url($short=true,$module=null,$page=null,$program=null){
    if(is_null($program) && PROGRAM != "" )$program=PROGRAM;
    if(is_null($module))$module=MODULE;
    if(is_null($page))$page=PAGE;

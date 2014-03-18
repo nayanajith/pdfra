@@ -1,6 +1,6 @@
 <!--div dojoType="dijit.form.DropDownButton" iconClass="notifyIcon" showLabel="true" id='notify_ddb' >
   <span ></span>
-  <!--div 
+  <div 
    dojoType="dijit.TooltipDialog" 
    style="max-width:400px;overflow:wrap" 
    jsId='notify_ttd' 

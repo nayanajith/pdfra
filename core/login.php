@@ -235,7 +235,7 @@ if (isset($_SESSION['username'])) {
       session_destroy();
 
       //After logout take the user to home
-      header('Location: '.gen_url('home','news',null));
+      header('Location: '.gen_url('true','home','news',null));
    }
 } elseif(isset($_REQUEST['loginBtn'])){
    //Log users activity
@@ -390,7 +390,7 @@ if (isset($_SESSION['username'])) {
       }
 
       //After login redirect to news page
-      header('Location: '.gen_url('home','news',null));
+      header('Location: '.gen_url(true,'home','news',null));
    }else{
       //echo "<div style='float:left;padding:5px;color:brown;'>Invallid login please try again...</div>";
       //echo "<script type='text/javascript' language=javascript>alert('Invalid login please try again...');</script>";

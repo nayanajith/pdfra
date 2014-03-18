@@ -72,66 +72,28 @@ img {
    font-family:'Droid Sans Mono',curior,mono;
 }
 /*-------------------------------custom icons---------------------------*/
-.uploadIcon,.exportIcon{
-   background-image: url("<?php echo IMG.'/icons1.png'; ?>"); 
+<?php
+foreach($GLOBALS['customIcons'] as $class => $prop){
+   if(sizeof($prop) == 2){
+      echo "
+.${class}{
+   background-image: url(${prop[0]}); 
    background-repeat: no-repeat;
-	height:16px;
-	width:16px;
-}
-.uploadIcon {
-   background-position: -64px -304px;
-}
-.exportIcon {
-   background-position: -64px -304px;
-}
-
-.GFIcon {
-   background-image: url("<?php echo IMG.'/icons/06-magnify.png'; ?>"); 
+   background-position: ${prop[1]};
+   height:16px;
+   width:16px;
+}";
+   }else{
+      echo "
+.${class}{
+   background-image: url(${prop[0]}); 
    background-repeat: no-repeat;
-   width: 16px;
-   height: 16px;
-   text-align: center;
-} 
-
-.homeIcon {
-   background-image: url("<?php echo IMG.'/icons/53-house.png'; ?>"); 
-   background-repeat: no-repeat;
-   width: 16px;
-   height: 16px;
-   text-align: center;
+   height:16px;
+   width:16px;
+}";
+   }
 }
-
-.notifyIcon {
-   background-image: url("<?php echo IMG.'/icons/08-chat.png'; ?>"); 
-   background-repeat: no-repeat;
-   width: 16px;
-   height: 16px;
-   text-align: center;
-}
-
-.notifyIconRed {
-   background-image: url("<?php echo IMG.'/icons/08-chat-red.png'; ?>"); 
-   background-repeat: no-repeat;
-   width: 16px;
-   height: 16px;
-   text-align: center;
-}
-.arrowDown {
-    width: 15px;
-    height: 15px;
-    /*margin: 0px auto;*/
-    background-image: url("<?php echo JS.'/dijit/themes/'.$GLOBALS['THEME'].'/form/images/buttonArrows.png'; ?>");
-    background-repeat: no-repeat;
-    background-position: -51px 53%;
-}
-.arrowUp{
-    width: 15px;
-    height: 15px;
-    /*margin: 0px auto;*/
-    background-image: url("<?php echo JS.'/dijit/themes/'.$GLOBALS['THEME'].'/form/images/buttonArrows.png'; ?>");
-    background-repeat: no-repeat;
-    background-position: -0px 53%;
-}
+?>
 /*------------------------------news styles------------------------------*/
 .news_title{
    font-size:150%;

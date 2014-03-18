@@ -1309,7 +1309,7 @@ EOE;
          "path"         =>FILES,
          "file_name"    =>get_param('file_name'),
          "overwrite"    =>true,
-         "accept"       =>array('.xls'=>'application/vnd.ms-excel','.xlsx'=>'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+         "accept"       =>array('application/vnd.ms-excel'=>'.xls','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'=>'.xlsx'),
          "max_size"     =>1000000,
          "label"        =>"Upload spec",
       ),  
@@ -1321,10 +1321,8 @@ EOE;
             $fid=$_REQUEST['file_id'];
             $rid=$_REQUEST[$_REQUEST['file_id']."_rid"];
 
-            log_msg($GLOBALS['PAGE']);
             $mod_arr=$this->form[$fid];
             $up_arr=$_FILES[$fid."s"];
-            log_msg($up_arr);
 
             //FIle extension 
             $type=pathinfo($up_arr["name"][0],PATHINFO_EXTENSION);
@@ -1342,7 +1340,7 @@ EOE;
 
             $msg=array('file'=>$w_path,'name'=>$f_name,'width'=>320,'height'=>240,'type'=>$type);
 
-            if(in_array(strtolower($up_arr["type"][0]),array_values($mod_arr['accept'])) && $up_arr["size"][0] <= $mod_arr['max_size'] && $up_arr["error"][0] <= 0){
+            if(isset($mod_arr['accept'][strtolower($up_arr["type"][0])]) && $up_arr["size"][0] <= $mod_arr['max_size'] && $up_arr["error"][0] <= 0){
                if(file_exists($save_path)){
                   if(isset($mod_arr['overwrite']) && $mod_arr['overwrite'] == true){
                      unlink($save_path);

@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="1.7.2";
+VERSION="1.9.3";
 DOJO_SRC="http://download.dojotoolkit.org/release-$VERSION/dojo-release-$VERSION-src.tar.gz";
 BASE_DIR="dojo-release-$VERSION-src";
 SAVE_AS="$BASE_DIR.tar.gz";
@@ -51,7 +51,7 @@ fi
 echo "Extracting file";
 tar -xzvf $SAVE_AS
 
-RELEASENAME="dojo-ucscis";
+RELEASENAME="dojo-yape";
 RELEASENAME_="releaseName=$RELEASENAME";
 #optimize -> shrinksafe / shrinksafe.keepLines / closur / packer
 #cssOptimize -> comments / comments.KeepLines
@@ -63,7 +63,7 @@ OPTIMIZE_DEV="optimize=shrinksafe.keepLines cssOptimize=comments.keepLines";
 ACTION="action=clean,release";
 pushd .
 cd $BASE_DIR/util/buildscripts/
-./build.sh profile=../../../ucscis.profile.js $ACTION $OPTIMIZE_DEV version=$VERSION $RELEASENAME_
+./build.sh profile=../../../yape.profile.js $ACTION $OPTIMIZE_DEV version=$VERSION $RELEASENAME_
   
 
 if [[ $? == 0 ]]
@@ -74,13 +74,13 @@ then
 	cd ../
 	cp -fr "dojo-custom-build/$BASE_DIR/release/$RELEASENAME" .
 	rm dojo-release
-	ln -sf dojo-ucscis dojo-release
+	ln -sf dojo-yape dojo-release
 	
    echo 
-	echo 'Include following three lines in <ucscis_root>/core/dojo_requier.php '
-	echo '<script src="<?php echo JS; ?>/dojo/ucscis.js" type="text/javascript">
-<script src="<?php echo JS; ?>/dijit/ucscis.js" type="text/javascript">
-<script src="<?php echo JS; ?>/dojox/ucscis.js" type="text/javascript">
+	echo 'Include following three lines in <yape_root>/core/dojo_requier.php '
+	echo '<script src="<?php echo JS; ?>/dojo/yape.js" type="text/javascript">
+<script src="<?php echo JS; ?>/dijit/yape.js" type="text/javascript">
+<script src="<?php echo JS; ?>/dojox/yape.js" type="text/javascript">
 ';
 else
 	echo "Error building dojo!";

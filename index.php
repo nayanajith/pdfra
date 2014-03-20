@@ -144,12 +144,14 @@ if(array_key_exists('PATH_INFO', $_SERVER)){
       $_REQUEST['program'] =$res[3];
    }
 
+   /*
    //If the user request for other than slogin page before login, he will be redirected to news page
    if(!isset($_SESSION['username']) &&  $_REQUEST['module'] != 'home'){
       $_REQUEST['module']  ='home';
       $_REQUEST['page']    ='login';
       unset($_REQUEST['program']);
    }
+    */
 }
 
 //Recall the session program,module,page and set if user does not set them in request
@@ -291,14 +293,13 @@ if ($GLOBALS['DATA'] && isset($_REQUEST['action']) && $_REQUEST['action']=='js')
    return;
 }
 
-
+log_msg(A_MODULES."/".MODULE."/".PAGE.".php");
 
 /*----------------------execute data/print request----------------------------*/
 //CSV generation request sent to particular page and stop further execution in this page
 if($GLOBALS['DATA']||$GLOBALS['PRINT']){
    /*Disable any worning or error messages while providing data*/
    //Special case to retrieve the json for the tree menu
-
    if(isset($_REQUEST['mod_tree']) && $_REQUEST['mod_tree'] == 'true'){
       include A_CORE."/manage_module.php";
 	}else{

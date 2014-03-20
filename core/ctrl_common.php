@@ -73,7 +73,7 @@ if(isset($_REQUEST['form'])){
             //Set session variable corresponding to the value changed in front end
                set_param($param,$_REQUEST[$_REQUEST['param']]);
                @set_param($param."_label",$_REQUEST["label"]);
-               @log_msg("Set ".$param." as ".$_REQUEST["label"]);
+               @log_msg("Set ".$param." as ".$_REQUEST["label"]."->(".$_REQUEST[$_REQUEST['param']].")");
             }
 
             //Callback the php function if set in the MODEL

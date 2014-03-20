@@ -12,7 +12,9 @@ body{
 }
 
 body, th, td {
-   font: normal 11px Verdana,Arial,'Bitstream Vera Sans',Helvetica,sans-serif;
+   /*font: normal 11px Verdana,Arial,'Bitstream Vera Sans',Helvetica,sans-serif;*/
+   font-size: 11px;
+   font-family: Verdana,Arial,'Bitstream Vera Sans',Helvetica,sans-serif;
    border-color:<?php echo $light_color; ?>
 }
 

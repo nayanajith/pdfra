@@ -27,7 +27,7 @@ function read_file($file, $lines) {
     return array_reverse($text);
 }
 $numLines=isset($_REQUEST['lines'])?$_REQUEST['lines']:20;
-$lines = read_file(LOG,$numLines);
+$lines = read_file('messages.log',$numLines);
 $report="<div id='dd'><pre>";
 foreach ($lines as $line) {
     $report.=$line;

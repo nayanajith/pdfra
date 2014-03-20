@@ -1651,7 +1651,7 @@ function log_msg($msg=null,$level=null,$file=null){
          if(isset($bt_arr[$i]['class'])){
             $class   =$bt_arr[$i]['class'].'.';
          }
-         $bt="[".$class.";".$bt_arr[$i]['function'].";".$bt_arr[$i-1]['line']."]";
+         @$bt="[".$class.";".$bt_arr[$i]['function'].";".$bt_arr[$i-1]['line']."]";
       break;
       case 2:
          $class   ="";

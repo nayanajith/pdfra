@@ -696,7 +696,11 @@ function callback(callback_array,function_name,response){
  */
 function add_callback(callback_array,callback_name,callback_function,param){
    var cb={'func':callback_function,'param':param};
-   callback_array[callback_name].push(cb);
+   if(callback_array[callback_name].indexOf(cb) == -1){
+      callback_array[callback_name].push(cb);
+   }else{
+      console.info(cb);
+   }
 }
 
 /**

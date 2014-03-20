@@ -1,7 +1,7 @@
 config.php
 db_config.php
 *.log
-js/dojo-ucscis/
+js/dojo-yape/
 js/dojo-release/
 lib/
 modules.php

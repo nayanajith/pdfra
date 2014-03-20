@@ -6,5 +6,5 @@ define('MOD_W_BACKUP',W_MODULES."/".MODULE."/backup");
 //Databae root password
 define('DB_ROOT_PASS',"letmein");
 
-$GLOBALS['ADMIN_MAIL'] = 'UCSC information system <info@ucsc.cmb.ac.lk>';
+$GLOBALS['ADMIN_MAIL'] = 'yape information system <info@yape.cmb.ac.lk>';
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 $html = <<<EOD
-Alias /ucscsis "/path/to/system/dir"
+Alias /yape "/path/to/system/dir"
 <Directory "/path/to/system/dir">
    #Ignore indexing while allowing symlink following
    Options -Indexes MultiViews FollowSymLinks

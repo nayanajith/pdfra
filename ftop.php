@@ -4,7 +4,7 @@
 // Version     : 1.0.008
 // Begin       : 2011-04-09
 // Last Update : 2012-12-16
-// Author      : Nayanajith mahendra laxaman - UCSC - 35. Reid avenue, Colombo 7 - Sri Lanka - www.ucsc.lk - nml@ucsc.lk
+// Author      : Nayanajith mahendra laxaman - UCSC - 35. Reid avenue, Colombo 7 - Sri Lanka - www.yape.lk - nml@yape.lk
 // License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
 // -------------------------------------------------------------------
 // Copyright (C) 2011-2012  Nayanajith mahendra Laxaman . UCSC

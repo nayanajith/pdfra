@@ -381,7 +381,7 @@ function add_sql_error($error=null){
 }
 
 /*Return sql error*/
-//Duplicate entry 'nmla@ucsc.lk' for key 'email'
+//Duplicate entry 'nmla@yape.lk' for key 'email'
 function get_sql_error(){
    if(sizeof($GLOBALS['sql_error']) > 0){
       $sql_error=implode($GLOBALS['sql_error'],',');

@@ -1,7 +1,7 @@
 <?php
 /** Controller of the framework
  * All the requests are handled here all direct requests to any other php file will subpressed by .htaccess configuration
- * @author: nayanajith mahendra laxaman -> nml@ucsc.lk
+ * @author: nayanajith mahendra laxaman -> nml@yape.lk
  * @package yape
 */
 
@@ -24,8 +24,8 @@ if($_SERVER['HTTPS']!="on")
 
 */
 /*
-if($_SERVER['HTTP_HOST']!="ucsc.lk"){
-   $redirect= "https://ucsc.lk".$_SERVER['REQUEST_URI'];
+if($_SERVER['HTTP_HOST']!="yape.lk"){
+   $redirect= "https://yape.lk".$_SERVER['REQUEST_URI'];
    header("Location:$redirect");
 }
 */

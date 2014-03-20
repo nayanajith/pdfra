@@ -15,9 +15,9 @@ djConfig = {
 </script>
 <!--script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js"></script-->
 <script src="<?php echo JS; ?>/dojo/dojo.js" type='text/javascript'></script>
-<script src="<?php echo JS; ?>/dojo/ucscis.js" type='text/javascript'></script>
-<script src="<?php echo JS; ?>/dijit/ucscis.js" type='text/javascript'></script>
-<script src="<?php echo JS; ?>/dojox/ucscis.js" type='text/javascript'></script>
+<script src="<?php echo JS; ?>/dojo/yape.js" type='text/javascript'></script>
+<script src="<?php echo JS; ?>/dijit/yape.js" type='text/javascript'></script>
+<script src="<?php echo JS; ?>/dojox/yape.js" type='text/javascript'></script>
 <script src="<?php echo gen_url() ?>action=js&form=main" type='text/javascript'></script>
 <script src="<?php echo gen_url() ?>section=DYNAMIC_JS" type='text/javascript' id='DYNAMIC_JS'></script>
 

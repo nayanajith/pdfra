@@ -39,8 +39,8 @@ class Mail_templates{
 			<tr><td colspan='2' align='center'><h3>PAYMENT RECEIPT</h3></td></tr>
 			<tr><td width='200px'>Telephone</td><td width='400px'>+94-11-2581245</td></tr> 
 			<tr><td>Fax Number</td><td>+94-11-2587239</td></tr> 
-			<tr><td>Email to Contact</td><td>info@ucsc.cmb.ac.lk</td></tr> 
-			<tr><td>UCSC Website</td><td>www.ucsc.cmb.ac.lk</td></tr> 
+			<tr><td>Email to Contact</td><td>info@yape.cmb.ac.lk</td></tr> 
+			<tr><td>yape Website</td><td>www.yape.cmb.ac.lk</td></tr> 
 			<tr><td colspan='2'><hr></td></tr> 
 			<tr><td >Payment Reference ID</td><td >".$user_info['transaction_id']."</td></tr> 
 			<tr><td >Payer Name</td><td>".$user_info['first_name']." ".$user_info['middle_names']." ".$user_info['last_name']."</td></tr> 
@@ -68,7 +68,7 @@ class Mail_templates{
 
 		include_once A_CLASSES."/mail_class.php";
 		$mail			=new Mail_native();
-		return $mail->mail_attachment($user_info['transaction_id'].".pdf", INVOICE_DIR, $user_info['email'], $GLOBALS['PAYMENT_ADMIN_MAIL'], "UCSC payment gateway", $GLOBALS['PAYMENT_ADMIN_MAIL'], 'UCSC payment status', $body);
+		return $mail->mail_attachment($user_info['transaction_id'].".pdf", INVOICE_DIR, $user_info['email'], $GLOBALS['PAYMENT_ADMIN_MAIL'], "yape payment gateway", $GLOBALS['PAYMENT_ADMIN_MAIL'], 'yape payment status', $body);
 	}
 
 
@@ -83,12 +83,12 @@ $mesg
 
 --<br>\n
 Auto generated on ".date('d-m-Y')."<br>\n
-UCSC Payment Gateway<br>\n
+yape Payment Gateway<br>\n
 ";	
 	include_once A_CLASSES."/mail_class.php";
 	$mail			=new Mail_native();
-	$mail->send_mail($GLOBALS['PAYMENT_ADMIN_MAIL'],$GLOBALS['PAYMENT_CLAER_MAIL'],null,null,"UCSC online payment status",$body);
-	return $mail->send_mail($GLOBALS['PAYMENT_ADMIN_MAIL'],'nml@ucsc.cmb.ac.lk',null,null,"UCSC online payment status",$body);
+	$mail->send_mail($GLOBALS['PAYMENT_ADMIN_MAIL'],$GLOBALS['PAYMENT_CLAER_MAIL'],null,null,"yape online payment status",$body);
+	return $mail->send_mail($GLOBALS['PAYMENT_ADMIN_MAIL'],'nml@yape.cmb.ac.lk',null,null,"yape online payment status",$body);
 	}
 
 
@@ -102,11 +102,11 @@ Please click on the link <a href='$url'>$url</a> or copy paste in browser addres
 
 --<br>\n
 Auto generated on ".date('d-m-Y')."<br>\n
-UCSC funding/donation program<br>\n
+yape funding/donation program<br>\n
 ";	
 		include_once A_CLASSES."/mail_class.php";
 		$mail			=new Mail_native();
-		$mail->send_mail($GLOBALS['NOREPLY_MAIL'],$this->mail,null,null,"UCSC Funder/Donor Rgistration",$body);
+		$mail->send_mail($GLOBALS['NOREPLY_MAIL'],$this->mail,null,null,"yape Funder/Donor Rgistration",$body);
 	}
 }
 

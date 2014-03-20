@@ -131,7 +131,7 @@ return;
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
    <head>
-      <title>UCSCSIS INSTALLER</title>
+      <title>YAPE INSTALLER</title>
       <link rel="search" href="/search" >
 
 <!--_________________________________CSS_____________________________________-->
@@ -216,7 +216,7 @@ function show_dialog(){
 <center>
       <div style="width:350px;height:380px;padding-top:100px;">
       <div dojoType="dijit.layout.AccordionContainer" style="height:460px;" >
-      <div dojoType="dijit.layout.AccordionPane" title="Install UCSCSIS">
+      <div dojoType="dijit.layout.AccordionPane" title="Install YAPE">
          <p style="text-ailgn:left;font-weight:bold">
          University of Colombo Schoool of Computing Student Information System Installation Panel.
          Please read the license before installing the system.

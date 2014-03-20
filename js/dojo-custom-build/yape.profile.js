@@ -3,7 +3,7 @@ dependencies={
 	selectorEngine:"acme",
 	layers: [
 		{
-			name: "../dijit/ucscis.js",
+			name: "../dijit/yape.js",
 			dependencies: [
              "dijit.MenuBar",
              "dijit.Menu",
@@ -44,7 +44,7 @@ dependencies={
   			]
 		},
 		{
-			name: "../dojo/ucscis.js",
+			name: "../dojo/yape.js",
 			dependencies: [
  	 	 	 	"dojo.io.iframe",
             "dojo.fx",
@@ -53,7 +53,7 @@ dependencies={
 			]
 		},
 		{
-			name: "../dojox/ucscis.js",
+			name: "../dojox/yape.js",
 			dependencies: [
             "dojox.grid.EnhancedGrid",
             "dojox.grid.enhanced.plugins.Pagination",

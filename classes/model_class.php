@@ -1317,15 +1317,15 @@ EOE;
  
       */
       public function upload_file(){
-         if(isset($_REQUEST['file_id']) && isset($_REQUEST[$_REQUEST['file_id']."_rid"]) && isset($_FILES[$_REQUEST['file_id']."s"])){
+         if(isset($_REQUEST['file_id']) && isset($_REQUEST[$_REQUEST['file_id']."_rid"]) && isset($_FILES[$_REQUEST['file_id']])){
             $fid=$_REQUEST['file_id'];
             $rid=$_REQUEST[$_REQUEST['file_id']."_rid"];
 
             $mod_arr=$this->form[$fid];
-            $up_arr=$_FILES[$fid."s"];
+            $up_arr=$_FILES[$fid];
 
             //FIle extension 
-            $type=pathinfo($up_arr["name"][0],PATHINFO_EXTENSION);
+            $type=pathinfo($up_arr["name"],PATHINFO_EXTENSION);
 
             //Auto generated file name
             $f_name=$fid."_".$rid.".".$type;
@@ -1340,11 +1340,11 @@ EOE;
 
             $msg=array('file'=>$w_path,'name'=>$f_name,'width'=>320,'height'=>240,'type'=>$type);
 
-            if(isset($mod_arr['accept'][strtolower($up_arr["type"][0])]) && $up_arr["size"][0] <= $mod_arr['max_size'] && $up_arr["error"][0] <= 0){
+            if(isset($mod_arr['accept'][strtolower($up_arr["type"])]) && $up_arr["size"] <= $mod_arr['max_size'] && $up_arr["error"] <= 0){
                if(file_exists($save_path)){
                   if(isset($mod_arr['overwrite']) && $mod_arr['overwrite'] == true){
                      unlink($save_path);
-                     move_uploaded_file($up_arr["tmp_name"][0],$save_path);
+                     move_uploaded_file($up_arr["tmp_name"],$save_path);
                      exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                      log_msg('File exists, overwritten!');
                      echo json_encode($msg);
@@ -1356,7 +1356,7 @@ EOE;
                      return;
                   }
                }else{
-                  move_uploaded_file($up_arr["tmp_name"][0],$save_path);
+                  move_uploaded_file($up_arr["tmp_name"],$save_path);
                   exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                   log_msg('File uploaded!');
                   echo json_encode($msg);

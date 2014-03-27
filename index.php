@@ -293,8 +293,6 @@ if ($GLOBALS['DATA'] && isset($_REQUEST['action']) && $_REQUEST['action']=='js')
    return;
 }
 
-log_msg(A_MODULES."/".MODULE."/".PAGE.".php");
-
 /*----------------------execute data/print request----------------------------*/
 //CSV generation request sent to particular page and stop further execution in this page
 if($GLOBALS['DATA']||$GLOBALS['PRINT']){

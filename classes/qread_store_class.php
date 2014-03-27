@@ -98,7 +98,10 @@ class Query_read_store{
          $this->filter = str_replace("*", "%", $this->filter);
          $this->filter="WHERE $this->searchAttr LIKE '".$this->filter."' ".$this->pre_filter;
       }else{
-         $this->filter="WHERE $this->searchAttr LIKE '%' ".$this->pre_filter;
+         //$this->filter="WHERE $this->searchAttr LIKE '%' ".$this->pre_filter;
+         if($this->pre_filter != ''){
+            $this->filter="WHERE ".$this->pre_filter;
+         }
       }
 
       //Fetch the starting index of the query
@@ -108,12 +111,10 @@ class Query_read_store{
    
       //Fetch the No of items to be selected from the query
       if (array_key_exists("count", $_REQUEST)) {
-
          $this->count = $_REQUEST['count'];
-         if($this->count >$this->max_count){
-            $this->count =$this->max_count;
+         if($this->count > $this->max_count){
+            //$this->count =$this->max_count;
          }   
-         //log_msg("count",$this->count);
       }
 
       if(is_null($this->order_by)){

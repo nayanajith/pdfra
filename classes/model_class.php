@@ -153,9 +153,6 @@ class Model{
       protected $toolbar   =array();
       protected $widgets   =array();
 
-      //Callback functions fr the model class
-      protected $callbacks =array();
-
       //A data tuple of the given table will be filled to this array
       protected $data=array();
 
@@ -179,7 +176,6 @@ class Model{
                $this->grids   =get_mdl_property('GRIDS');
                $this->toolbar =get_mdl_property('TOOLBAR');
                $this->widgets =get_mdl_property('WIDGETS');
-               $this->callbacks =get_mdl_property('CALLBACKS');
 
                $this->primary_key   =get_pri_keys();
             }
@@ -287,6 +283,8 @@ EOE;
          "searchAttr"   =>"label",
          "pageSize"     =>"100",
          "maxHeight"    =>"400",
+         "default"      =>false,
+         "all_selector" =>false,
          "store"        =>"rid_store",
          "filter"       =>get_filter(),
          "ref_table"    =>m_p_t(''),
@@ -296,53 +294,6 @@ EOE;
       ),  
 EOE;
 
-         $callbacks=<<<EOE
-   'CALLBACKS'=>array(
-      "add_record"=>array(
-         "OK"     =>array(
-            "func"   =>null,
-            "vars"   =>array(),
-            "status" =>false,
-            "return" =>null
-         ),  
-         "ERROR"  =>array(
-            "func"   =>null,
-            "vars"   =>array(),
-            "status" =>false,
-            "return" =>null
-         ),
-      ),  
-      "update_record"=>array(
-         "OK"     =>array( 
-            "func"   =>null,
-            "vars"   =>array(),
-            "status" =>false,
-            "return" =>null
-         ),
-         "ERROR"  =>array(
-            "func"   =>null,
-            "vars"   =>array(),
-            "status" =>false,
-            "return" =>null
-         ),
-      ),  
-      "delete_record"=>array(
-         "OK"     =>array(
-            "func"   =>null,
-            "vars"   =>array(),
-            "status" =>false,
-            "return" =>null
-         ),  
-         "ERROR"  =>array(
-            "func"   =>null,
-            "vars"   =>array(),
-            "status" =>false,
-            "return" =>null
-         ),
-      ),   
-   ),  
-EOE;
-    
          $config=$this->model;
          if(!file_exists($config)){
             $file_handler = fopen($config, 'w');
@@ -391,8 +342,6 @@ EOE;
             //write the toolbar related fields
             fwrite($file_handler, "//--------------FIELDS TO BE INCLUDED IN TOOLBAR----------------\n");
             fwrite($file_handler, tab(1)."'TOOLBAR'=>array(\n".$common_toolbar_buttons."\n".tab(1)."),\n");
-            fwrite($file_handler, "//--------------------CALLBACK FUNCTIONS------------------------\n");
-            fwrite($file_handler, $callbacks."\n");
             fwrite($file_handler, ");");
             fwrite($file_handler, "\n?>\n");
             fclose($file_handler);
@@ -969,9 +918,10 @@ EOE;
          /*vefiry captcha if it is set*/
          if(!verify_captcha()){
             return_status_json('ERROR','error verifying security code');
-            callback(__FUNCTION__,'ERROR');
             return false;
          }
+
+         callback('before',array($save_path));
 
          $errors=array();
          
@@ -1068,8 +1018,6 @@ EOE;
             
                $values   .=$comma."'".$_REQUEST[$key]."'";
                $comma   =",";
-            }else{
-               log_msg('kk','lll');   
             }
 
             /*handle custom fields from form submission*/
@@ -1089,17 +1037,27 @@ EOE;
 
          $insert_query  ="INSERT INTO ".$this->insert_table."(%s) VALUES(%s)";
          $insert_query  =sprintf($insert_query,$cols,$values);
-         $res           =exec_query($insert_query,Q_RET_MYSQL_RES);
+         exec_query($insert_query,Q_RET_NONE);
          $errors[]      =get_sql_error();
 
          /*report error/success*/
          if(get_affected_rows() > 0){
             return_status_json('OK','record inserted successfully');
-            callback(__FUNCTION__,'OK');
+
+            $filter='';
+            $v=explode(',',$values);
+            $c=explode(',',$cols);
+            $and='';
+            for($i = 0;$i < sizeof($v);$i++){
+               $filter.=$and.$c[$i].'='.$v[$i];
+               $and=' AND ';
+            }
+            $arr=q("SELECT rid FROM ".$this->insert_table." WHERE ".$filter);
+            $rid=$arr[0]['rid'];
+            callback('after',array('rid'=>$rid,'status'=>'OK'));
             return true;
          }else{
             return_status_json('ERROR',implode(';',$errors));
-            callback(__FUNCTION__,'ERROR');
             //return_status_json('ERROR',get_sql_error());
             return false;
          }
@@ -1223,16 +1181,13 @@ EOE;
             /*report error/success */
             if(implode('',$errors)==''){
                return_status_json('OK','record updated successfully');
-               callback(__FUNCTION__,'OK');
                return true;
             }else{
                return_status_json('ERROR',implode(';',$errors));
-               callback(__FUNCTION__,'ERROR');
                return false;
             }
          }else{
             return_status_json('ERROR',implode(';',$errors));
-            callback(__FUNCTION__,'ERROR');
             return false;
          }
       }
@@ -1255,11 +1210,9 @@ EOE;
          /*report error/success */
          if(get_affected_rows() > 0){
             return_status_json('OK','Record deleted successfully!');
-            callback(__FUNCTION__,'OK');
             return true;
          }else{
             return_status_json('ERROR','Error deleting record!');
-            callback(__FUNCTION__,'ERROR');
             return false;
          }
       }
@@ -1322,6 +1275,8 @@ EOE;
             $mod_arr=$this->form[$fid];
             $up_arr=$_FILES[$fid."s"];
 
+            callback('before',array($mod_arr,$up_arr));
+
             //FIle extension 
             $type=pathinfo($up_arr["name"][0],PATHINFO_EXTENSION);
 
@@ -1336,17 +1291,18 @@ EOE;
             $w_path=$mod_arr['w_path']."/".$f_name;
             $save_path=$mod_arr['path']."/".$f_name;
 
-            log_msg($save_path);
             $msg=array('file'=>$w_path,'name'=>$f_name,'width'=>320,'height'=>240,'type'=>$type);
 
             if(isset($mod_arr['accept'][strtolower($up_arr["type"][0])]) && $up_arr["size"][0] <= $mod_arr['max_size'] && $up_arr["error"][0] <= 0){
                if(file_exists($save_path)){
                   if(isset($mod_arr['overwrite']) && $mod_arr['overwrite'] == true){
                      unlink($save_path);
-                     move_uploaded_file($up_arr["tmp_name"],$save_path);
+                     move_uploaded_file($up_arr["tmp_name"][0],$save_path);
                      exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                      log_msg('File exists, overwritten!');
                      echo json_encode($msg);
+
+                     callback('after',array($save_path));
                      return;
                   }else{
                      log_msg('File exists, not deleted!');
@@ -1359,6 +1315,8 @@ EOE;
                   exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                   log_msg('File uploaded!');
                   echo json_encode($msg);
+
+                  callback('after',array($save_path));
                   return;
                }
             }else{

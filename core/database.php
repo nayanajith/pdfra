@@ -373,6 +373,12 @@ function exec_query($query,$type=null,$db=null,$array_key=null,$purge=false,$no_
       break;
    }
 }
+
+//Wrapper for the exec_query
+function q($query,$type=null,$db=null,$array_key=null,$purge=false,$no_connect=null,$log=false,$updated_by=null){
+   return exec_query($query,$type,$db,$array_key,$purge,$no_connect,$log,$updated_by);
+}
+
 //Collect all the sql errors until it is red by the program
 function add_sql_error($error=null){
    if(!is_null($error) && trim($error) != ''){

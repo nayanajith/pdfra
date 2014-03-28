@@ -567,7 +567,6 @@ $GLOBALS['MODEL']=array(
    'TOOLBAR'=>array(),
    'NOTIFY' =>array(),
    'WIDGETS'=>array(),
-   'CALLBACKS'=>array(),
 );
 
 /**
@@ -622,53 +621,16 @@ function get_property($arr,$path){
    return $arr;
 }
 
-/**
- * call callback functions and store returned results
- * example callback array:
- 'CALLBACKS'=>array(
-      "add_record"=>array(
-         "OK"     =>array(
-            "func"=>"test_func",
-            "vars"=>array(1,2),
-            "status"=>false,
-            "return"=>null
-         ),
-         "ERROR"  =>null,
-      ),
-      "modify_record"=>array(
-         "OK"     =>null,
-         "ERROR"  =>null,
-      ),
-      "delete_record"=>array(
-         "OK"     =>array(
-            "func"=>"test_func",
-            "vars"=>array(1,2),
-            "status"=>false,
-            "return"=>null
-         ),
-         "ERROR"  =>null,
-      )
-   ),
- */
-function callback($caller,$status,$func_array=null){
-   if(is_null($func_array)){
-      //if no callback arrays set return 
-      if(is_null(get_mdl_property(array('CALLBACKS'))))return;
-      $func_array=get_mdl_property(array('CALLBACKS',$caller,$status));
-      if(is_null($func_array))return;
+//Callback function
+function callback($prefix,$param_arr=array()){
+   $trace=debug_backtrace();
+   $caller=$trace[1]['function'];
+   $function=$prefix."_".$caller;
+
+   //log_msg($function);
+   if(function_exists($function)){
+      call_user_func($function,$param_arr);
    }
-
-   //Callback the function and set returning value back in the array as return
-   set_mdl_property(
-      array('CALLBACKS',$caller,$status,'return'),
-      @call_user_func_array($func_array['func'],$func_array['vars'])
-   );
-
-   //Set callback function status as true to denote it is executed
-   set_mdl_property(
-      array('CALLBACKS',$caller,$status,'status'),
-      true
-   );
 } 
 
 //Array to keep the view entries before puting in VIEW array 

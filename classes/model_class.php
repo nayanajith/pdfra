@@ -1316,7 +1316,7 @@ EOE;
                   log_msg('File uploaded!');
                   echo json_encode($msg);
 
-                  callback('after',array($save_path));
+                  callback('after',array('file'=>$save_path));
                   return;
                }
             }else{

@@ -213,6 +213,7 @@ class View{
       'data_function',
       'file_name',
       'accept',
+      'ofields',
    );
 
 
@@ -348,9 +349,13 @@ class View{
    */
    public function gen_widget_entry($field,$field_array){
 
-      /*fill data from data array*/
-      $fill =get_param($field);
+     /*fill data from data array*/
+      $fill ="";
 
+      if(!is_null(get_param($field))){
+         $fill=get_param($field);
+      }      
+      
       //if customizable true then retuen label and field seperately as an array
       $custom_arr=array(
            'label'=>'', 
@@ -377,7 +382,6 @@ class View{
 		}
       /*Fields to bypass when creating forms*/
       $bypass=$this->bypass;
-
 
       /*html for the given field will be filled to this var*/
       $html         ="";

@@ -100,6 +100,7 @@ function show_xhr_dialog(url,title,width,height,no_buttons){
 /*--hide page xhr dialogbox--*/
 function hide_xhr_dialog(){
    var xhr_dialog=dijit.byId('DIALOG');
+   xhr_dialog.destroyDescendants();
    xhr_dialog.hide();
 }
 
@@ -550,7 +551,8 @@ function reload_sections(sections){
          switch(sections[i]){
             case 'MAIN_RIGHT':
                var parent_node = section.getParent();
-               section.destroy();
+               //section.destroy();
+               section.destroyRecursive();
                var right_pane = new dijit.layout.ContentPane({
                   'id':sections[i],
                    'region': 'right',
@@ -562,7 +564,8 @@ function reload_sections(sections){
             break;
             case 'MAIN_BOTTOM':
                var parent_node = section.getParent();
-               section.destroy();
+               //section.destroy();
+               section.destroyRecursive();
                var bottom_pane = new dijit.layout.ContentPane({
                   'id':sections[i],
                    'region': 'bottom',
@@ -646,7 +649,7 @@ function reload_main_bottom(){
    reload_sections(['MAIN_BOTTOM']);
 }
 function reload_main(){
-   reload_sections(['MAIN_TOP','MAIN_BOTTOM','MAIN_LEFT','MAIN_RIGHT']);
+   reload_sections(['MAIN_LEFT','MAIN_BOTTOM','MAIN_TOP','MAIN_RIGHT']);
 }
 function reload_toolbar(){
    reload_sections(['TOOLBAR']);
@@ -1092,6 +1095,47 @@ function reset_widget(key){
    }
 }
 
+function load_value(widget,value){
+   //Handle different types of fields
+   switch(dijit.byId(widget).declaredClass){
+      case 'dijit.form.CheckBox':
+         switch(value){
+            case '1':
+            case 'on':
+            case 'true':
+               dijit.byId(widget).set('checked',true); 
+               break;
+            case '0':
+            case 'off':
+            case 'false':
+            default:
+               dijit.byId(widget).set('checked',false); 
+               break;
+         }
+         break;
+      case 'dijit.form.RadioButton':
+         break;
+      case 'dijit.form.ComboBox':
+         //dijit.byId(widget).set('value',value); 
+         load_combo_value(dijit.byId(widget),value);
+         break;
+      case 'dijit.form.FilteringSelect':
+         //dijit.byId(widget).set('value',value); 
+         load_selected_value(dijit.byId(widget),value);
+         break;
+      case 'dojox.form.Uploader':
+         //Add a url to download the file if the file is already uploaded
+         var path=document.getElementById(widget+'_path').value;
+         //document.getElementById(widget+'_info').innerHTML="File exists: <a href='"+path+"/"+value+"'>"+value+"</a>";  
+         var src=path+"/"+value;
+         //document.getElementById(widget+'_info').innerHTML="File exists: <a href='"+src+"'>"+value+"</a><br><img src='"+src+"' width='128px'>"; 
+         document.getElementById(widget+'_info').innerHTML="File exists: <a href='"+src+"'>"+value+"</a><br>"; 
+         break;
+      default:
+         dijit.byId(widget).set('value',value); 
+         break;
+   }
+}
 //wrapper for filter form callbacks
 function f_f_c_add(callback_name,callback_function){
    add_callback(fill_form_callback,callback_name,callback_function);

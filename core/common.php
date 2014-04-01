@@ -630,6 +630,9 @@ function callback($prefix,$param_arr=array()){
    //log_msg($function);
    if(function_exists($function)){
       call_user_func($function,$param_arr);
+      return true;
+   }else{
+      return false;
    }
 } 
 

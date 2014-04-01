@@ -551,8 +551,8 @@ function reload_sections(sections){
          switch(sections[i]){
             case 'MAIN_RIGHT':
                var parent_node = section.getParent();
-               //section.destroy();
-               section.destroyRecursive();
+               section.destroy();
+               //section.destroyRecursive();
                var right_pane = new dijit.layout.ContentPane({
                   'id':sections[i],
                    'region': 'right',

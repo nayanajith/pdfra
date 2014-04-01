@@ -1300,9 +1300,10 @@ EOE;
                      move_uploaded_file($up_arr["tmp_name"][0],$save_path);
                      exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                      log_msg('File exists, overwritten!');
-                     echo json_encode($msg);
 
-                     callback('after',array($save_path));
+                     if(!callback('after',array('file'=>$save_path,'msg'=>$msg))){
+                        echo json_encode($msg);
+                     }
                      return;
                   }else{
                      log_msg('File exists, not deleted!');
@@ -1314,9 +1315,10 @@ EOE;
                   move_uploaded_file($up_arr["tmp_name"][0],$save_path);
                   exec_query("UPDATE ".$this->update_table." SET $fid='$f_name' WHERE rid='$rid'",Q_RET_NONE);
                   log_msg('File uploaded!');
-                  echo json_encode($msg);
 
-                  callback('after',array('file'=>$save_path));
+                  if(!callback('after',array('file'=>$save_path,'msg'=>$msg))){
+                     echo json_encode($msg);
+                  }
                   return;
                }
             }else{

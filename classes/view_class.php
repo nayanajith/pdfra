@@ -698,6 +698,9 @@ class View{
       if(isset($field_array['store'])){
          $this->add_store($field,$field_array['store']);
       }
+      if(! isset($field_array['onMouseOver']) || $field_array['onMouseOver']=='reloading_on()'){
+         $field_array['onMouseOver']='set_param_on();reloading_on();';
+      }
 
       /*Handl custom form input method or generic one*/
       if(isset($field_array['custom']) && $field_array['custom'] == 'true' ){

@@ -46,6 +46,12 @@ function reloading_on(){
 	//MAIN.set('href',gen_url()+"data=html&section=main");
 }
 
+//Log message
+function log_msg(msg){
+   //console.info(arguments.callee.caller.caller.toString()+"::"+msg);
+   console.info(msg);
+}
+
 /**
  * Turn off reloading the page
  */
@@ -58,6 +64,7 @@ function reloading_off(){
  * parameter setting is enabled under users request
  */
 function set_param_on(){
+   log_msg('setparam off');
    halt_set_param=false;
 }
 function sp_on(){
@@ -68,6 +75,7 @@ function sp_on(){
  * parameter setting is enabled under users request
  */
 function set_param_off(){
+   log_msg('setparam on');
    halt_set_param=true;
 }
 function sp_off(){
@@ -514,6 +522,7 @@ function area_load_selected(area){
  */
 function reload_sections(sections){
    var layout;
+   set_param_off();
    //Loading the layout of the env
    dojo.xhrPost({
       url      :gen_url()+'section=LAYOUT', 
@@ -576,7 +585,6 @@ function reload_sections(sections){
                parent_node.addChild(bottom_pane);
             break;
             case 'TOOLBAR':
-               set_param_off();
                reloading_off();
    	         section.refresh(); 
             break;

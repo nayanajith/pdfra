@@ -1281,7 +1281,7 @@ EOE;
             $type=pathinfo($up_arr["name"][0],PATHINFO_EXTENSION);
 
             //Auto generated file name
-            $f_name=$fid."_".$rid.".".$type;
+            $f_name=$fid."_".$rid."_".rand().".".$type;
 
             //Uset manual filename if it is sate
             if(isset($mod_arr['file_name']) && $mod_arr['file_name'] !=''){

@@ -1218,7 +1218,12 @@ $GLOBALS['customIcons']=array(
    "showFilterIcon"  =>array(IMG.'/icons1.png','-336px -224px'),
    "addRecordIcon"   =>array(IMG.'/icons1.png','-96px -208px'),
    "deleteRecordIcon"=>array(IMG.'/icons1.png','-80px -208px'),
-   "saveRecordIcon"  =>array(IMG.'/icons1.png','-112px -208px'),
+   "saveRecordIcon"  =>array(IMG.'/icons1.png','-32px -208px'),
+   "reqReviewIcon"   =>array(IMG.'/icons1.png','-432px -368px'),
+   "addReviewIcon"   =>array(IMG.'/icons1.png','-432px -336px'),
+   "rmReviewIcon"    =>array(IMG.'/icons1.png','-432px -352px'),
+   "changelogIcon"   =>array(IMG.'/icons1.png','-240px -32px'),
+   "commentIcon"   =>array(IMG.'/icons1.png','-320px -32px'),
 );
 
 function get_icon_class($name){

@@ -71,7 +71,7 @@ JSON file for the menu is generated dinamically from mod/module_man/manage_modul
                            <!-- content will be served in switch at the top of this page -->
                         </div>
                         <!-- Bottom box of BorderContainer-4 toolbar-->
-                        <div dojoType="dijit.layout.ContentPane"  parseOnLoad=true preventCache=true loadingMessage="" region="center" gutter="false" id='TOOLBAR' style="padding:0px" href="<?php echo gen_url() ?>section=TOOLBAR" action="post" onLoad="toolbar_load_selected()" onMouseOver="reloading_on();set_param_on();">
+                        <div dojoType="dijit.layout.ContentPane"  parseOnLoad=true preventCache=true loadingMessage="" region="center" gutter="false" id='TOOLBAR' style="padding:0px" href="<?php echo gen_url() ?>section=TOOLBAR" action="post" onLoad="toolbar_load_selected()" onMouseOver="reloading_on();">
                            <!-- content will be served in switch at the top of this page -->
                         </div>
                      </div>

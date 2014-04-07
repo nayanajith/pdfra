@@ -2044,7 +2044,7 @@ function getTimeMillis(){
 }
 
 /**
- * Set tooltip to each item in a filterint select (dropp down)
+ * Set tool tip to each item in a filterint select (dropp down)
  */
 var tooltip_field='note';
 var label_field='label';
@@ -2055,6 +2055,7 @@ function set_tooltip(item, store){
       tooltip=tooltip.replace(/"/g, "''");
       //return '<div onmouseout=dijit.hideTooltip(this) onmouseover=show_tooltip(this) title=\"'+tooltip+'\">'+label+'</div>';
       return '<div title=\"'+tooltip+'\">'+label+'</div>';
+      console.info(tooltip);
    }else{
       return label;
    }
@@ -2067,5 +2068,16 @@ function show_tooltip(o){
    var msg = dojo.attr(o,'title');
    if(msg){
       dijit.showTooltip(msg,o);
+   }
+}
+
+/**
+ * Disable items in a filtering select
+ */
+var disable_field='disable';
+function desable_items(item, store){ 
+   var disable=store.getValue(item, disable_field); 
+   if(disable && disable=='true'){
+      item.disable=true;
    }
 }

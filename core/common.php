@@ -262,6 +262,9 @@ function get_layout_property($layout='app2',$section='MAIN_TOP',$key=null,$key2=
 /**
  * Return effective system table name
  */
+function st($key){
+   return system_table($key);
+}
 function s_t($key){
    return system_table($key);
 }
@@ -279,6 +282,9 @@ function system_table($key){
 /**
  * Returen Module system table
  */
+function mst($key){
+   return module_system_table($key);
+}
 function m_s_t($key){
    return module_system_table($key);
 }
@@ -296,7 +302,7 @@ function module_system_table($key){
 /**
  * Return effective program table name
  */
-function p_t($key){
+function pt($key){
    return program_table($key);
 }
 function p_table($key){
@@ -313,7 +319,9 @@ function program_table($key){
 /**
  * Return module program tables
  */
-
+function mpt($key){
+   return module_program_table($key);
+}
 function m_p_t($key){
    return module_program_table($key);
 }

@@ -383,22 +383,19 @@ function eq($query,$type=null,$db=null,$array_key=null,$purge=false,$no_connect=
 }
 
 //Get  values for a given set of fields
-function get_table_valus($rid,$fields=null,$table,$key_field='rid',$filter=null){
-   if(!is_null($filter)){
-      $filter="AND ".$filter;
-   }
+function get_table_valus($fields=null,$filter,$table){
    if(is_array($fields)){
-      $res=exec_query("SELECT `".implode('`,`',$fields)."` FROM ".$table." WHERE $key_field='".$rid."' $filter",Q_RET_ARRAY);
+      $res=exec_query("SELECT `".implode('`,`',$fields)."` FROM ".$table." WHERE $filter",Q_RET_ARRAY);
       return $res[0];
    }else{
-      $res=exec_query("SELECT `".$fields."` FROM ".$table." WHERE $key_field='".$rid."' $filter",Q_RET_ARRAY);
+      $res=exec_query("SELECT `".$fields."` FROM ".$table." WHERE $filter",Q_RET_ARRAY);
       return $res[0][$fields];
    }
 }
 
 //Wrapper for the get_table_value
-function tv($rid,$fields=null,$table,$key_field='rid',$filter=null){
-   return get_table_valus($rid,$fields,$table,$key_field,$filter);
+function tv($fields=null,$filter,$table){
+   return get_table_valus($fields,$filter,$table);
 }
 
 //Collect all the sql errors until it is red by the program

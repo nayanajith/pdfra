@@ -64,7 +64,6 @@ function reloading_off(){
  * parameter setting is enabled under users request
  */
 function set_param_on(){
-   log_msg('setparam off');
    halt_set_param=false;
 }
 function sp_on(){
@@ -75,7 +74,6 @@ function sp_on(){
  * parameter setting is enabled under users request
  */
 function set_param_off(){
-   log_msg('setparam on');
    halt_set_param=true;
 }
 function sp_off(){

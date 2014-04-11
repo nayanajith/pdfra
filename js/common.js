@@ -315,9 +315,10 @@ function set_param(key,value) {
    contentArr[key]      =value;
    contentArr['label']  =value;
 
+   log_msg(dijit.byId(key));
    //Get the label from the stor if available
    if(dijit.byId(key) !== undefined && dijit.byId(key).store){
-     if(dijit.byId(key).store._itemsByIdentity !== undefined){
+     if(dijit.byId(key).store._itemsByIdentity !== undefined && dijit.byId(key).store._itemsByIdentity[value] !== undefined){
       contentArr['label']  =dijit.byId(key).store._itemsByIdentity[value].label;
      }
    }

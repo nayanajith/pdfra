@@ -222,10 +222,10 @@ $RESULT     =null;
 $RESULT_ARR =null;
 $LOGIN      =false;
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username'])){
    if ($logout == "logout") {
 
-      exec_query("UPDATE ".s_t('users')." SET last_logout=CURRENT_TIMESTAMP WHERE username='".$_SESSION['username']."'", Q_RET_NONE);
+      exec_query("UPDATE ".s_t('users')." SET last_logout=CURRENT_TIMESTAMP,session_id=NULL WHERE username='".$_SESSION['username']."'", Q_RET_NONE);
       unset($_SESSION['username']);
       unset($_SESSION['permission']);
       unset($_SESSION['group']);
@@ -237,162 +237,166 @@ if (isset($_SESSION['username'])) {
       //After logout take the user to home
       header('Location: '.gen_url('true','home','news',null));
    }
-} elseif(isset($_REQUEST['loginBtn'])){
-   //Log users activity
-   act_log(null,null);
+}elseif(isset($_REQUEST['loginBtn'])){
+	//Log users activity
+	act_log(null,null);
 
 
-   //login database and other information can be configured modulewise 
-   if(isset($GLOBALS['MOD_TBL_LOGIN'])){
-      $GLOBALS['TBL_LOGIN']=$GLOBALS['MOD_TBL_LOGIN'];
-      $_SESSION['login_module']    = MODULE;
-   }
+	//login database and other information can be configured modulewise 
+	if(isset($GLOBALS['MOD_TBL_LOGIN'])){
+		$GLOBALS['TBL_LOGIN']=$GLOBALS['MOD_TBL_LOGIN'];
+		$_SESSION['login_module']    = MODULE;
+	}
 
-      //do externel database based authentication using custom database connection if requested in the configuration
-      if(isset($GLOBALS['TBL_LOGIN']['db_host'])){
-         $GLOBALS['CONNECTION'] = mysql_connect($GLOBALS['TBL_LOGIN']['db_host'], $GLOBALS['TBL_LOGIN']['db_user'], $GLOBALS['TBL_LOGIN']['db_password']);
-         if(!mysql_select_DB($GLOBALS['TBL_LOGIN']['db'], $GLOBALS['CONNECTION'])){
-            $db_avail=false;
-         }
-      }
+	//do externel database based authentication using custom database connection if requested in the configuration
+	if(isset($GLOBALS['TBL_LOGIN']['db_host'])){
+		$GLOBALS['CONNECTION'] = mysql_connect($GLOBALS['TBL_LOGIN']['db_host'], $GLOBALS['TBL_LOGIN']['db_user'], $GLOBALS['TBL_LOGIN']['db_password']);
+		if(!mysql_select_DB($GLOBALS['TBL_LOGIN']['db'], $GLOBALS['CONNECTION'])){
+			$db_avail=false;
+		}
+	}
 
-   //Select the authenticatio mode based on user configuration
-   $AUTH_MOD=$GLOBALS['AUTH_MOD'];
-   $CFG    = exec_query("SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE username='$user'", Q_RET_ARRAY);
-   if(isset($CFG[0]) && isset($CFG[0]['auth_mod']) && !is_null($CFG[0]['auth_mod']) && $CFG[0]['auth_mod']!='AUTO'){
-      $AUTH_MOD=$CFG[0]['auth_mod'];
-   }
+	//Select the authenticatio mode based on user configuration
+	$AUTH_MOD=$GLOBALS['AUTH_MOD'];
+	$CFG    = exec_query("SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE username='$user'", Q_RET_ARRAY);
+	if(isset($CFG[0]) && isset($CFG[0]['auth_mod']) && !is_null($CFG[0]['auth_mod']) && $CFG[0]['auth_mod']!='AUTO'){
+		$AUTH_MOD=$CFG[0]['auth_mod'];
+	}
 
-      //Check where the authentication from externel server
-      switch($AUTH_MOD){
-      case 'LDAP':
+	//Check where the authentication from externel server
+	switch($AUTH_MOD){
+	case 'LDAP':
 
-         //Getting user information for the given ldap user from the given login table
-         $SQL = "SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE ldap_user_id='$user' AND status != 'DISABLED'";
-         $RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
+		//Getting user information for the given ldap user from the given login table
+		$SQL = "SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE ldap_user_id='$user' AND status != 'DISABLED'";
+		$RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
 
-         //Connect to the ldap server and authenticate the user
-         $ldap    =    ldap_connect($GLOBALS['LDAP']['SERVER'],$GLOBALS['LDAP']['PORT']);
-         ldap_set_option($ldap,LDAP_OPT_PROTOCOL_VERSION,3);
-         ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+		//Connect to the ldap server and authenticate the user
+		$ldap    =    ldap_connect($GLOBALS['LDAP']['SERVER'],$GLOBALS['LDAP']['PORT']);
+		ldap_set_option($ldap,LDAP_OPT_PROTOCOL_VERSION,3);
+		ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
-         //If there is a user for the given ldap user id check the password from the ldap server
-         if (isset($RESULT_ARR[0])) {
-            //If bind successful that means authenticated
-            if(!ldap_bind($ldap,"CN=$user,".$GLOBALS['LDAP']['USER_RDN'], $password)){
-               //If the ldap authentication faild make the RESULT=false so it will considered as un authorized
-               $RESULT_ARR=null;
-               $LOGIN=false;
-            }else{
-               $LOGIN=true;
-               ldap_unbind($ldap);
-            }
-         }else{
-            //If bind successful that means authenticated
-            if(ldap_bind($ldap,"CN=$user,".$GLOBALS['LDAP']['USER_RDN'], $password)){
-               //Insert user since the user does not exists
-               ldap_bind($ldap, "CN=".$GLOBALS['LDAP']['USER'].",".$GLOBALS['LDAP']['ADMIN_RDN'], $GLOBALS['LDAP']['PASS']);
-               $attr = array('mail','displayName');
-               $result=ldap_search($ldap,$GLOBALS['LDAP']['USER_RDN'] , "(&(objectClass=person)(cn=$user))",$attr);
-               if(!is_null($result)){
-                  $entries = ldap_get_entries($ldap, $result);
-                  if($entries['count'] > 0){
-                     exec_query("INSERT INTO ".$GLOBALS['TBL_LOGIN']['table']."(`username`,`first_name`,`ldap_user_id`,`role_id`,`email`,`status`,`note`)values('$user','".$entries[0]['displayname'][0]."','$user','USER','".$entries[0]['mail'][0]."','ENABLED','Auto registered')",Q_RET_NONE);
-                  }
-               }
+		//If there is a user for the given ldap user id check the password from the ldap server
+		if (isset($RESULT_ARR[0])) {
+			//If bind successful that means authenticated
+			if(!ldap_bind($ldap,"CN=$user,".$GLOBALS['LDAP']['USER_RDN'], $password)){
+				//If the ldap authentication faild make the RESULT=false so it will considered as un authorized
+				$RESULT_ARR=null;
+				$LOGIN=false;
+			}else{
+				$LOGIN=true;
+				ldap_unbind($ldap);
+			}
+		}else{
+			//If bind successful that means authenticated
+			if(ldap_bind($ldap,"CN=$user,".$GLOBALS['LDAP']['USER_RDN'], $password)){
+				//Insert user since the user does not exists
+				ldap_bind($ldap, "CN=".$GLOBALS['LDAP']['USER'].",".$GLOBALS['LDAP']['ADMIN_RDN'], $GLOBALS['LDAP']['PASS']);
+				$attr = array('mail','displayName');
+				$result=ldap_search($ldap,$GLOBALS['LDAP']['USER_RDN'] , "(&(objectClass=person)(cn=$user))",$attr);
+				if(!is_null($result)){
+					$entries = ldap_get_entries($ldap, $result);
+					if($entries['count'] > 0){
+						exec_query("INSERT INTO ".$GLOBALS['TBL_LOGIN']['table']."(`username`,`first_name`,`ldap_user_id`,`role_id`,`email`,`status`,`note`)values('$user','".$entries[0]['displayname'][0]."','$user','USER','".$entries[0]['mail'][0]."','ENABLED','Auto registered')",Q_RET_NONE);
+					}
+				}
 
-               //After adding the ldap user  go through the authentication process
-               $RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
-               $LOGIN=true;
-               ldap_unbind($ldap);
-            }
+				//After adding the ldap user  go through the authentication process
+				$RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
+				$LOGIN=true;
+				ldap_unbind($ldap);
+			}
 
-            //Unbind the ldap conneciton
-            ldap_unbind($ldap);
-         }
-         break;
-      case 'PASSWD':
-         //TODO:authenticate using system password file
-      break;
-      case 'MYSQL':
-      default:
-         //Filters can be applied to extract only the relavant category
-         $filter=" AND status != 'DISABLED'";
-         if(isset($GLOBALS['TBL_LOGIN']['filter']) && $GLOBALS['TBL_LOGIN']['filter']!=''){
-            $filter.=" AND ".$GLOBALS['TBL_LOGIN']['filter'];
-         }
+			//Unbind the ldap conneciton
+			ldap_unbind($ldap);
+		}
+		break;
+	case 'PASSWD':
+		//TODO:authenticate using system password file
+		break;
+	case 'MYSQL':
+	default:
+		//Filters can be applied to extract only the relavant category
+		$filter=" AND status != 'DISABLED'";
+		if(isset($GLOBALS['TBL_LOGIN']['filter']) && $GLOBALS['TBL_LOGIN']['filter']!=''){
+			$filter.=" AND ".$GLOBALS['TBL_LOGIN']['filter'];
+		}
 
-         //Login using native database from mysql user database
-         if(isset($GLOBALS['TBL_LOGIN']['md5']) && $GLOBALS['TBL_LOGIN']['md5']=='false'){
-            $password=$password;
-         }else{
-            $password=md5($password);
-         }
-         $SQL = "SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE ".$GLOBALS['TBL_LOGIN']['username']."='$user' AND ".$GLOBALS['TBL_LOGIN']['password']."='".$password."' $filter";
-         $RESULT_ARR   = null;
+		//Login using native database from mysql user database
+		if(isset($GLOBALS['TBL_LOGIN']['md5']) && $GLOBALS['TBL_LOGIN']['md5']=='false'){
+			$password=$password;
+		}else{
+			$password=md5($password);
+		}
+		$SQL = "SELECT * FROM ".$GLOBALS['TBL_LOGIN']['table']." WHERE ".$GLOBALS['TBL_LOGIN']['username']."='$user' AND ".$GLOBALS['TBL_LOGIN']['password']."='".$password."' $filter";
+		$RESULT_ARR   = null;
 
-         //If the database is external then do not reconnect inside exec_auery function
-         if(isset($GLOBALS['TBL_LOGIN']['db_host'])){
-            $RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY,null,null,null,true);
-         }else{
-            $RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
-         }
-         
-      break;
-      }
+		//If the database is external then do not reconnect inside exec_auery function
+		if(isset($GLOBALS['TBL_LOGIN']['db_host'])){
+			$RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY,null,null,null,true);
+		}else{
+			$RESULT_ARR    = exec_query($SQL, Q_RET_ARRAY);
+		}
 
-      //Login/Logout attempts
-      if(isset($RESULT_ARR[0])){
-         $LOGIN=true;   
-         exec_query("UPDATE ".s_t('users')." SET last_login=CURRENT_TIMESTAMP,failed_logins=0 WHERE username='".$user."'", Q_RET_NONE);
-      }else{
-         exec_query("UPDATE ".s_t('users')." SET failed_logins=failed_logins+1 WHERE username='".$user."'", Q_RET_NONE);
-         $LOGIN=false;   
-         $RESULT_ARR=null;
-      }
-   }
+		break;
+	}
+
+	//Login/Logout attempts
+	if(isset($RESULT_ARR[0])){
+		$LOGIN=true;   
+		exec_query("UPDATE ".s_t('users')." SET last_login=CURRENT_TIMESTAMP,failed_logins=0,session_id='".session_id()."' WHERE username='".$user."'", Q_RET_NONE);
+	}else{
+		exec_query("UPDATE ".s_t('users')." SET failed_logins=failed_logins+1 WHERE username='".$user."'", Q_RET_NONE);
+		$LOGIN=false;   
+		$RESULT_ARR=null;
+	}
+}
    
-   //If login successful $RESULT should be true then set the session variables
-   if ($LOGIN) {
-      $ROW=$RESULT_ARR[0];
-      foreach($GLOBALS['TBL_LOGIN'] as $key => $value){
-         if(isset($ROW[$value])){
-            $_SESSION[$key]   = $ROW[$value];
-         }
-      }
-      $_SESSION['loged_module']    = MODULE;
+//If login successful $RESULT should be true then set the session variables
+if ($LOGIN) {
+	$ROW=$RESULT_ARR[0];
+	foreach($GLOBALS['TBL_LOGIN'] as $key => $value){
+		if(isset($ROW[$value])){
+			$_SESSION[$key]   = $ROW[$value];
+		}
+	}
+	$_SESSION['loged_module']    = MODULE;
 
-      //get and set group theme and layout
-      //will override by user theme and layout
-      $group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE role_id='".$_SESSION['role_id']."'",Q_RET_ARRAY);
+	//get and set group theme and layout
+	//will override by user theme and layout
+	$group_layout_theme=exec_query("SELECT layout,theme,file_prefix FROM ".s_t('role')." WHERE role_id='".$_SESSION['role_id']."'",Q_RET_ARRAY);
 
-      if(!is_null($group_layout_theme[0]['theme']) && $group_layout_theme[0]['theme'] != "" && $group_layout_theme[0]['theme'] != "NULL"){
-         $_SESSION['THEME']=$group_layout_theme[0]['theme'];
-      }
+	if(!is_null($group_layout_theme[0]['theme']) && $group_layout_theme[0]['theme'] != "" && $group_layout_theme[0]['theme'] != "NULL"){
+		$_SESSION['THEME']=$group_layout_theme[0]['theme'];
+	}
 
-      if(!is_null($group_layout_theme[0]['layout']) && $group_layout_theme[0]['layout'] != "" && $group_layout_theme[0]['layout'] != "NULL"){
-         $_SESSION['LAYOUT']=$group_layout_theme[0]['layout'];
-      }
+	if(!is_null($group_layout_theme[0]['layout']) && $group_layout_theme[0]['layout'] != "" && $group_layout_theme[0]['layout'] != "NULL"){
+		$_SESSION['LAYOUT']=$group_layout_theme[0]['layout'];
+	}
 
-      if(!is_null($group_layout_theme[0]['file_prefix']) && $group_layout_theme[0]['file_prefix'] != "" && $group_layout_theme[0]['file_prefix'] != "NULL"){
-         $_SESSION['FILE_PREFIX']=$group_layout_theme[0]['file_prefix'];
-      }
+	if(!is_null($group_layout_theme[0]['file_prefix']) && $group_layout_theme[0]['file_prefix'] != "" && $group_layout_theme[0]['file_prefix'] != "NULL"){
+		$_SESSION['FILE_PREFIX']=$group_layout_theme[0]['file_prefix'];
+	}
 
-      //get and set users theme and layout
-      $user_layout_theme=exec_query("SELECT layout,theme FROM ".s_t('users')." WHERE user_id='".$_SESSION['user_id']."'",Q_RET_ARRAY);
+	//get and set users theme and layout
+	$user_layout_theme=exec_query("SELECT layout,theme FROM ".s_t('users')." WHERE user_id='".$_SESSION['user_id']."'",Q_RET_ARRAY);
 
-      if(!is_null($user_layout_theme[0]['theme']) && $user_layout_theme[0]['theme'] != "" && $user_layout_theme[0]['theme'] != "NULL"){
-         $_SESSION['THEME']=$user_layout_theme[0]['theme'];
-      }
+	if(!is_null($user_layout_theme[0]['theme']) && $user_layout_theme[0]['theme'] != "" && $user_layout_theme[0]['theme'] != "NULL"){
+		$_SESSION['THEME']=$user_layout_theme[0]['theme'];
+	}
 
-      if(!is_null($user_layout_theme[0]['layout']) && $user_layout_theme[0]['layout'] != "" && $user_layout_theme[0]['layout'] != "NULL"){
-         $_SESSION['LAYOUT']=$user_layout_theme[0]['layout'];
-      }
+	if(!is_null($user_layout_theme[0]['layout']) && $user_layout_theme[0]['layout'] != "" && $user_layout_theme[0]['layout'] != "NULL"){
+		$_SESSION['LAYOUT']=$user_layout_theme[0]['layout'];
+	}
 
-      //After login redirect to news page
-      header('Location: '.gen_url(true,'home','news',null));
-   }else{
-      //echo "<div style='float:left;padding:5px;color:brown;'>Invallid login please try again...</div>";
-      //echo "<script type='text/javascript' language=javascript>alert('Invalid login please try again...');</script>";
-   }
+	//After login redirect to news page
+	header('Location: '.gen_url(true,'home','news',null));
+}else{
+	//echo "<div style='float:left;padding:5px;color:brown;'>Invallid login please try again...</div>";
+	//echo "<script type='text/javascript' language=javascript>alert('Invalid login please try again...');</script>";
+}
+
+function logout_idle_users(){
+	exec_query("UPDATE ".s_t('users')." SET last_logout=CURRENT_TIMESTAMP,session_id=NULL WHERE ((NOW() - last_activity) >= ".SESSION_DURATION.") OR ISNULL(last_activity)",Q_RET_NONE);
+}
 ?>

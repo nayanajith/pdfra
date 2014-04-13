@@ -2,7 +2,7 @@
 /*
 System Database tables
 */
-$schema_version=12;
+$schema_version=13;
          
 $system_table_schemas['program']="CREATE TABLE `program` (
   `rid`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -27,7 +27,6 @@ $system_table_schemas['program']="CREATE TABLE `program` (
 $system_table_schemas['users']="CREATE TABLE `users` (
   `user_id`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `syear`            decimal(4,0) DEFAULT NULL,
-  `current_school_id`decimal(10,0) DEFAULT NULL,
   `title`            VARCHAR(5) DEFAULT NULL,
   `first_name`       VARCHAR(100) DEFAULT NULL,
   `last_name`        VARCHAR(100) DEFAULT NULL,
@@ -41,7 +40,7 @@ $system_table_schemas['users']="CREATE TABLE `users` (
   `role_id`          VARCHAR(100),
   `theme`            VARCHAR(20) DEFAULT NULL,
   `layout`           VARCHAR(20) DEFAULT NULL,
-  `homeroom`         VARCHAR(5) DEFAULT NULL,
+  `session_id`       VARCHAR(100) DEFAULT NULL,
   `programs`         TEXT DEFAULT NULL,
   `last_login`       DATETIME,
   `last_logout`      DATETIME,
@@ -280,5 +279,10 @@ foreach(array_keys($system_table_schemas) as $key){
 	$system_table_migrate[12][]="ALTER TABLE $key CHANGE timestamp created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;";
 	$system_table_migrate[12][]="ALTER TABLE $key ADD `created_by` INT UNSIGNED;";
 }
+
+$system_table_migrate[13][]="ALTER TABLE users DROP current_school_id;
+ALTER TABLE users CHANGE homeroom session_id VARCHAR(100);
+ALTER TABLE users ADD last_activity DATETIME;";
+
 
 ?>

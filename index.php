@@ -65,13 +65,12 @@ include A_CORE."/common.php";
 ini_set('error_log',ERROR_LOG);
 
 /*--------------------------return session status-----------------------------*/
-$SESSION_DURATION=18000;//1800s => 30m
 if(isset($_REQUEST['chksession'])){
    if(isset($_SESSION['username'])){
-      if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $SESSION_DURATION)){
+      if(isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > SESSION_DURATION)){
          status('ERROR','Expired ...');
       }else{
-         status('OK',($SESSION_DURATION - (time() - $_SESSION['LAST_ACTIVITY'] )));
+         status('OK',(SESSION_DURATION - (time() - $_SESSION['LAST_ACTIVITY'] )));
       }
    }else{
       status('OK','Not Loged in');
@@ -95,6 +94,13 @@ $secure->secureGlobals();
 /*-----------------Load permission and database functions --------------------*/
 include A_CORE."/database.php";
 include A_CORE."/permission.php";
+
+/*----------------------Keep the LAST_ACTIVE TIME IN DB-----------------------*/
+if(isset($_SESSION['user_id'])){
+	log_off();
+	exec_query("UPDATE ".s_t('users')." SET last_activity=CURRENT_TIMESTAMP WHERE user_id='".$_SESSION['user_id']."'", Q_RET_NONE);
+	log_on();
+}
 
 /*-----------------Check availability of the database-------------------------*/
 if(!opendb()){

@@ -709,7 +709,7 @@ if(!isset($_REQUEST['section'])){
 function add_to_view($view_id,$content,$before=false){
    //IF the contet is a file then include and get the output to array using ob_func
    if(isset($_SESSION['VIEW'][$view_id])){
-      if(is_file($content)){
+      if(strlen($content) < 256 && is_file($content)){
          ob_start();
          include $content;
          $content=ob_get_contents();

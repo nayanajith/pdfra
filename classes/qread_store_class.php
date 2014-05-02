@@ -120,7 +120,7 @@ class Query_read_store{
       if(is_null($this->order_by)){
          $this->order_by="ORDER BY $this->key";
       }
-      return "SELECT DISTINCT $this->key rid $this->fields $this->ofields FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
+      return "SELECT DISTINCT $this->key $this->fields $this->ofields FROM $this->table $this->filter $this->order_by LIMIT $this->start,$this->count";
    }
 
 
@@ -159,6 +159,7 @@ class Query_read_store{
       }
 
       //Return as JSON formatted data
+      log_msg(json_encode(array("identifier"=>$this->key,"label"=>"label","items"=>$res)));
       return "{}&&".json_encode(array("identifier"=>$this->key,"label"=>"label","items"=>$res));
    }
 }

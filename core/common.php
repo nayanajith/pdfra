@@ -754,7 +754,7 @@ function add_to_cview($view_id,$content,$before=false){
    if(!isset($_SESSION['VIEW']['CUSTOM'][$view_id])){
       $_SESSION['VIEW']['CUSTOM'][$view_id]='';
    }
-   if(is_file($content)){
+   if(strlen($content) < 256 && is_file($content)){
       ob_start();
       include $content;
       $content=ob_get_contents();

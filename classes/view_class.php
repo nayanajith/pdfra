@@ -288,6 +288,13 @@ class View{
          $form_control   =$this->form_controls[$field_array['dojoType']];
          $options        =" jsId='$field' id='$field' name='$field' ";
 
+         //Show detailed tooltip when DEBUG is set to true
+         if(defined('DEBUG') && DEBUG==true){
+            $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
+            $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
+            $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
+            $options .=" title='$field:$title'";
+         }
 
          //If tooltip is set then bypass title
          if(isset($field_array['tooltip'])){
@@ -415,8 +422,15 @@ class View{
       }else{
          d_r($field_array['dojoType']);
          $form_control   =$this->form_controls[$field_array['dojoType']];
-         $options        =" jsId='$field' id='$field' name='$field' ";
+         $options        =" jsId='$field' id='$field' name='$field'  ";
 
+         //Show detailed tooltip when DEBUG is set to true
+         if(defined('DEBUG') && DEBUG==true){
+            $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
+            $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
+            $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
+            $options .=" title='$field:$title'";
+         }
 
          //If tooltip is set then bypass title
          if(isset($field_array['tooltip'])){
@@ -726,6 +740,14 @@ class View{
          
             $options ="\njsId='$field'\nid='$field'\n$data_dojo_props\n";
 
+            //Show detailed tooltip when DEBUG is set to true
+            if(defined('DEBUG') && DEBUG==true){
+               $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
+               $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
+               $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
+               $options .=" title='$field:$title'";
+            }
+
             /*Fields to bypass when creating forms*/
             $bypass=$this->bypass;
         
@@ -811,6 +833,14 @@ dojo.ready(function(){
                $options.=$key."='$value'\n";
             }
          }      
+
+         //Show detailed tooltip when DEBUG is set to true
+         if(defined('DEBUG') && DEBUG==true){
+            $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
+            $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
+            $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
+            $options .=" title='$field:$title'";
+         }
 
         $form_control=$this->form_controls[$field_array['dojoType']];
         return sprintf($form_control,$options,$inner);

@@ -1597,7 +1597,13 @@ $GLOBALS['LOG_OFF']=false;
 function log_off(){
    $GLOBALS['LOG_OFF']=true;
 }
+function loff(){
+   $GLOBALS['LOG_OFF']=true;
+}
 function log_on(){
+   $GLOBALS['LOG_OFF']=false;
+}
+function lon(){
    $GLOBALS['LOG_OFF']=false;
 }
 
@@ -1694,6 +1700,103 @@ function log_msg($msg=null,$level=null,$file=null){
    fwrite($file_handler, "[$date_time]$bt :$msg\n");
    fclose($file_handler);
 }
+
+
+/////////////////////////////////renamed log_msg/////////////////////////////////////////
+function l($msg=null,$level=null,$file=null){
+
+   if(!defined('LOGS_ENABLED') || $GLOBALS['LOG_OFF']){
+      return;
+   }
+
+   //Set from Global log level if $level is not set
+   if(defined('LOG_LEVEL') && is_null($level)){
+      $level=LOG_LEVEL;
+   }
+
+   $date_time=date("d-M-Y h:i:s");
+
+   //log more information of the callee function 
+   $bt="";
+   if(!is_null($level) && $level > 0 ){
+      $bt_arr  =debug_backtrace();
+      //TODO: get the correct array to extract information
+      $i=1;
+      if(isset($bt_arr[2])){
+         $i=2;
+      }
+      switch($level){
+      case 1:
+         $class   ="";
+         if(isset($bt_arr[$i]['class'])){
+            $class   =$bt_arr[$i]['class'].'.';
+         }
+         @$bt="[".$class.";".$bt_arr[$i]['function'].";".$bt_arr[$i-1]['line']."]";
+      break;
+      case 2:
+         $class   ="";
+         if(isset($bt_arr[$i]['class'])){
+            $class   =$bt_arr[$i]['class'].'.';
+         }
+         $bt="[".$bt_arr[$i-1]['file'].";".$class.";".$bt_arr[$i]['function'].";".$bt_arr[$i-1]['line']."]";
+      break;
+      case 3:
+         $class   ="";
+         if(isset($bt_arr[$i]['class'])){
+            $class   =$bt_arr[$i]['class'].'.';
+         }
+         $args="";
+         if(isset($bt_arr[$i]['args'])){
+            $args=implode(',',$bt_arr[$i]['args']);
+         }
+         $bt="[".$bt_arr[$i-1]['file'].";".$class.";".$bt_arr[$i]['function'].";".$bt_arr[$i]['line'].";".$args."]";
+      break;
+      case 4:
+         @ob_start();
+         debug_print_backtrace();
+         $bt = @ob_get_contents();
+         @ob_end_clean();
+      break;
+      default:
+      break;
+      }
+   }
+
+   //Default log file
+   $log_file="messages";
+
+   //Choose custom log file if selected
+   if(!is_null($file)){
+      $log_file=A_ROOT."/".$file.".log";
+   }else{
+      $log_file=A_ROOT."/".$log_file.".log";
+   }
+
+   $file_handler =null;
+   if(file_exists($log_file)){
+      $file_handler = fopen($log_file, 'a');
+   }else{
+      $file_handler = fopen($log_file, 'w');
+   }
+
+   //log array content if msg is an array
+   if(is_array($msg)){
+      @ob_start();
+      @print_r($msg);
+      $msg = @ob_get_contents();
+      @ob_end_clean();
+   }elseif(is_object($msg)){
+      @ob_start();
+      @var_dump($msg);
+      $msg = @ob_get_contents();
+      @ob_end_clean();
+   }
+
+
+   fwrite($file_handler, "[$date_time]$bt :$msg\n");
+   fclose($file_handler);
+}
+
 
 //Special type of log function to log envioronmantal variables
 function env_vars_log(){

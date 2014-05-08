@@ -290,9 +290,9 @@ class View{
 
          //Show detailed tooltip when DEBUG is set to true
          if(defined('DEBUG') && DEBUG==true){
-            $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
-            $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
-            $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
+            $title="onclick:".@$field_array['onClick'].@$field_array['onclick']."|";
+            $title.="onmouseover:".@$field_array['onmouseover'].@$field_array['onMouseOver']."|";
+            $title.="onchange:".@$field_array['onChange'].@$field_array['onchange']."|";
             $options .=" title='$field:$title'";
          }
 
@@ -426,9 +426,9 @@ class View{
 
          //Show detailed tooltip when DEBUG is set to true
          if(defined('DEBUG') && DEBUG==true){
-            $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
-            $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
-            $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
+            $title="onclick:".@$field_array['onClick'].@$field_array['onclick']."|";
+            $title.="onmouseover:".@$field_array['onmouseover'].@$field_array['onMouseOver']."|";
+            $title.="onchange:".@$field_array['onChange'].@$field_array['onchange']."|";
             $options .=" title='$field:$title'";
          }
 
@@ -741,12 +741,12 @@ class View{
             $options ="\njsId='$field'\nid='$field'\n$data_dojo_props\n";
 
             //Show detailed tooltip when DEBUG is set to true
-            if(defined('DEBUG') && DEBUG==true){
-               $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
-               $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
-               $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
-               $options .=" title='$field:$title'";
-            }
+         if(defined('DEBUG') && DEBUG==true){
+            $title="onclick:".@$field_array['onClick'].@$field_array['onclick']."|";
+            $title.="onmouseover:".@$field_array['onmouseover'].@$field_array['onMouseOver']."|";
+            $title.="onchange:".@$field_array['onChange'].@$field_array['onchange']."|";
+            $options .=" title='$field:$title'";
+         }
 
             /*Fields to bypass when creating forms*/
             $bypass=$this->bypass;
@@ -836,9 +836,9 @@ dojo.ready(function(){
 
          //Show detailed tooltip when DEBUG is set to true
          if(defined('DEBUG') && DEBUG==true){
-            $title.=@"onclick:".$field_array['onClick'].$field_array['onclick']."|";
-            $title.=@"onmouseover:".$field_array['onmouseover'].$field_array['onMouseOver']."|";
-            $title.=@"onchange:".$field_array['onChange'].$field_array['onchange']."|";
+            $title="onclick:".@$field_array['onClick'].@$field_array['onclick']."|";
+            $title.="onmouseover:".@$field_array['onmouseover'].@$field_array['onMouseOver']."|";
+            $title.="onchange:".@$field_array['onChange'].@$field_array['onchange']."|";
             $options .=" title='$field:$title'";
          }
 

@@ -572,8 +572,8 @@ function reload_sections(sections){
             break;
             case 'MAIN_BOTTOM':
                var parent_node = section.getParent();
-               //section.destroy();
-               section.destroyRecursive();
+               section.destroy();
+               //section.destroyRecursive();
                var bottom_pane = new dijit.layout.ContentPane({
                   'id':sections[i],
                    'region': 'bottom',

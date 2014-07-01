@@ -301,6 +301,12 @@ class View{
             $bypass[]='title';
          }
 
+         //Scroll fix to FilteringSelect, Select and ComboBox
+         if(in_array($field_array['dojoType'],array('dijit.form.FilteringSelect','dijit.form.Select','dijit.form.ComboBox'))){
+            $field_array['pageSize']   ='100';
+            $field_array['maxHeight']  ='300';
+         }
+
          /*all paremeters will be inserted to the options string*/
          foreach($field_array as $key => $value){
             if(!in_array($key,$bypass)){
@@ -435,6 +441,12 @@ class View{
          //If tooltip is set then bypass title
          if(isset($field_array['tooltip'])){
             $bypass[]='title';
+         }
+
+         //Scroll fix to FilteringSelect, Select and ComboBox
+         if(in_array($field_array['dojoType'],array('dijit.form.FilteringSelect','dijit.form.Select','dijit.form.ComboBox'))){
+            $field_array['pageSize']   ='100';
+            $field_array['maxHeight']  ='300';
          }
 
          /*all paremeters will be inserted to the options string*/
@@ -758,6 +770,12 @@ class View{
                $bypass[]='title';
             }elseif(!isset($field_array['tooltip']) && isset($field_array['label'])){
                $field_array['title']=$field_array['label'];
+            }
+
+            //Scroll fix to FilteringSelect, Select and ComboBox
+            if(in_array($field_array['dojoType'],array('dijit.form.FilteringSelect','dijit.form.Select','dijit.form.ComboBox'))){
+               $field_array['pageSize']   ='100';
+               $field_array['maxHeight']  ='300';
             }
          
             //all paremeters will be inserted to the options string other than thos to be bypassed

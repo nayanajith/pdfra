@@ -1166,9 +1166,9 @@ EOE;
                }
                
                if(isset($_REQUEST[$key])){
-                  $values   .=$comma.$key."='".$_REQUEST[$key]."'";
+                  $values   .=$comma."`".$key."`='".$_REQUEST[$key]."'";
                }else{
-                  $values   .=$comma.$key."=''";
+                  $values   .=$comma."`".$key."`=''";
                }
                $comma   =",";
             }

@@ -24,6 +24,14 @@ dojo.isBrowser+':'+
 dojo.isWebKit+':'+
 dojo.isChrome);
 */
+
+//Do something when error occur globally
+/*
+window.onerror = function(e) {
+   console.info(e);
+   //location.reload();
+};
+*/
 //path to page genenrator aka the controler php (index.php)
 var page_gen      ='<?php echo W_ROOT."/".$GLOBALS['PAGE_GEN']; ?>';
 

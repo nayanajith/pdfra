@@ -179,6 +179,15 @@ if(isset($_REQUEST['page'])&&$_REQUEST['page']=='slogin'){
    $_REQUEST['module']='home';
 }
 
+//Set https for the login page
+if($_REQUEST['module']=='home' && $_REQUEST['page']=='slogin'){
+   if($_SERVER['HTTPS']!="on")
+   {
+      $redirect= "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+      header("Location:$redirect");
+   }
+}
+
 if (!isset($module)){
    global $module;
    if (!isset($page)){

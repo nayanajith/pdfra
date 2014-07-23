@@ -2,7 +2,7 @@
 /*
 System Database tables
 */
-$schema_version=13;
+$schema_version=14;
          
 $system_table_schemas['program']="CREATE TABLE `program` (
   `rid`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -169,10 +169,10 @@ $system_table_schemas['news']="CREATE TABLE `news`(
 $system_table_schemas['db_backup']="CREATE TABLE `db_backup`(
   `rid`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `file`             VARCHAR(300) DEFAULT NULL,
-  `upload_by`        INT UNSIGNED NOT NULL,
-  `backup_by`        INT UNSIGNED NOT NULL,
-  `restore_by`       INT UNSIGNED NOT NULL,
-  `delete_by`        INT UNSIGNED NOT NULL,
+  `upload_by`        INT UNSIGNED,
+  `backup_by`        INT UNSIGNED,
+  `restore_by`       INT UNSIGNED,
+  `delete_by`        INT UNSIGNED,
   `upload_date`      DATETIME NOT NULL,
   `backup_date`      DATETIME NOT NULL,
   `restore_date`     DATETIME NOT NULL,
@@ -182,7 +182,7 @@ $system_table_schemas['db_backup']="CREATE TABLE `db_backup`(
   `state`            VARCHAR(50) DEFAULT NULL,
   `flag`					VARCHAR(20) DEFAULT NULL,
   `updated_by`			INT UNSIGNED,
-	`created_by`		INT UNSIGNED,
+   `created_by`		INT UNSIGNED,
   `updated_at`			TIMESTAMP NULL,
   `created_at`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY       (`upload_by`) REFERENCES users(`user_id`) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -283,6 +283,14 @@ foreach(array_keys($system_table_schemas) as $key){
 $system_table_migrate[13][]="ALTER TABLE users DROP current_school_id;
 ALTER TABLE users CHANGE homeroom session_id VARCHAR(100);
 ALTER TABLE users ADD last_activity DATETIME;";
+
+$system_table_migrate[14][]="
+   ALTER TABLE db_backup CHANGE upload_by upload_by INT UNSIGNED;
+   ALTER TABLE db_backup CHANGE backup_by backup_by INT UNSIGNED;
+   ALTER TABLE db_backup CHANGE delete_by delete_by INT UNSIGNED;
+   ALTER TABLE db_backup CHANGE restore_by restore_by INT UNSIGNED;
+";
+
 
 
 ?>

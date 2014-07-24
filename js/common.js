@@ -1604,8 +1604,10 @@ function p_m_p(module,page,program){
    if(page == '' || page == null)page='';
 
    //Destroy the main and its decendents (eg:rid) 
-   var parent_node = main.getParent();
-   main.destroyRecursive();
+   var mainobj=dijit.byId('main');
+   if(! mainobj == null){
+      mainobj.destroyRecursive();
+   }
 
    //app2 layout have special section loading facility so setting the program,module, and page using xhr is enough
    if('<?php echo $_SESSION['LAYOUT'] ?>'=='app2'){

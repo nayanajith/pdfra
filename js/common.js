@@ -579,8 +579,10 @@ function reload_sections(sections){
                parent_node.addChild(right_pane);
             break;
             case 'MAIN_BOTTOM':
+               dojo.empty(section);
+               /*
                var parent_node = section.getParent();
-               section.destroy();
+               //section.destroy();
                //section.destroyRecursive();
                var bottom_pane = new dijit.layout.ContentPane({
                   'id':sections[i],
@@ -590,6 +592,8 @@ function reload_sections(sections){
                    'href':gen_url()+'section='+sections[i]
                }, sections[i]);
                parent_node.addChild(bottom_pane);
+               */
+   	         section.refresh(); 
             break;
             case 'TOOLBAR':
                reloading_off();
@@ -1604,10 +1608,12 @@ function p_m_p(module,page,program){
    if(page == '' || page == null)page='';
 
    //Destroy the main and its decendents (eg:rid) 
+   /*
    var mainobj=dijit.byId('main');
    if(! mainobj == null){
       mainobj.destroyRecursive();
    }
+   */
 
    //app2 layout have special section loading facility so setting the program,module, and page using xhr is enough
    if('<?php echo $_SESSION['LAYOUT'] ?>'=='app2'){

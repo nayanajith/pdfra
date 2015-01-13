@@ -14,8 +14,8 @@ PREREQUISITES
 - One of the following databases:
   - MySQL 5.0.15 (or greater) (http://www.mysql.com/).
   - MariaDB 5.1.44 (or greater) (http://mariadb.org/). MariaDB is a fully compatible drop-in replacement for MySQL.
-- DOJO 1.6 (or greater ) ()
-- TCPDF 5.9.074 (or grater ) (http://sourceforge.net/project/tcpdf)
+- DOJO 1.7.5 (http://download.dojotoolkit.org/)
+- TCPDF 5.9.074 (http://sourceforge.net/project/tcpdf)
 
 INSTALLATION
 ------------

@@ -180,7 +180,7 @@ if(isset($_REQUEST['page'])&&$_REQUEST['page']=='slogin'){
 }
 
 //Set https for the login page
-if($_REQUEST['module']=='home' && $_REQUEST['page']=='slogin'){
+if($_REQUEST['module']=='home' && $_REQUEST['page']=='slogin' && $GLOBALS['AUTH_PROTOCOLE'] == 'https'){
    if($_SERVER['HTTPS']!="on")
    {
       $redirect= "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];

@@ -14,3 +14,5 @@ img/._.DS_Store
 js/._.DS_Store
 js/dojo-release
 mod
+img/itic*
+img/sl*

@@ -24,8 +24,8 @@ INSTALLATION
 2. Set write permission for web server user to pdfra directory
 3. cd to js/dojo-custom-build and execute build.sh this will download the dojo source and build for the project.
 4. Copy modules.php.sample as modules.php, permissions.php.sample as permission.php and config.php.sample as config.php
-5. Start MySQL/MariaDB server, Apache server
-6. Edit config.php and set W_ROOT to the web path to the pdfra directory (Eg: /pdfra if pdfra is in the web root)
+5. Edit config.php and set W_ROOT to the web path to the pdfra directory (Eg: /pdfra if pdfra is in the web root)
+6. Start MySQL/MariaDB server, Apache server
 7. Open pdfra directory from web browser Read the License  and close the dialog box
 8. Provide the mysql host (Eg: localhost) root password, name for the pdfra database, and a password for the pdfra database.
 9. If there are any errors fix it an redo the database creation process.

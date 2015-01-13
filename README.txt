@@ -34,17 +34,17 @@ INSTALLATION
 
 CREATING THE FIRST MODULE
 -------------------------
-Four modules will be available by default the system module is to manage the pdfra system
+Four modules will be available by default and the system module is to manage users, permission and other admin functionalities of the pdfra system
 1. system
 2. doc  
 3. home  
 4. sample  
 
-* Modules are placed in =mod= directory
-* The modules added to =modules.php= will only be available to the front-end
+* Modules are placed in 'mod' directory
+* The modules added to 'modules.php' will only be available to the front-end
 
-1. To create your first module copy =sample= module to a new name (Eg: firstMod)
-2. Now change =modules.php= and add following entry to the php array.
+1. To create your first module copy 'sample' module to a new name (Eg: firstMod)
+2. Now change 'modules.php' and add following entry to the php array.
 
 "firstMod"   =>array('MODULE'=>"First Module",'VISIBLE'=>'true'),
 

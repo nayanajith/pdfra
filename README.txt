@@ -26,9 +26,9 @@ INSTALLATION
 4. Copy modules.php.sample as modules.php, permissions.php.sample as permission.php and config.php.sample as config.php
 5. Edit config.php and set W_ROOT to the web path to the pdfra directory (Eg: /pdfra if pdfra is in the web root)
 6. Start MySQL/MariaDB server, Apache server
-7. Open pdfra directory from web browser Read the License  and close the dialog box
+7. Open pdfra directory from web browser, Read the License and close the license dialog box to enable install button.
 8. Provide the mysql host (Eg: localhost) root password, name for the pdfra database, and a password for the pdfra database.
-9. If there are any errors fix it an redo the database creation process.
+9. If there are any errors, fix them an redo the database creation process.
 10. Now your done.. Reload the web browser and login with admin:admin and you will be presented with the default pdfra modules. 
 
 

@@ -55,6 +55,8 @@ Four modules will be available by default the system module is to manage the pdf
    - test_view.php   -> view
    - test.php        -> control
 
+   * When you want to create a form to enter data to the table you just have to create the control file wit the table name and the model and view will be auto generated in the first access of the functionality so you can customize late as you wish.
+
 5. Edit firstMod/menu.php  and add the functionalities you want to present to the front-end to presetnt test functionality above, you have to add below line to the array in menu.php.
 
 "test"     =>array("label"=>"Testing ","visible"=>"true",'tooltip'=>'tooltip'),

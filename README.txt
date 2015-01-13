@@ -52,10 +52,10 @@ Four modules will be available by default the system module is to manage the pdf
 4. Edit firstMod/core/database.php and add the table name mappings to be used in the codes.
 5. To add a functionality (page) to the module you have to create three php files (Eg: test.php, test_mdl.php, test_viw.php) where 
    - test_mdl.php    -> model
-   - test_view.php   -> view
+   - test_viw.php    -> view
    - test.php        -> control
 
-   * When you want to create a form to enter data to the table you just have to create the control file wit the table name and the model and view will be auto generated in the first access of the functionality so you can customize late as you wish.
+   * When you want to create a form to enter data to the table, you just have to create the control file including the table name and the model (_mdl) and view (_viw) will be auto generated in the first access of the functionality so you can customize late as you wish.
 
 5. Edit firstMod/menu.php  and add the functionalities you want to present to the front-end to presetnt test functionality above, you have to add below line to the array in menu.php.
 

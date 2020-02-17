@@ -1,0 +1,187 @@
+<?php
+/*------------------------Constants defining paths--------------------------------*/
+//System (file system) path to the framework root directory
+define('A_ROOT'      , dirname(__FILE__));
+
+//Path to the framework directory from the web root
+define('W_ROOT'      , '/sis');
+
+//Path to the images directory  from the web root
+define('IMG'         , W_ROOT.'/img');
+
+//System path to the images directory
+define('A_IMG'       , A_ROOT.'/img');
+
+//Web path to the css directory
+define('CSS'         , W_ROOT.'/css');
+
+//Web path to the javascript directory
+define('JS'          , W_ROOT.'/js');
+
+//System path to the javscript directory
+define('A_JS'        , A_ROOT.'/js');
+
+//System path to the modules directory
+define('A_MODULES'   , A_ROOT.'/mod');
+
+//Web path to the modules directory
+define('W_MODULES'   , W_ROOT.'/mod');
+
+//System path to the core directory
+define('A_CORE'      , A_ROOT.'/core');
+
+//System path to the  classes directory
+define('A_CLASSES'   , A_ROOT.'/classes');
+
+//System path to the lib directory
+define('A_LIB'       , A_ROOT.'/lib');
+
+//Path to the temp directory of the system
+define('TMP'         , '/tmp/');
+
+//System path to the database configuration file
+define('DB_CONF'     , A_ROOT.'/db_config.php');
+
+//System path to the active database configuration file
+define('DB_ACTIVE'   , A_ROOT.'/db_active.php');
+
+//System path to the installation script file 
+define('INSTALLER'   , A_ROOT.'/install/install.php');
+
+//System path to the login handling page
+define('LOGIN'       , A_CORE.'/login.php');
+
+//YES/NO : this will enable or disable logging
+define('LOGS_ENABLED' , 'message,sql,env_vars');//message,sql,env_vars
+
+//Set default log level. One from [0,1,2,3,4]
+define('LOG_LEVEL'   , '1');
+
+//System Path to the error log file
+define('ERROR_LOG'   , A_ROOT.'/errors.log');
+
+//YES/NO Enable disable HTTP compression
+define('COMPRESS'    , 'NO'); 
+
+//YES/NO Enable Program selector
+define('P_SELECTOR'  , 'NO'); 
+
+//YES/NO Filter append
+define('FILTER_AUTO' , 'NO'); 
+
+//YES/NO Javascript based Front-end filter for grids 
+define('FILTER_FRONT', 'NO'); 
+
+//Yes/NO keep deleted records (mark as deleted instead of completely deleting)
+define('KEEP_DELETED', 'YES'); 
+
+//Session deuration
+define('SESSION_DURATION',18000);//1800s => 30m
+
+//Enable/Disable debuging
+define('DEBUG',false);//true,false
+
+/*------------------------------title info------------------------------------*/
+//Short Title of the  organization ( module  module wise title is also possible)
+$GLOBALS['TITLE']       = 'yape Information System';
+
+//Long title of the organization with html formatting
+$GLOBALS['TITLE_LONG']  = '&nbsp;Yet Another PHP Engine<br>&nbsp;Information System';
+
+//Institute name without any html formatting
+$GLOBALS['INSTITUTE']   = 'Yet Another PHP Engine';
+
+//Footer of the front-end (mostly the address and copy right notice)
+$GLOBALS['FOOTER']      = 'Yet Another PHP Engine |  No:35 |  Reid Avenue |  Colombo 7,Sri Lanka. |&copy;2012';
+
+//Hotline to be displayed in footer
+$GLOBALS['HOTLINE']     = 'Contact: +94112581245/7';
+
+//Email address of the admin user
+$GLOBALS['ADMIN_MAIL']  = 'uis@yape.cmb.ac.lk';
+
+//Email of the information user account where the users can contact through
+$GLOBALS['INFO_MAIL']   = 'info@yape.cmb.ac.lk';
+
+//No reply email address which is used to send information to the users (eg: invoices )
+$GLOBALS['NOREPLY_MAIL']= 'noreply@yape.cmb.ac.lk';
+
+//Logo of the organization. Displayed in front page in-front of the title and included in letterhead.
+$GLOBALS['LOGO']        = IMG.'/yape-logo.png';
+
+//System path to the logo
+$GLOBALS['A_LOGO']      = A_IMG.'/yape-logo.png';
+
+//Logo2 is included in footer of the front-end (a mono-space image is appropriate)
+$GLOBALS['LOGO2']       = IMG.'/yape-logo-mono.png';
+
+//Favicon icon of the organization
+$GLOBALS['FAVICON']     = IMG.'/favicon.ico';
+
+//Default layout. One from [web,app,pub]
+$GLOBALS['LAYOUT']      = 'pub'; 
+
+//Default theme. One from [claro,nihilo,soria,tundra]
+$GLOBALS['THEME']       = 'claro'; 
+
+/*-----------------------------Request parser----------------------------------*/
+//The default request is parsed and the flow is controlled according to the configuration of the framework and the user request
+$GLOBALS['PAGE_GEN']    = 'index.php';
+
+/*-----------------common status for all the table records---------------------*/
+//Commonly used flags to enable and disable the records of the  tables
+$GLOBALS['STATUS']      = array('ENABLED','DISABLED');
+
+/*---------------------------configure Database--------------------------------*/
+//Default database configuration which will be overridden from the configuration of db_confg.php
+$GLOBALS['DB']          = 'yapesis';
+$GLOBALS['DB_HOST']     = 'localhost';
+$GLOBALS['DB_USER']     = 'root';
+$GLOBALS['DB_PASS']     = 'letmein';
+$GLOBALS['DB_TYPE']     = 'mysql';
+$GLOBALS['CONNECTION']  = null;
+
+/*-----------------------configure login system--------------------------------*/
+//The login information which should keep in session
+$GLOBALS['TBL_LOGIN']   = array(
+   'table'     =>'users', 
+   'username'  =>'username',
+   'password'  =>'password',
+   'fullname'  =>'username',
+   'user_id'   =>'user_id',
+   'role_id'   =>'role_id',
+   'permission'=>'permission'       
+);
+
+//Authentication request protocol to send the data from front-end to back-end. Password and username should send through https
+$GLOBALS['AUTH_PROTOCOLE'] ='http'; //authentication communication protocol http,https
+
+//Default authentication mode. One from [LDAP,MYSQL,PASSWD]
+$GLOBALS['AUTH_MOD']       ='MYSQL';
+
+//LDAP server configuraiton if the AUTH_MOD is LDAP
+$GLOBALS['LDAP']=array(
+   'SERVER'    => "<ip>",
+   'PORT'      => 389,
+   'USER_RDN'  => "OU=Standard,OU=Users,OU=<OU1>,OU=<OU2>,DC=<DC1>,DC=<DC2>,DC=<DC3>",
+   'ADMIN_RDN' => "OU=Service,OU=Users,OU=<OU1>,OU=<OU2>,DC=<DC1>,DC=<DC2>,DC=<DC3>", 
+   'USER'      => "",
+   'PASS'      => "",
+);
+/*-------------------------------onfigure mail--------------------------------*/
+//Mail server configuration for outgoing emails
+$GLOBALS['MAIL_CONF']=array (
+   //'host'       => 'ssl://<ip>',
+   //'port'       => '465',
+   'port'       => '25',
+   'host'       => '<ip>',
+   'auth'       => 'true',
+   'username'    => 'expr',
+   'password'    => base64_decode('<base64pwd>') 
+); 
+
+/*-----------------------IF th system isbehind proxy--------------------------*/
+//If the actual server is behind a proxy set the proxy servers hostname and IP to properly work HTTPS  while sending login information etc.
+$GLOBALS['PROXY_HOSTS']    = array("192.248.16.84"=>"yape.lk");
+
+?>
